@@ -1,0 +1,699 @@
+﻿
+@{
+    ViewBag.Title = "ListPatient";
+
+}
+
+
+<div class="table-responsive">
+    <table id="producttable" class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>MR No</th>
+
+      
+
+
+                <th>Name</th>
+                <th>Phone </th>
+
+                <th>Mobile</th>
+
+                <th>City</th>
+
+                <th>Date OF Birth</th>
+
+                <th>Docs</th>
+                <th>Actions</th>
+
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+
+    </table>
+
+</div>
+<div class="modal" id="modal4" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Modal body text goes here.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .btn-sml {
+        margin: 4px;
+        font-size: 15px;
+    }
+</style>
+
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+
+
+<script>
+
+  var apiurl = "@System.Configuration.ConfigurationManager.AppSettings["url"]";
+
+  $(document).ready(function () {
+
+            $("#producttable").DataTable({
+              "bServerSide": true, //make server side processing to true
+              "sAjaxSource": apiurl+"api/PatientList", //url of the Ajax source,i.e. web api method
+
+                "sAjaxDataProp": "aaData", // data property of the returned ajax which contains table data
+                "bProcessing": true,
+                "bLengthChange": true,
+                "sPaginationType": "full_numbers",//pagination type
+
+                "aoColumns": [
+
+                    { "mData": "mR_No" },
+                    {
+                        "mRender": function (data, type, full, meta) {
+
+
+                            return "<a  href='/Appointment/AppointmentDetails?id=" + full.patient_ID+" '   class='paggingpid'    data-pid=" + full.patient_ID+"> " + full.patient_Name + " </a> ";
+                        } 
+                    },
+
+                    { "mData": "patient_Phone_Number" },
+                    { "mData": "patient_Mobile_Number" },
+                    { "mData": "cityname" },
+                  { "mData":"dateOfBirth"},
+                 
+                   
+
+                {
+                    "mData": "patient_ID", "bSearchable": false, "bSortable": false,
+                    "mRender": function (data) {
+
+
+
+                       //return '<a href="' + data +'"  data-toggle="tooltip" data-placement="top" download title="Download offie" class="PopUpBtn btn btn-round waves-effect waves"><i class="fa fa-file"></i></a>'
+                    return "<button type = 'button'   onclick='Documentp(" + JSON.stringify(data) + ")' download title='Download offie' class='PopUpBtn btn btn - round waves - effect waves'><i class='fa fa-file'></i></button>";
+                    }
+                },
+
+                {
+
+                    "mRender": function (data,type,full,meta) {
+                       
+
+                        var r = '@Request.Cookies["Role"].Value.ToString()';
+                        if (r.includes("Assistant") || r.includes("Admin")) {
+
+
+                    
+
+                            return "<button type = 'button' onclick='OpenEditForm(" + JSON.stringify(full.patient_ID) + ")'   class='ml-2 btn btn-info btn-circle btn-sml' data-toggle='modal' data-target='#modalVM' ><i class='fa fa-edit'></i></button>" + "<button type='button' class=' ml-2 btn btn-danger btn-circle btn-sml'   onclick='Deletep(" + JSON.stringify(full.patient_ID) + ")'> <i class='fa fa-trash-alt'></i></button > " + "<button type='button' class=' ml-2 btn btn-danger btn-circle btn-sml  takeAppointment'  data-pid=" + full.patient_ID + " data-pn=" + JSON.stringify(full.patient_Name) +"  >TA</button >";
+
+                        }
+                        else {
+                            return "<button type = 'button'   class='ml-2 btn btn-info btn-circle btn-sml'><i class='fa fa-edit'></i></button>" + "<button type='button' class=' ml-2 btn btn-danger btn-circle btn-sml'   onclick='Deletep(" + JSON.stringify(full.patient_ID) + ")'> <i class='fa fa-trash-alt'></i></button > " ;
+
+
+                        }
+
+
+                    }
+                }
+
+
+
+                ]
+            });
+
+        });
+
+
+
+    var cityID = "";
+    var PCity = "";
+
+  function OpenEditForm(ID) {
+
+    $("#Register").hide();
+    $("#EditPateintshow").css('display', "block");
+
+
+
+    $.ajax({
+
+      type: 'GET',
+      url: apiurl+"api/GetPatientByID",
+      data: {
+        id: ID
+      },
+      headers: {
+
+        'Access-Control-Allow-Origin': apiurl,
+        'Authorization': 'Bearer  @Request.Cookies["Token"].Value.ToString()'
+
+      }
+
+
+    }).done(function (res) {
+
+      ClearFromFileds();
+      var data = JSON.parse(res.object);
+
+
+
+      if (res.status == 'success') {
+
+
+        $('#CId').empty();
+        $('#PCId').empty();
+
+
+        $("#PatientID").val(data[0].Patient_ID);
+        PCity = data[0].c[0].pc[0].CityID;
+
+
+        cityID = data[0].c[0].CityID;
+
+        $("#username").val(data[0].Patient_Name);
+        $('#email').val(data[0].Patient_Email);
+        $('#phone').val(data[0].Patient_Phone_Number);
+        $("#Mobile").val(data[0].Patient_Mobile_Number);
+        $("#Address").val(data[0].Patient_Address);
+
+        $("#CNIC").val(data[0].CNIC);
+
+        $("#gender").val(data[0].Patient_Gender);
+        $('#DateOFBirth').val(data[0].DateOfBirth)
+        $("#Comment").val(data[0].comment)
+        $("#PCId").append('<option value="' + data[0].c[0].pc[0].CityID + '"> ' + data[0].c[0].pc[0].City_Name + ' </option>');
+        $("#CId").append('<option value="' + data[0].c[0].CityID + '">' + data[0].c[0].City_Name + '</option>');
+       getallcitieEdits();
+      }
+    })
+      .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+
+        if (XMLHttpRequest.status == 403) {
+          window.location.href = '~/Account/Login'
+        }
+
+        if (XMLHttpRequest.status == 401) {
+          window.location.href = '/Account/Login'
+        }
+
+        console.log("fail");
+
+
+      })
+
+
+
+
+  };
+
+    function getallcitieEdits() {
+
+        $.ajax({
+
+          type: 'GET',
+          url: apiurl+'api/getallcities',
+
+
+            headers: {
+              'Content-Type': 'application/json',
+
+              'Access-Control-Allow-Origin': apiurl
+
+
+            }
+
+
+        }).done(function (res) {
+
+
+            var data = JSON.parse(res.object);
+
+            var html = '';
+            var place = '';
+
+
+            $.each(data, function (i, val) {
+
+
+              var idd = data[i].CityID
+
+                if (cityID != idd) {
+                    html += `<option value= ` + data[i].CityID + `>` + data[i].City_Name + `</option>`
+
+                }
+
+            });
+
+
+
+            $.each(data, function (i, val) {
+
+              var Pidd = data[i].CityID;
+
+                if (PCity != Pidd) {
+                    place += `<option value= ` + data[i].CityID + `>` + data[i].City_Name + `</option>`
+
+                }
+
+            });
+
+            $('#CId').append(html);
+          $('#PCId').append(place);
+
+
+        })
+            .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+                console.log("fail");
+            })
+
+
+    }
+
+
+
+
+    function ignoreSpaces(event) {
+        var character = event ? event.which : window.event.keyCode;
+        if (character == 32) return false;
+    }
+
+    var pid = "";
+    var username = "";
+    var email = "";
+    var phone = "";
+    var mobile = "";
+    var address = "";
+    var cinic = "";
+    var dataofbirth = "";
+    var gender = "";
+     var doc             = "";
+    var city = "";
+    var place_of_Birth = "";
+    var Patient_Maritalstatus = "";
+  var Comment = "";
+
+
+    var base64stringform = [];
+
+
+
+
+    function fasterPreview(uploader, component) {
+        if (uploader.files && uploader.files[0]) {
+            var fileName, fileExtension;
+            fileName = uploader.files[0].name;
+            fileExtension = fileName.replace(/^.*\./, '');
+
+            var FileSize = uploader.files[0].size / 1024 / 1024; // in MB
+            if (FileSize > 10) {
+                alert('File size exceeds 10 MB');
+                uploader.val('');
+                if (component == "Document")
+                    base64stringform = [];
+
+                return false;
+            }
+            var img = uploader.files[0];
+            var reader = new FileReader();
+            reader.onloadend = function () {
+                //base64String = /,(.+)/.exec(reader.result)[1];
+                //base64String.push(/,(.+)/.exec(reader.result)[1]);
+                if (component == "Document")
+                    base64stringform.push(/,(.+)/.exec(reader.result)[1]);
+
+            }
+            reader.readAsDataURL(img);
+        }
+    }
+
+
+
+    $(document).on("click", "#EditPateint", function () {
+
+
+        if ($('#username').val() == '') {
+            isAllOkay = false;
+
+            alert('username is  Mandatory!');
+            return;
+        }
+
+
+        if ($('#CId').val() == '') {
+            isAllOkay = false;
+            alert('City  is  Mandatory!');
+            return;
+        }
+
+
+
+
+        //if ($('#DateOFBirth').val() == '') {
+        //    isAllOkay = false;
+        //    alert('DateOFBirth is  Mandatory!');
+        //    return;
+        //}
+
+
+
+
+        Editpatient();
+
+
+    })
+
+
+
+
+
+        function Editpatient() {
+        cleardatavariables();
+
+            pid = $("#PatientID").val();
+            username = $('#username').val();
+           email =      $('#email').val();
+            phone =     $('#phone').val();
+            mobile =    $('#Mobile').val();
+            address =    $('#Address').val();
+            cinic =      $('#CNIC').val();;
+            dataofbirth =  $('#DateOFBirth').val();
+            gender = $('#gender').val();
+            city =          $('#CId').val();
+            place_of_Birth = $('#PCId').val();
+          doc = $("#ImageUploadnot").val();
+          Comment = $("#Comment").val();
+
+
+          $.ajax({
+
+
+              type: 'POST',
+            url: apiurl+'api/PatientUpdate',
+
+                data: JSON.stringify({
+                    PatientID: pid,
+                    Patient_Name: username,
+                    Patient_Email: email,
+                    Patient_Phone_Number: phone,
+                    Patient_Mobile_Number: mobile,
+                    CNIC: cinic,
+                    DateOfBirth: dataofbirth,
+                    Patient_Gender: gender,
+                    Patient_Address: address,
+                    Place_Of_Birth: place_of_Birth,
+                    ImageBase64: base64stringform,
+                    CityID: city,
+                    Documents: doc,
+                  Comment: Comment
+
+
+
+                }),
+                headers: {
+                    'Content-Type': 'application/json',
+
+                  'Access-Control-Allow-Origin': apiurl,
+                    'Authorization': 'Bearer  @Request.Cookies["Token"].Value.ToString()'
+
+                }
+
+
+            }).done(function (res) {
+
+
+                if (res.status == 'success') {
+
+                    alert('updated');
+                    base64stringform = [];
+                    //ClearFromFileds();
+                    //$("#actioncontainer").html("");
+
+                    window.location.reload();
+
+                }
+                else {
+                    alert(res.message);
+
+                }
+
+
+            })
+                .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+
+                    if (XMLHttpRequest.status==403) {
+                        window.location.href = '~/Account/Login'
+                    }
+
+                    if (XMLHttpRequest.status == 401) {
+                        window.location.href = '/Account/Login'
+                    }
+
+                    console.log("fail");
+
+
+                })
+
+
+
+
+
+
+
+    }
+
+
+
+    // validate email
+    function email_validate(email) {
+        var regMail = /^([_a-zA-Z0-9-]+)(\.[_a-zA-Z0-9-]+)*@@([a-zA-Z0-9-]+\.)+([a-zA-Z]{2,3})$/;
+
+        if (regMail.test(email) == false) {
+            document.getElementById("status").innerHTML = "<span class='warning'>Email address is not valid yet.</span>";
+        }
+        else {
+            document.getElementById("status").innerHTML = "<span class='valid'>Thanks, you have entered a valid Email address!</span>";
+        }
+    }
+
+
+
+    function checkPass() {
+        //Store the password field objects into variables ...
+        var pass1 = document.getElementById('pass1');
+        var pass2 = document.getElementById('pass2');
+        //Store the Confimation Message Object ...
+        var message = document.getElementById('confirmMessage');
+        //Set the colors we will be using ...
+        var goodColor = "#66cc66";
+        var badColor = "#ff6666";
+        //Compare the values in the password field
+        //and the confirmation field
+        if (pass1.value == pass2.value) {
+            //The passwords match.
+            //Set the color to the good color and inform
+            //the user that they have entered the correct password
+            pass2.style.backgroundColor = goodColor;
+            message.style.color = goodColor;
+            message.innerHTML = "Passwords Match"
+        } else {
+            //The passwords do not match.
+            //Set the color to the bad color and
+            //notify the user.
+            pass2.style.backgroundColor = badColor;
+            message.style.color = badColor;
+            message.innerHTML = "Passwords Do Not Match!"
+        }
+    }
+
+    function validatephone(phone) {
+        var maintainplus = '';
+        var numval = phone.value
+        if (numval.charAt(0) == '+') {
+            var maintainplus = '';
+        }
+        curphonevar = numval.replace(/[\\A-Za-z!"£$%^&\,*+_={};:'@@#~,.Š\/<>?|`¬\]\[]/g, '');
+        phone.value = maintainplus + curphonevar;
+        var maintainplus = '';
+        phone.focus;
+    }
+
+
+
+        function ClearFromFileds() {
+            $("#PatientID").val('');
+            $('#username').val('');
+            $('#email').val('');
+            $('#phone').val('');
+            $('#Mobile').val('');
+            $('#Address').val('');
+            $('#CNIC').val('');
+             $('#DateOFBirth').val('');
+            $('#gender').val('');
+
+            $('#CId').val('');
+            $('#PCId').val('');
+          $("#ImageUploadnot").val('')
+          $("#Comment").val('');
+
+        }
+
+        function cleardatavariables() {
+
+            pid = "";
+            username = "";
+             email = "";
+             phone = "";
+             mobile = "";
+             address = "";
+             cinic = "";
+            dataofbirth = "";
+             gender = "";
+             doc = "";
+             city = "";
+          place_of_Birth = "";
+          Comment = "";
+
+        }
+
+
+    function Deletep(ID) {
+
+
+
+
+            $.ajax({
+
+              type: 'GET',
+
+              url: apiurl+'api/DeletePatient',
+
+                data: {
+
+
+
+
+                    id: ID
+                },
+                headers: {
+                    'Content-Type': 'application/json',
+
+                  'Access-Control-Allow-Origin': apiurl,
+                    'Authorization': 'Bearer  @Request.Cookies["Token"].Value.ToString()'
+
+                }
+
+
+            }).done(function (res) {
+
+                if (res.status == 'success') {
+
+                    alert('deleted');
+
+
+                    window.location.reload();
+
+                }
+                else {
+                    alert(res.message);
+
+                }
+
+
+            })
+                .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+
+                    if (XMLHttpRequest.status==403) {
+                        window.location.href = '~/Account/Login'
+                    }
+
+                    if (XMLHttpRequest.status == 401) {
+                        window.location.href = '/Account/Login'
+                    }
+
+                    console.log("fail");
+
+
+                })
+
+
+
+
+
+        }
+
+    $(document).on('click', '.takeAppointment', function () {
+
+        var pn = $(this).attr('data-pn');
+
+        var pid = $(this).attr('data-pid');
+
+        window.location.href = '@Url.Action("Index","Appointment")?id=' + pid + "-" + pn;
+
+
+    })
+
+
+    function TakeAppointment(id) {
+
+
+    }
+
+
+
+    function focusaction(focusdivid) {
+        $('html, body').animate({
+            scrollTop: $("#" + focusdivid).offset().top + 70
+        }, 1000);
+    }
+
+
+    function Documentp(id) {
+
+
+        window.location.href = "/Patient/Douments?id="+id;
+
+    }
+
+  $("#pushmenudash").click(function () {
+
+    var id = $(this).attr('data-id');
+
+
+    var a = $('#bodytocheckclass').hasClass('sidebar-collapse');
+
+    if (a == true) {
+
+      $('#bodytocheckclass').removeClass('sidebar-mini layout-fixed  sidebar-collapse');
+      $('#bodytocheckclass').addClass('sidebar-mini layout-fixed  ')
+    }
+
+    else {
+
+      $('#bodytocheckclass').removeClass('sidebar-mini layout-fixed  ');
+      $('#bodytocheckclass').addClass('sidebar-mini layout-fixed  sidebar-collapse ')
+    }
+
+  });
+
+
+
+
+</script>
+

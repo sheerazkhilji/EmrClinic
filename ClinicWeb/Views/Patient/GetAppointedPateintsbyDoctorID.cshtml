@@ -1,0 +1,291 @@
+﻿
+@{
+    ViewBag.Title = "GetAppointedPateintsbyDoctorID";
+}
+
+
+
+
+<div class="container-fluid">
+    <!-- ============================================================== -->
+    <!-- Start Page Content -->
+    <!-- ============================================================== -->
+    <div class="row">
+        <!-- Column -->
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table style="width:100%; line-height:90px; text-align:center;" id="producttable" class="table mb-4 mt-4 no-wrap table-hover contact-list table-responsive-md table-striped" data-page-size="10">
+                            <thead>
+                                <tr>
+
+                                    <th>Name</th>
+                                    <th>Mobile No. </th>
+
+                                    <th>City</th>
+
+                                    <th>Appointment Date</th>
+
+                                    <th>Document</th>
+
+                                    <th>Actions</th>
+                                    <th>Actions</th>
+
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Column -->
+    </div>
+    <!-- ============================================================== -->
+    <!-- End PAge Content -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- Right sidebar -->
+    <!-- ============================================================== -->
+    <!-- .right-sidebar -->
+    <!-- ============================================================== -->
+    <!-- End Right sidebar -->
+    <!-- ============================================================== -->
+</div>
+
+
+<script>
+
+  var apiurl = "@System.Configuration.ConfigurationManager.AppSettings["url"]";
+    $(document).ready(function () {
+
+        var useid = ocalStorage.getItem('userID');
+
+            $("#producttable").DataTable({
+                "bServerSide": true, //make server side processing to true
+              "sAjaxSource": apiurl+"api/getAppointedPatientbydoctorid?id=" + useid, //url of the Ajax source,i.e. web api method
+                "sAjaxDataProp": "aaData", // data property of the returned ajax which contains table data
+                "bProcessing": true,
+                "bLengthChange": true,
+                "sPaginationType": "full_numbers",//pagination type
+
+                "aoColumns": [
+
+                    { "mData": "patient_Name" },
+
+                    { "mData": "patient_Mobile_Number" },
+                    { "mData": "cityname" },
+                    { "mData":"appointment_Data"},
+
+
+
+                {
+                    "mData": "documents", "bSearchable": false, "bSortable": false,
+                    "mRender": function (data) {
+
+
+
+                        return '<a href="' + data +'"  data-toggle="tooltip" data-placement="top" download title="Download offie" class="PopUpBtn btn btn-round waves-effect waves"><i class="fa fa-file"></i></a>'
+
+                    }
+                },
+
+                {
+                    "mData": "patient_ID", "bSearchable": false, "bSortable": false,
+
+
+                    "mRender": function (data) {
+
+
+                        var id = data;
+
+                            return "<button type = 'button'   onclick='initiala(" + JSON.stringify(id) + ")' class='btn btn-primary'>Initail Assessment</button>"  ;
+
+
+
+
+                    }
+
+
+
+
+
+                    },
+
+                    {
+
+
+                        "mData": "appointID", "bSearchable": false, "bSortable": false,
+
+
+                        "mRender": function (data) {
+
+
+                            var id = data;
+
+                            return "<button type='button' class='btn btn-danger '   onclick='cancelappoint(" + JSON.stringify(id) + ")'>Cancel Appointment</button > ";
+
+
+
+
+                        }
+
+                    }
+
+
+
+                ]
+            });
+
+        });
+
+
+
+
+
+    function initiala(ID) {
+
+
+        //make conndition here for edit the  PatientIntialAssesment
+
+        $.ajax({
+            type: 'GET',
+          url: apiurl+'api/IsInitialAnalysized',
+
+
+                   data: {
+
+
+
+
+                    id: ID
+                },
+                headers: {
+                    'Content-Type': 'application/json',
+                  'Access-Control-Allow-Origin': apiurl ,
+                    'Authorization': 'Bearer  @Request.Cookies["Token"].Value.ToString()'
+
+                }
+
+
+        }).done(function (res) {
+
+            if (res.status == 'success') {
+
+                   window.location.href = '@Url.Action("PatientEditAssesment", "Patient")?id=' + ID;
+
+
+            }
+
+            else if (res.status='no') {
+
+                window.location.href = '@Url.Action("PatientIntialAssesment", "Patient")?id=' + ID;
+
+            }
+            else {
+
+                alert(res.message);
+
+
+            }
+
+
+            })
+                .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+                    debugger;
+
+                    if (XMLHttpRequest.status==403) {
+                        window.location.href = '~/Account/Login'
+                    }
+
+                    if (XMLHttpRequest.status == 401) {
+                        window.location.href = '/Account/Login'
+                    }
+
+                    console.log("fail");
+
+
+                })
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+    function cancelappoint(ID) {
+
+
+
+
+            $.ajax({
+
+                type: 'GET',
+              url: apiurl +'api/DeleteAppointment',
+                data: {
+
+
+
+
+                    id: ID
+                },
+                headers: {
+                    'Content-Type': 'application/json',
+                  'Access-Control-Allow-Origin': apiurl ,
+                    'Authorization': 'Bearer  @Request.Cookies["Token"].Value.ToString()'
+
+                }
+
+
+            }).done(function (res) {
+
+                if (res.status == 'success') {
+
+                    alert('deleted');
+
+
+                    window.location.reload();
+
+                }
+                else {
+                    alert(res.message);
+
+                }
+
+
+            })
+                .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+
+
+                    if (XMLHttpRequest.status==403) {
+                        window.location.href = '~/Account/Login'
+                    }
+
+                    if (XMLHttpRequest.status == 401) {
+                        window.location.href = '/Account/Login'
+                    }
+
+                    console.log("fail");
+
+
+                })
+
+
+
+
+
+        }
+
+
+
+
+</script>
+

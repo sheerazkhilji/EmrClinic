@@ -1,0 +1,360 @@
+﻿
+@{
+    ViewBag.Title = "PatientIntialAssesment";
+}
+
+
+
+
+<h3 style="margin-left:40%">Initial Assessment </h3>
+
+<br />
+
+<br />
+
+
+
+<form id="IA">
+
+    <input type="hidden" name="Pid" value="" />
+
+    <div class="form-group">
+        <label>Present Complaint</label>
+        <input type="text" class="form-control" name="Present_Complaint" placeholder="Present Complaint" id="Present_Complaint">
+    </div>
+    <div class="form-group">
+        <label>History of Presenting Complaint</label>
+        <input type="text" class="form-control" name="History_of_Presenting_Complaint" placeholder="History of Presenting Complaint" id="History_of_Presenting_Complaint">
+    </div>
+
+
+
+    <div class="form-group">
+        <label>Past Psychiatric History</label>
+        <input type="text" class="form-control" name="Past_psychiatric_history" placeholder="Past Psychiatric History" id="Past_Psychiatric_History">
+    </div>
+
+
+
+
+
+
+
+    <div class="form-group">
+        <label>Current Medication</label>
+        <input type="text" class="form-control" name="Current_Medication" placeholder="Current Medication" id="Current_Medication">
+    </div>
+
+
+
+    <div class="form-group">
+        <label>Physical History</label>
+
+        <textarea class="form-control" name="Physical_History" id="Physical_History" rows="3"></textarea>
+
+
+    </div>
+
+
+    <div class="form-group">
+        <label>Family History</label>
+
+        <textarea class="form-control" name="Family_History" id="Family_History" rows="3"></textarea>
+
+
+    </div>
+
+
+
+    <div class="form-group">
+        <label>Schooling</label>
+        <input type="text" class="form-control" name="schooling" placeholder="schooling" id="schooling">
+    </div>
+
+
+
+    <div class="form-group">
+        <label>Maritial Status</label>
+
+        <select id="Maritial_Status">
+
+            <option class="form-control" value="Single">Single</option>
+            <option class="form-control" value="Married">Married</option>
+            <option class="form-control" value="Divorced">Divorced</option>
+
+        </select>
+
+    </div>
+
+
+
+    <div class="form-group">
+        <label>Adolesence</label>
+        <input type="text" class="form-control" name="Adolesence" placeholder="Adolesence" id="Adolesence">
+    </div>
+
+
+
+
+
+    <div class="form-group">
+        <label>Alcohal / Substance abuse</label>
+        <input type="text" class="form-control" name="AlcohalSubstance_abuse" placeholder="Alcohal / Substance abuse" id="Alcohal">
+    </div>
+
+
+
+
+    <div class="form-group">
+        <label>Premorbid personality</label>
+        <input type="text" class="form-control" name="Premorbid_personality" placeholder="Premorbid personality" id="Premorbid_personality">
+    </div>
+
+
+
+
+    <div class="form-group">
+        <label>Mental State Examination</label>
+        <input type="text" class="form-control" name="Mental_State_Examination" placeholder="Mental State Examination" id="Mental_State_Examination">
+    </div>
+
+
+    <div class="form-group">
+        <label>Appearance and Behavior</label>
+        <input type="text" class="form-control" name="Appearance_and_Behavior" placeholder="Appearance and Behavior" id="Appearance_and_Behavior">
+    </div>
+
+
+    <div class="form-group">
+        <label>Speech</label>
+        <input type="text" class="form-control" name="Speech" placeholder="Speech" id="Speech">
+    </div>
+
+
+
+    <div class="form-group">
+        <label>Mood and Affect</label>
+        <input type="text" class="form-control" name="Mood_and_Affect" placeholder="Mood and Affect" id="Mood_and_Affect">
+    </div>
+
+
+
+    <div class="form-group">
+        <label>Sucidial ideations</label>
+        <input type="text" class="form-control" name="Sucidial_ideations" placeholder="Sucidial ideations" id="Sucidial_ideations">
+    </div>
+
+
+
+
+    <div class="form-group">
+        <label>Thoughts</label>
+        <input type="text" class="form-control" name="Thoughts" placeholder="Thoughts" id="Thoughts">
+    </div>
+
+
+
+
+
+
+
+    <div class="form-group">
+        <label>Delusions</label>
+        <input type="text" class="form-control" name="Delusions" placeholder="Delusions" id="Delusions">
+    </div>
+
+
+
+    <div class="form-group">
+        <label>Hallucinations</label>
+        <input type="text" class="form-control" name="hallucinations" placeholder="Hallucinations" id="hallucinations">
+    </div>
+
+    <div class="form-group">
+        <label>Insight</label>
+        <input type="text" class="form-control" name="Insight" placeholder="Insight" id="Insight">
+    </div>
+
+
+
+    <div class="form-group">
+        <label>Cognitions</label>
+        <input type="text" class="form-control" name="Cognitions" placeholder="Cognitions" id="Cognitions">
+    </div>
+
+    <div class="form-group">
+        <label>Provisional Diagnosis</label>
+        <input type="text" class="form-control" name="Provisional_Diagnosis" placeholder="Provisional Diagnosis" id="Provisional_Diagnosis">
+    </div>
+
+    <div class="form-group">
+        <label>Differential Diagnosis</label>
+        <input type="text" class="form-control" name="differential_diagnosis" placeholder="differential diagnosis" id="differential_diagnosis">
+    </div>
+
+    <button type="button" id="submitbtn" class="btn btn-primary">Submit</button>
+</form>
+
+
+
+<script>
+  var apiurl = "@System.Configuration.ConfigurationManager.AppSettings["url"]";
+
+    var id = "";
+    $(document).ready(function () {
+
+
+        var a = getQueryVariable("id");
+
+        if (a != "undefined" && a != null) {
+
+            id = a;
+        }
+
+        else {
+
+            window.location.href = "/Patient/PatientAppointedList";
+
+        }
+
+    });
+
+    $("#submitbtn").click(function () {
+
+
+
+        var Present_Complaint = $("#Present_Complaint").val();
+        var History_of_Presenting_Complaint = $("#History_of_Presenting_Complaint").val();
+        var Past_Psychiatric_History = $("#Past_Psychiatric_History").val();
+        var Current_Medication = $("#Current_Medication").val();
+        var Physical_History = $("#Physical_History").val();
+        var Family_History = $("#Family_History").val();
+        var schooling = $("#schooling").val();
+        var Maritial_Status = $("#Maritial_Status").val();
+        var Adolesence = $("#Adolesence").val();
+        var Alcohal = $("#Alcohal").val();
+        var Premorbid_personality = $("#Premorbid_personality").val();
+        var Mental_State_Examination = $("#Mental_State_Examination").val();
+        var Appearance_and_Behavior = $("#Appearance_and_Behavior").val();
+        var Speech = $("#Speech").val();
+        var Mood_and_Affect = $("#Mood_and_Affect").val();
+        var Sucidial_ideations = $("#Sucidial_ideations").val();
+        var Thoughts = $("#Thoughts").val();
+
+        var Delusions = $("#Delusions").val();
+
+        var hallucinations = $("#hallucinations").val();
+
+        var Insight = $("#Insight").val();
+
+        var Cognitions = $("#Cognitions").val();
+
+        var Provisional_Diagnosis = $("#Provisional_Diagnosis").val();
+
+
+        var differential_diagnosis = $("#differential_diagnosis").val();
+
+        $.ajax({
+
+          type: "POST",
+          url: apiurl+'api/AddInitialAnalysiz',
+            data: JSON.stringify({
+                Pid: id,
+                Present_Complaint:Present_Complaint,
+                History_of_Presenting_Complaint: History_of_Presenting_Complaint,
+                Past_Psychiatric_History: Past_Psychiatric_History,
+                Current_Medication: Current_Medication,
+                Physical_History: Physical_History,
+                Family_History: Family_History,
+                schooling: schooling,
+                Maritial_Status: Maritial_Status,
+                Adolesence: Adolesence,
+                AlcohalSubstance_abuse: Alcohal,
+                Premorbid_personality: Premorbid_personality,
+                Mental_State_Examination: Mental_State_Examination,
+                Appearance_and_Behavior: Appearance_and_Behavior,
+
+                Speech: Speech,
+
+                Mood_and_Affect: Mood_and_Affect,
+
+
+                Sucidial_ideations: Sucidial_ideations,
+
+                Thoughts: Thoughts,
+
+                Delusions: Delusions,
+
+                hallucinations: hallucinations,
+                Insight: Insight,
+                Cognitions: Cognitions,
+
+                Provisional_Diagnosis: Provisional_Diagnosis,
+                differential_diagnosis: differential_diagnosis,
+            }),
+            headers: {
+              'Content-Type': 'application/json',
+              'Access-Control-Allow-Origin': apiurl,
+                    'Authorization': 'Bearer  @Request.Cookies["Token"].Value.ToString()'
+
+                }
+
+
+
+
+        }).done(function (res) {
+
+
+            if (res.status == 'success') {
+
+                alert('Inserted');
+
+
+
+                window.location.href = "/Patient/PatientAppointedList";
+
+
+            }
+            else {
+                alert(res.message);
+
+            }
+
+
+        })
+            .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+
+                if (XMLHttpRequest.status == 403) {
+                    window.location.href = '~/Account/Login'
+                }
+
+                if (XMLHttpRequest.status == 401) {
+                    window.location.href = '/Account/Login'
+                }
+
+                console.log("fail");
+
+
+            })
+
+
+
+
+
+
+    })
+
+
+    function getQueryVariable(variable) {
+
+        var query = window.location.search.substring(1);
+        var vars = query.split("?");
+        for (var i = 0; i < vars.length; i++) {
+            var pair = vars[i].split("=");
+            if (pair[0] == variable) {
+                return pair[1];
+            }
+        }
+    }
+
+</script>

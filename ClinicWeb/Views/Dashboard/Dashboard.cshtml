@@ -1,0 +1,5342 @@
+﻿
+@{
+    ViewBag.Title = "Dashboard";
+}
+
+<style>
+
+    .loader {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        height: 150px;
+        width: 150px;
+        overflow: hidden;
+        z-index: 9999;
+        opacity: 1;
+        transition: opacity 0.5s;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 16px solid #f3f3f3;
+        border-radius: 50%;
+        border-top: 16px solid #1c6279;
+        -webkit-animation: spin 2s linear infinite; /* Safari */
+        animation: spin 2s linear infinite;
+    }
+
+    /* Safari */
+    @@-webkit-keyframes spin {
+        0% {
+            -webkit-transform: rotate(0deg);
+        }
+
+        100% {
+            -webkit-transform: rotate(360deg);
+        }
+    }
+
+    @@keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+
+
+    }
+
+
+
+
+</style>
+
+<div class="loader"></div>
+
+<!-- Content Header (Page header) -->
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0 text-dark">Dashboard </h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">Dashboard v2</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+<section class="content">
+    <div class="container-fluid">
+
+        <div class="row">
+
+            @if (Request.Cookies["Role"].Value.ToString().Contains("Admin") == true)
+            {
+
+
+                <div class="col-12 col-sm-6 col-md-3">
+                    <a href="~/Appointment/index">
+                        <div class="info-box mb-3">
+                            <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-calendar-alt"></i></span>
+
+                            <div class="info-box-content">
+                                <span class="info-box-text">Appointments Due</span>
+                                <span class="info-box-number" id="ad">Counting..</span>
+                            </div>
+                            <!-- /.info-box-content -->
+                        </div>
+                    </a>
+                    <!-- /.info-box -->
+                </div> }
+            else if (Request.Cookies["Role"].Value.ToString().Contains("Assistant") == true)
+            {
+                <div class="col-12 col-sm-6 col-md-3">
+                    <a href="~/Appointment/index">
+                        <div class="info-box mb-3">
+                            <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-calendar-alt"></i></span>
+
+                            <div class="info-box-content">
+                                <span class="info-box-text">Appointments Due</span>
+                                <span class="info-box-number" id="ad">Counting..</span>
+                            </div>
+                            <!-- /.info-box-content -->
+                        </div>
+                    </a>
+                    <!-- /.info-box -->
+                </div> }
+            else
+            {
+
+                <div class="col-12 col-sm-6 col-md-3">
+                    <a href="~/Appointment/DoctorAppointments">
+                        <div class="info-box mb-3">
+                            <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-calendar-alt"></i></span>
+
+                            <div class="info-box-content">
+                                <span class="info-box-text">Appointments Due</span>
+                                <span class="info-box-number" id="ad">Counting..</span>
+                            </div>
+                            <!-- /.info-box-content -->
+                        </div>
+                    </a>
+                    <!-- /.info-box -->
+                </div>}
+            <div class="col-12 col-sm-6 col-md-3">
+
+                @if (Request.Cookies["Role"].Value.ToString().Contains("Admin") == true)
+                {
+                    <a href="~/Patient/Patients">
+
+                        <div class="info-box">
+                            <span class="info-box-icon bg-info elevation-1"><i class="fas fa-users"></i></span>
+
+                            <div class="info-box-content">
+                                <span class="info-box-text">Total Patients</span>
+                                <span class="info-box-number" id="tp">
+                                    Counting..
+                                </span>
+                            </div>
+                            <!-- /.info-box-content -->
+                        </div>
+                        <!-- /.info-box -->
+                    </a>}
+
+                else if (Request.Cookies["Role"].Value.ToString().Contains("Assistant") == true)
+                {
+                    <a href="~/Patient/Patients">
+
+                        <div class="info-box">
+                            <span class="info-box-icon bg-info elevation-1"><i class="fas fa-users"></i></span>
+
+                            <div class="info-box-content">
+                                <span class="info-box-text">Total Patients</span>
+                                <span class="info-box-number" id="tp">
+                                    Counting..
+                                </span>
+                            </div>
+                            <!-- /.info-box-content -->
+                        </div>
+                        <!-- /.info-box -->
+                    </a>
+                }
+                <!--else
+                {
+
+
+                    <div class="info-box">
+                      <span class="info-box-icon bg-info elevation-1"><i class="fas fa-users"></i></span>
+
+                      <div class="info-box-content">
+                        <span class="info-box-text">Total Patients</span>
+                        <span class="info-box-number" id="tp">
+                          Counting..
+                        </span>
+                      </div>-->
+                <!-- /.info-box-content -->
+                <!--</div>-->
+                <!-- /.info-box -->
+                <!--}-->
+
+            </div>
+            <!-- /.col -->
+            <div class="col-12 col-sm-6 col-md-3">
+                @if (Request.Cookies["Role"].Value.ToString().Contains("Admin") == true)
+                {
+
+                    <a href="~/Patient/completedAppointments">
+                        <div class="info-box mb-3">
+                            <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-money-bill"></i></span>
+
+                            <div class="info-box-content">
+                                <span class="info-box-text">Total Cash</span>
+                                <span class="info-box-number" id="tc">Counting..</span>
+                            </div>
+                            <!-- /.info-box-content -->
+
+                        </div>
+                    </a>}
+
+
+                else if (Request.Cookies["Role"].Value.ToString().Contains("Assistant") == true)
+                {
+
+
+                    <a href="~/Patient/completedAppointments">
+                        <div class="info-box mb-3">
+                            <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-money-bill"></i></span>
+
+                            <div class="info-box-content">
+                                <span class="info-box-text">Total Cash</span>
+                                <span class="info-box-number" id="tc">Counting..</span>
+                            </div>
+                            <!-- /.info-box-content -->
+
+                        </div>
+                    </a>}
+
+
+
+                <!-- /.info-box -->
+            </div>
+            <!-- /.col -->
+            <!-- fix for small devices only -->
+            <div class="clearfix hidden-md-up"></div>
+
+            <div class="col-12 col-sm-6 col-md-3">
+                @if (Request.Cookies["Role"].Value.ToString().Contains("Admin") == true)
+                {
+                    <a href="~/Account/MonthlySales">
+                        <div class="info-box mb-3">
+                            <span class="info-box-icon bg-success elevation-1"><i class="fas fa-shopping-cart"></i></span>
+
+                            <div class="info-box-content">
+                                <span class="info-box-text">Monthly Sales</span>
+                                <span class="info-box-number" id="ms">Counting..</span>
+                            </div>
+                            <!-- /.info-box-content -->
+                        </div>
+                    </a> }
+
+                else if (Request.Cookies["Role"].Value.ToString().Contains("Assistant") == true)
+                {
+                    <a href="~/Account/MonthlySales">
+                        <div class="info-box mb-3">
+                            <span class="info-box-icon bg-success elevation-1"><i class="fas fa-shopping-cart"></i></span>
+
+                            <div class="info-box-content">
+                                <span class="info-box-text">Monthly Sales</span>
+                                <span class="info-box-number" id="ms">Counting..</span>
+                            </div>
+                            <!-- /.info-box-content -->
+                        </div>
+                    </a>}
+                <!-- /.info-box -->
+            </div>
+            <div class="col-12 col-sm-6 col-md-3">
+                @if (Request.Cookies["Role"].Value.ToString().Contains("Admin") == true)
+                {
+                    <a href="~/Account/TodaySales">
+                        <div class="info-box mb-3">
+                            <span class="info-box-icon bg-success elevation-1"><i class="fas fa-shopping-cart"></i></span>
+
+                            <div class="info-box-content">
+                                <span class="info-box-text">Today Sales</span>
+                                <span class="info-box-number" id="tss">Counting..</span>
+                            </div>
+                            <!-- /.info-box-content -->
+                        </div>
+                    </a> }
+
+                else if (Request.Cookies["Role"].Value.ToString().Contains("Assistant") == true)
+                {
+                    <a href="~/Account/TodaySales">
+                        <div class="info-box mb-3">
+                            <span class="info-box-icon bg-success elevation-1"><i class="fas fa-shopping-cart"></i></span>
+
+                            <div class="info-box-content">
+                                <span class="info-box-text">Today Sales</span>
+                                <span class="info-box-number" id="tss">Counting..</span>
+                            </div>
+                            <!-- /.info-box-content -->
+                        </div>
+                    </a>}
+                <!-- /.info-box -->
+            </div>
+            <!-- /.col -->
+            <!-- /.col -->
+        </div>
+
+    </div>
+</section>
+
+@if (Request.Cookies["Role"].Value.ToString().Contains("Admin") || Request.Cookies["Role"].Value.ToString().Contains("Assistant"))
+{
+
+
+    <div class="container">
+
+
+        <div class="row">
+
+            <div class="col-md-6">
+                <div class="card card-primary">
+                    <div class="card-body">
+
+                        <div class="row">
+                            <div class="col">
+                                <label class="control-label">Start Date</label>
+
+
+                                <input type="text" id="fromDate" class="form-control">
+
+
+                            </div>
+
+
+                            <div class="col ">
+
+                                <label class="control-label">End Date</label>
+
+
+                                <input type="text" id="toDate"class="form-control">
+
+                            </div>
+                            </div>
+
+                        <div class=" row mt-4">
+                    
+                            <div class="col d-flex">
+                                <label class="control-label mt-2 mr-2">Doctor&nbsp;</label>
+                                <select id="doctordropdwon" class="selectpicker mr-3" multiple data-live-search="true" data-actions-box="true">
+                                </select>
+
+                                <button type="button" class="btn btn-outline-secondary " id="Generate">Generate</button>
+
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-6">
+
+
+                <div class="card card-primary">
+                    <div class="card-body">
+
+
+
+
+
+
+
+                        <div class="row">
+                            <label class="control-label mt-2">Doctor</label>
+                            <div class="col">
+
+                                <select id="doctordropdwonsearchforApp" class="selectpicker " data-live-search="true" data-actions-box="true">
+                                </select>
+
+
+                            </div>
+                            <div class="col">
+                                <button type="button" class="btn btn-outline-secondary" id="serachAppointmentsbydoctors">serach</button>
+
+
+                            </div>
+
+                            <div class="col">
+                                <button type="button" class="btn btn-outline-secondary" id="ReseAppointment">Reset</button>
+
+
+                            </div>
+
+                        </div>
+                        <div class="row" style="margin-top:56px;">
+                            <div class="col-6 ">
+
+
+                                <button type="button" class="btn btn-info" data-toggle="modal" id="CAppointment" data-target="#myModal">Create Appointment</button>
+
+
+                            </div>
+
+
+
+                            <div class="col-6">
+                                <a href="~/Patient/AllAppointments" class="btn btn-primary ">List of Appointments</a>
+                            </div>
+
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+
+
+  
+}
+
+
+
+<div id="imgeloder" style="margin-left:40%">
+
+    <img src="~/fonts/Spinner-1s-200px.gif" />
+</div>
+<!-- Modal -->
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+
+            <div class="modal-body">
+
+                <form>
+
+
+
+                    <div id="PateintEmail">
+
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="Pateint"><span class="req">* </span> Patient Name: </label>
+                        <select class="form-control" id="Patient" style="width: 100%">
+                            <option></option>
+                        </select>
+
+                    </div>
+
+
+
+
+                    <div class="form-group">
+                        <label for="EDate"><span class="req">* </span>  Appointment Dates </label>
+                        <input type="text" class="form-control date" id="AppointDate" value="" autocomplete="false" placeholder="select the dates" />
+
+                    </div>
+
+                    <div class="form-group">
+                        <label for="SDate"><span class="req">* </span>  Start Time </label>
+                        <input type="time" min="00:00" max="23:59" class="form-control" id="sdate" value="" />
+
+                    </div>
+
+
+                    @*<div class="form-group">
+          <label for="EDate"><span class="req">* </span>  Time Duration </label>
+          <input type="time" class="form-control" id="edate" value="" />
+
+        </div>*@
+                <div class="form-group">
+
+                    <label for="EDate"><span class="req">* </span>  Time Duration </label>
+                    <br />
+                    <label class="radio-inline">
+                        <input type="radio" name="optradio" id="20mins" checked="checked"> 20 mins
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="optradio" id="30mins"> 30 mins
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="optradio" id="45mins"> 45 mins
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="optradio" id="1hour"> 1 hour
+                    </label>
+                </div>
+
+
+
+                    <div class="form-group" style="display:none">
+                        <label for="Campus"><span class="req">* </span> Campus Name: </label>
+                        <select class="form-control" id="Campus" style="width: 100%">
+                            <option></option>
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="Doctor"><span class="req">* </span> Doctor Name: </label>
+                        <select class="form-control" id="Doctor">
+                        </select>
+
+                    </div>
+
+
+
+
+                    <div class="form-group">
+                        <label for="PaymentType"><span class="req">* </span>Payment Type: </label>
+                        <select class="form-control" id="PaymentType">
+                            <option value="-1">Please Select the Payment Type </option>
+                            <option value="Cash">Cash</option>
+                            <option value="Credit Card">Credit Card </option>
+                            <option value="Account">Account </option>
+
+
+
+
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for=""><span class="req">* </span>Please select Appointment Type : </label><br />
+
+                        <input type="radio" id="inperson" class="AppType" name="AppType" checked value="1" />
+                        <label for="2">In Person</label>
+
+                        <input type="radio" id="online" class="AppType" name="AppType" value="2" style="margin-left:3%" />
+                        <label for="2">Online</label>
+                    </div>
+
+
+
+                    <div class="form-group linkclass" style="display:none">
+                        <label for="link"><span class="req">* </span>Link : </label>
+                        <input type="text" class="form-control" id="link" value="" placeholder="enter the link" />
+
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="Amount"><span class="req">* </span>Enter the Amount : </label>
+                        <input type="text" class="form-control" id="amount" value="" onkeyup="validateamount(this);" placeholder="enter the amount" />
+
+                    </div>
+
+
+                    <button type="button" class="btn btn-success has-spinner" id="btnApp">Create</button>
+
+                </form>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default " data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
+
+<!--Modal3-->
+
+
+
+<div class="modal fade" id="myModal3" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+
+            <div class="modal-body" id="editmodal">
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="sticky-top mb-3">
+                    <div class="card">
+
+
+
+                        <!-- the events -->
+                        <div id="external-events">
+                            <div class="checkbox">
+
+                            </div>
+                        </div>
+
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+
+                </div>
+            </div>
+            <!-- /.col -->
+            <div class="col-md-12">
+                <div class="card card-primary">
+                    <div class="card-body p-0">
+                        <!-- THE CALENDAR -->
+                        <div id="calendar"></div>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div><!-- /.container-fluid -->
+</section>
+<!-- /.content -->
+<!-- /.content-wrapper -->
+<!-- /.control-sidebar -->
+<!-- ./wrapper -->
+<!-- jQuery -->
+<!-- Bootstrap -->
+<!-- jQuery UI -->
+<!-- AdminLTE App -->
+<script src="~/dist/js/adminlte.min.js"></script>
+<!-- fullCalendar 2.2.5 -->
+<script src="~/plugins/moment/moment.min.js"></script>
+<script src="~/plugins/fullcalendar/main.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="~/dist/js/demo.js"></script>
+
+<!-- Page specific script -->
+
+
+<script>
+
+  var apiurl = "@System.Configuration.ConfigurationManager.AppSettings["url"]";
+
+    localStorage.setItem('userID',@Request.Cookies["userID"].Value.ToString() )
+
+
+    var date = new Date()
+    var d = date.getDate(),
+        m = date.getMonth(),
+        y = date.getFullYear()
+
+    var Calendar = FullCalendar.Calendar;
+    var Draggable = FullCalendar.Draggable;
+
+    var containerEl = document.getElementById('external-events');
+    var checkbox = document.getElementById('drop-remove');
+    var calendarEl = document.getElementById('calendar');
+    var editpateinted = "";
+    var doctordropdown = [];
+    var editdoctor = "";
+  $(function () {
+
+    /* initialize the external events
+     -----------------------------------------------------------------*/
+    //function ini_events(ele) {
+    //    ele.each(function () {
+
+    //        // create an Event Object (https://fullcalendar.io/docs/event-object)
+    //        // it doesn't need to have a start or end
+    //        var eventObject = {
+    //            title: $.trim($(this).text()) // use the element's text as the event title
+    //        }
+
+    //        // store the Event Object in the DOM element so we can get to it later
+    //        $(this).data('eventObject', eventObject)
+
+    //        // make the event draggable using jQuery UI
+    //        $(this).draggable({
+    //            zIndex: 1070,
+    //            revert: true, // will cause the event to go back to its
+    //            revertDuration: 0  //  original position after the drag
+    //        })
+
+    //    })
+    //}
+
+    //ini_events($('#external-events div.external-event'))
+
+    /* initialize the calendar
+     -----------------------------------------------------------------*/
+    //Date for the calendar events (dummy data)
+
+
+    // initialize the external events
+    // -----------------------------------------------------------------
+
+    //new Draggable(containerEl, {
+    //    itemSelector: '.external-event',
+    //    eventData: function (eventEl) {
+    //        return {
+    //            title: eventEl.innerText,
+    //            backgroundColor: window.getComputedStyle(eventEl, null).getPropertyValue('background-color'),
+    //            borderColor: window.getComputedStyle(eventEl, null).getPropertyValue('background-color'),
+    //            textColor: window.getComputedStyle(eventEl, null).getPropertyValue('color'),
+
+    //        };
+    //    }
+    //});
+
+
+
+    var serdoctor = [];
+    var serpatient = [];
+
+      var PatientData;
+
+      var campusdate;
+
+
+      function searchcampus() {
+          $('.loader').show()
+          $.ajax({
+
+              type: 'GET',
+
+              url: apiurl + 'api/Appointment/getAllCampus',
+
+              headers: {
+                  'Content-Type': 'application/json',
+                  'Access-Control-Allow-Origin': apiurl
+
+
+              }
+
+
+          }).done(function (res) {
+              $('.loader').hide()
+
+              if (res.object != null) {
+
+              
+              campusdate = JSON.parse(res.object);
+
+              campusdate = JSON.parse(res.object);
+              var datac = [];
+
+
+              for (var i = 0; i < campusdate.length; i++) {
+                  datac.push({ id: campusdate[i].cid, text: campusdate[i].campus })
+
+              }
+
+              $("#Campus").select2({
+                  placeholder: "Select a campus",
+                  data: datac
+              });
+
+
+
+              }
+
+          })
+              .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+                  console.log("fail");
+              })
+
+      }
+
+
+
+      function searchcampusrun(id) {
+          $('.loader').show()
+          $.ajax({
+
+              type: 'GET',
+
+              url: apiurl + 'api/Appointment/getAllCampus',
+
+              headers: {
+                  'Content-Type': 'application/json',
+                  'Access-Control-Allow-Origin': apiurl
+
+
+              }
+
+
+          }).done(function (res) {
+              $('.loader').hide()
+
+
+              campusdate = JSON.parse(res.object);
+
+              campusdate = JSON.parse(res.object);
+              var datac = [];
+
+
+              for (var i = 0; i < campusdate.length; i++) {
+                  datac.push({ id: campusdate[i].cid, text: campusdate[i].campus })
+
+              }
+
+
+
+
+              $("#Campus3").select2({
+                  placeholder: "Select a campus",
+                  data: datac
+              });
+              $("#Campus3").val(id); // Select the option with a value of '1'
+              $('#Campus3').trigger('change');
+
+
+          })
+              .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+                  console.log("fail");
+              })
+
+      }
+
+      function serachpateint() {
+          $('.loader').show()
+      $.ajax({
+
+        type: 'GET',
+
+        url: apiurl + 'api/getallPatient',
+
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': apiurl
+
+
+        }
+
+
+      }).done(function (res) {
+          $('.loader').hide()
+
+          if (res.object != null) {
+
+          
+        var data = JSON.parse(res.object);
+          PatientData = JSON.parse(res.object);
+
+          PatientData = JSON.parse(res.object);
+          var datap = [];
+
+
+          for (var i = 0; i < PatientData.length; i++) {
+              datap.push({ id: PatientData[i].Patient_ID, text: PatientData[i].Patient_Name })
+
+          }
+
+          $("#Patient").select2({
+              placeholder: "Select a Patient",
+              data: datap
+          });
+
+
+
+
+        $.each(data, function (i, value) {
+
+          serpatient.push({ 'id': data[i].Patient_ID, 'Name': data[i].Patient_Name });
+
+        });
+
+
+
+        $('#selectPatient').autocomplete({
+          source: function myfunction(request, response) {
+            response($.map(serpatient, function (item) {
+              return {
+                id: item.id,
+                value: item.Name,
+              }
+
+            }))
+          },
+          select: function (event, ui) {
+            $(this).val(ui.item.Name);
+
+
+            getallAppoinmentsbyPateint(ui.item.id);
+
+          },
+          minLength: 0,
+          autoFocus: true
+        });
+
+
+
+          }
+
+      })
+        .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+          console.log("fail");
+        })
+
+    }
+
+
+
+
+
+    function searchdoctor() {
+      var mynames = [];
+        $('.loader').show()
+      $.ajax({
+
+        type: 'GET',
+
+        url: apiurl + 'api/getallDoctor',
+
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': apiurl
+
+
+        }
+
+
+      }).done(function (res) {
+
+
+          var data = JSON.parse(res.object);
+
+
+
+          $('.loader').hide()
+        $.each(data, function (i, value) {
+
+            serdoctor.push({ 'id': data[i].UserID, 'Name': data[i].UserName });
+            doctordropdown.push({ id: data[i].UserID, Name: data[i].UserName  });
+         // mynames.push(data[i].UserName)
+
+        })
+
+
+          for (var i = 0; i < doctordropdown.length; i++) {
+
+
+              $("#doctordropdwon").append('<option value="' + doctordropdown[i].id + '">' + doctordropdown[i].Name + '</option>')
+
+              $("#doctordropdwonsearchforApp").append('<option value="' + doctordropdown[i].id + '">' + doctordropdown[i].Name + '</option>')
+
+          }
+          $("#doctordropdwon").selectpicker('refresh');
+          $("#doctordropdwonsearchforApp").selectpicker('refresh');
+        $('#selectdoctor').autocomplete({
+        //  source: serdoctor,
+          source: function myfunction(request, response) {
+            response($.map(serdoctor, function (item) {
+              return {
+                id: item.id,
+                value: item.Name,
+              }
+
+            }))
+          },
+          select: function (event, ui) {
+            $(this).val(ui.item.Name);
+
+
+            getallAppoinmentsbydoctorid(ui.item.id);
+
+          },
+          minLength: 0,
+          autoFocus: true
+        });
+
+
+
+
+
+      })
+        .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+          console.log("fail");
+        })
+
+    }
+
+
+
+
+
+
+
+    function getQueryVariable(variable) {
+
+      //var query = window.location.href.slice(window.location.href.indexOf('?') + 1).replaceAll('%20', " ");
+      var query = window.location.search.substring(1);
+      var vars = query.split("?");
+      for (var i = 0; i < vars.length; i++) {
+        var pair = vars[i].split("=");
+        if (pair[0] == variable) {
+          return pair[1].replaceAll('%20', ' ');
+        }
+      }
+
+      return query;
+
+    }
+
+
+
+
+
+      $(document).ready(function () {
+
+        $(".date").keydown(function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+        });
+        $('.date').datepicker({
+
+            multidate: true,
+            format: "mm/dd/yyyy",
+
+
+        });
+
+        getstatus();
+
+      var a = getQueryVariable("id");
+
+      if (a != "undefined" && a != null && a != "") {
+
+        getpatientname(a);
+      }
+
+
+      getallAppoinments();
+
+      searchdoctor();
+      serachpateint();
+       //   searchcampus();
+
+
+
+
+
+
+
+        $(".AppType").click(function () {
+
+
+            var v = $(this).val();
+
+            if (v == 2) {
+
+                $(".linkclass").show();
+            }
+            else {
+
+                $(".linkclass").hide();
+            }
+
+        })
+
+
+          $("#fromDate").datepicker({
+              format: 'mm-dd-yyyy',
+              autoclose: true,
+          }).on('changeDate', function (selected) {
+              var minDate = new Date(selected.date.valueOf());
+              $('#toDate').datepicker('setStartDate', minDate);
+          });
+
+          $("#toDate").datepicker({
+              format: 'mm-dd-yyyy',
+              autoclose: true,
+          }).on('changeDate', function (selected) {
+              var minDate = new Date(selected.date.valueOf());
+              $('#fromDate').datepicker('setEndDate', minDate);
+          });
+
+
+    });
+      $(document).on("click",".AppType3",function () {
+
+
+          var v = Number($(this).val());
+
+          if (v == 2) {
+
+              $(".linkclass3").show();
+          }
+          else {
+
+              $(".linkclass3").hide();
+          }
+
+      })
+
+
+
+
+
+    function getallAppoinments() {
+
+        var userid = localStorage.getItem('userID')
+
+      $('#imgeloder').show();
+      $.ajax({
+        type: 'get',
+
+          url: apiurl + 'api/Appointment/getAppointmentsbyuserid?userid=' + parseInt(userid),
+
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': apiurl,
+
+
+        }
+
+
+      })
+
+
+
+
+
+
+        .done(function (res) {
+
+
+          if (res.status == "success") {
+
+              if (res.object.length > 0) {
+
+
+
+                  var eventsArray = [];
+
+                  var data = $.parseJSON(res.object);
+
+                  $.each(data, function (i, val) {
+                      var h = data[i].Appointment_Data;
+                      debugger;
+                      var sd = data[i].StartDate;
+                      var s = h + "T" + sd;
+                      var e = h + "T" + data[i].EndDate
+
+                      var pateintID = data[i].u[0].p[0].Patient_ID
+
+
+                      eventsArray.push({
+                          title: data[i].u[0].p[0].Patient_Name,
+
+                          start: new Date(s),
+                          end: new Date(e),
+                          moredata: {
+                              pateintname: data[i].u[0].p[0].Patient_Name,
+                              pateintemail: data[i].u[0].p[0].Patient_Email,
+                              pateintid: pateintID,
+                              doctorname: data[i].u[0].UserName,
+                              doctorid: data[i].u[0].UserID,
+                              starttime: sd,
+                              AppointmentDate: h,
+                              endtime: data[i].EndDate,
+
+                              paymenttype: data[i].PaymentType,
+                              amoun: data[i].Amount,
+                              appointid: data[i].AppointID
+                              ,
+                              complete: data[i].AppointmentStatus,
+                              AppType: data[i].AppType,
+                              cumpusid: data[i].cumpusid,
+                              link: data[i].link,
+                              AppointmentStatus: data[i].AppointmentStatus
+
+                          },
+                          //url: '/Patient/PatientDetails?id=' + pateintID + '&appointmentdate=' + h + '',
+                          backgroundColor: '#3c8dbc', //Primary (light-blue)
+                          borderColor: '#3c8dbc' //Primary (light-blue)
+
+                      })
+
+
+                      var calendar = new Calendar(calendarEl, {
+
+                          headerToolbar: {
+                              left: 'prev,next today',
+                              center: 'title',
+                              right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+                          },
+                          themeSystem: 'bootstrap',
+                          //Random default events
+
+                          events: eventsArray,
+
+
+                          eventClick: function (event, jsEvent, view) {  //This is the editing function
+                              console.log(event);
+                              var fields = event;
+
+                              $('#editmodal').empty();
+
+
+                              $('#myModal3').modal('show');
+
+                              editpateinted = fields.event._def.extendedProps.moredata.pateintid;
+
+                              editdoctor = fields.event._def.extendedProps.moredata.doctorid;
+                              var seditdate = fields.event._def.extendedProps.moredata.starttime;
+
+                              var eeditdate = fields.event._def.extendedProps.moredata.endtime;
+
+                              var theAdd1 = new Date(1900, 0, 1, seditdate.split(":")[0], seditdate.split(":")[1]);
+
+                              var theAdd2 = new Date(1900, 0, 1, eeditdate.split(":")[0], eeditdate.split(":")[1]);
+
+                              var diff = Math.abs(theAdd1.getMinutes() - theAdd2.getMinutes());
+                              var date = new Date(fields.event._def.extendedProps.moredata.AppointmentDate);
+                              var dates = (((date.getMonth() > 8) ? (date.getMonth() + 1) : ('0' + (date.getMonth() + 1))) + '/' + ((date.getDate()+1 > 9) ? date.getDate() : ('0' + date.getDate())) + '/' + date.getFullYear());
+                              debugger
+                              var modal = `<form>
+
+
+
+                    <div class="form-group">
+
+<input type="hidden"  id="appointid" value="`+ fields.event._def.extendedProps.moredata.appointid + `"/>
+
+<input type="hidden" id="pateintemailsend" value="`+ fields.event._def.extendedProps.moredata.pateintemail + `"/>
+
+                        <label for="Pateint"><span class="req">* </span> Patient Name: </label>
+                        <select class="form-control" id="Patient3">
+<option value="`+ fields.event._def.extendedProps.moredata.pateintid + `" >` + fields.event._def.extendedProps.moredata.pateintname + `</option>
+                        </select>
+
+                    </div>
+
+
+
+
+                    <div class="form-group">
+                        <label for="EDate"><span class="req">* </span>  Appointment Dates </label>
+                        <input type="text" class="form-control date" id="AppointDate3" value="`+ dates + `" />
+
+                    </div>
+
+                    <div class="form-group">
+                        <label for="SDate"><span class="req">* </span>  Start Time </label>
+                        <input type="time" min="00:00" max="23:59" class="form-control" id="sdate3" value="`+ fields.event._def.extendedProps.moredata.starttime + `" />
+
+                    </div>`;
+
+                              if (diff == 20) {
+
+                                  modal += `    <div class="form-group">
+
+                      <label for="EDate"><span class="req">* </span>  Time Duration </label>
+                      <br />
+                      <label class="radio-inline">
+                        <input type="radio" name="optradio" id="20mins3" checked="checked"> 20 mins
+            </label>
+
+
+              <label class="radio-inline">
+                          <input type="radio" name="optradio" id="30mins3"> 30 mins
+            </label>
+              <label class="radio-inline">
+                          <input type="radio" name="optradio" id="45mins3"> 45 mins
+            </label>
+
+
+                        <label class="radio-inline">
+                          <input type="radio" name="optradio" id="1hour3"> 1 hour
+            </label>
+          </div>`;
+
+                              }
+
+                              else if (diff==45) {
+                                  modal += `    <div class="form-group">
+
+                      <br />
+                      <label class="radio-inline">
+                        <input type="radio" name="optradio" id="45mins3" checked="checked"> 45 mins
+            </label>
+
+
+
+              <label class="radio-inline">
+                          <input type="radio" name="optradio" id="30mins3"> 30 mins
+            </label>
+              <label class="radio-inline">
+                          <input type="radio" name="optradio" id="20mins3"> 20 mins
+            </label>
+
+                        <label class="radio-inline">
+                          <input type="radio" name="optradio" id="1hour3"> 1 hour
+            </label>
+          </div>`;
+                              }
+
+                              else if (diff == 30) {
+
+                                  modal += `    <div class="form-group">
+
+                      <label for="EDate"><span class="req">* </span>  Time Duration </label>
+                      <br />
+                      <br />
+                      <label class="radio-inline">
+                        <input type="radio" name="optradio" id="20mins3" > 20 mins
+            </label>
+
+                      <label class="radio-inline">
+                        <input type="radio" name="optradio" id="30mins3" checked="checked"> 30 mins
+            </label>
+         <label class="radio-inline">
+                          <input type="radio" name="optradio" id="45mins3"> 45 mins
+            </label>
+
+                        <label class="radio-inline">
+                          <input type="radio" name="optradio" id="1hour3"> 1 hour
+            </label>
+          </div>`;
+                              }
+
+
+                              else {
+
+
+                                  modal += `        <div class="form-group">
+
+                            <label for="EDate"><span class="req">* </span>  Time Duration </label>
+                            <br />
+        
+
+                      <br />
+                      <label class="radio-inline">
+                        <input type="radio" name="optradio" id="20mins3" > 20 mins
+            </label>
+
+                      <label class="radio-inline">
+                        <input type="radio" name="optradio" id="30mins3" > 30 mins
+            </label>
+         <label class="radio-inline">
+                          <input type="radio" name="optradio" id="45mins3"> 45 mins
+            </label>
+                              <label class="radio-inline">
+                                <input type="radio" name="optradio" id="1hour3" checked="checked"> 1 hour
+            </label>
+          </div> `;
+                              }
+
+
+
+
+
+
+                              modal += `
+
+
+
+
+               
+<div class="form-group">
+                        <label for="Doctor"><span class="req">* </span> Doctor Name: </label>
+                        <select class="form-control" id="Doctor3">
+<option value="`+ fields.event._def.extendedProps.moredata.doctorid + `" >` + fields.event._def.extendedProps.moredata.doctorname + `</option>
+                        </select>
+
+                    </d
+
+
+
+
+
+                    <div class="form-group">
+                        <label for="PaymentType"><span class="req">* </span>Payment Type: </label>
+                        <select class="form-control" id="PaymentType3">
+
+
+
+                            <option value="`+ fields.event._def.extendedProps.moredata.paymenttype + `">` + fields.event._def.extendedProps.moredata.paymenttype + `</option>`;
+
+
+                              if (fields.event._def.extendedProps.moredata.paymenttype == "Cash") {
+                                  modal += `<option value="Credit Card">Credit Card </option>
+                                            <option value="Account">Account </option>`;
+
+                              }
+                              else if (fields.event._def.extendedProps.moredata.paymenttype == "Credit Card") {
+                                  modal += ` <option value="Cash"> Cash</option >
+
+                                            <option value="Account">Account </option>`;
+
+
+
+                              }
+                              else if (fields.event._def.extendedProps.moredata.paymenttype == "Account") {
+
+                                  modal += `<option value="Cash"> Cash</option>
+                                            <option value="Credit Card">Credit Card </option>`;
+
+                              }
+
+                              else {
+                                  modal += `
+                                                   <option value="Account">Account </option>
+                                                 <option value = "Cash"> Cash</option>
+                                            <option value="Credit Card">Credit Card </option>`;
+
+                              }
+
+
+
+                              if (fields.event._def.extendedProps.moredata.AppType == "1") {
+
+                                  modal += ` <div class="form-group">
+                        <label for=""><span class="req">* </span>Please select Appointment Type : </label><br />
+
+                        <input type="radio" id="inperson3" class="AppType3" checked name="AppType3" checked value="1" />
+                        <label for="2">In Person</label>
+
+                        <input type="radio" id="online3" class="AppType3" name="AppType3" value="2" style="margin-left:3%" />
+                        <label for="2">Online</label>
+                    </div>
+
+                        <div class="form-group linkclass3" style="display:none">
+                            <label for="link"><span class="req">* </span>Link : </label>
+                            <input type="text" class="form-control" id="link3" value="`+ fields.event._def.extendedProps.moredata.link + `" placeholder="enter the link" />
+
+                        </div>
+
+
+
+`;
+                              }
+                              else {
+
+
+                                  modal += `<div class="form-group">
+                        <label for=""><span class="req">* </span>Please select Appointment Type : </label><br />
+
+                        <input type="radio" id="inperson3" class="AppType3" name="AppType3" checked value="1" />
+                        <label for="2">In Person</label>
+
+                        <input type="radio" id="online3" class="AppType3" checked name="AppType3" value="2" style="margin-left:3%" />
+                        <label for="2">Online</label>
+                    </div>
+
+
+
+                        <div class="form-group linkclass3">
+                            <label for="link"><span class="req">* </span>Link : </label>
+                            <input type="text" class="form-control" id="link3" value="`+ fields.event._def.extendedProps.moredata.link + `" placeholder="enter the link" />
+
+                        </div>
+
+
+`;
+                              }
+
+
+
+
+
+
+
+                              modal += `</select>
+
+                    </div>
+
+
+
+                    <div class="form-group">
+                        <label for="Amount"><span class="req">* </span>Enter the Amount : </label>
+                        <input type="text" class="form-control" id="amount3" value="`+ fields.event._def.extendedProps.moredata.amoun + `" onkeyup="validateamount(this);" placeholder="enter the amount" />
+
+                    </div>
+
+   <div class="form-group">
+                        <label for="Amount"><span class="req">* </span>Appoinment Status : </label>
+                        <input type="text" readonly="readonly" class="form-control" value="`+ fields.event._def.extendedProps.moredata.AppointmentStatus + `"  />
+
+                    </div>
+
+
+                    <button type="button" class="btn btn-success" id="Editbutton">save</button>
+
+                    <button type="button" class="btn btn-success" onclick="Completed(`+ fields.event._def.extendedProps.moredata.appointid + `,` + fields.event._def.extendedProps.moredata.pateintid +`)" >Complete</button>
+                    <button type="button" class="btn btn-success" onclick="DidNotAttempt(`+ fields.event._def.extendedProps.moredata.appointid + `)">Not Attempted</button>
+
+
+
+    <a  class="btn btn-success" href="/Appointment/AppointmentDetails?id=`+ fields.event._def.extendedProps.moredata.pateintid + `&ApppointmentID=` + fields.event._def.extendedProps.moredata.appointid + ` " >View Details</a>
+
+
+                    <button type="button" class="btn btn-success has-spinner"  onclick="CancledAppointment(`+ fields.event._def.extendedProps.moredata.appointid + `)">Cancel</button>
+
+
+
+                </form>
+
+`;
+
+
+
+
+                              $("#editmodal").append(modal);
+                              $(".date").keydown(function (e) {
+                                  var key = e.keyCode || e.charCode;
+
+                                  e.preventDefault();
+                                  e.stopPropagation();
+
+                              });
+
+                              $('.date').datepicker({
+
+                                  multidate: true,
+
+                                  format: "mm/dd/yyyy",
+
+
+
+                              })
+
+
+
+                        //      searchcampusrun(fields.event._def.extendedProps.moredata.cumpusid );
+
+                              //editpateint();
+                              doctoredit();
+                          },
+                          editable: false,
+                          droppable: true, // this allows things to be dropped onto the calendar !!!
+
+                          drop: function (info) {
+
+                              // is the "remove after drop" checkbox checked?
+                              if (checkbox.checked) {
+                                  // if so, remove the element from the "Draggable Events" list
+                                  info.draggedEl.parentNode.removeChild(info.draggedEl);
+                              }
+                          }
+                      });
+
+
+                      calendar.render();
+
+                      $('#imgeloder').hide();
+
+
+                  })
+
+              }
+              else {
+                  var calendar = new Calendar(calendarEl, {
+
+                      headerToolbar: {
+                          left: 'prev,next today',
+                          center: 'title',
+                          right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+                      },
+                      themeSystem: 'bootstrap',
+                      //Random default events
+
+                      events: [
+                          {
+                              title: 'No Appointment',
+                              start: new Date(y, m, d, 10, 30),
+                              allDay: false,
+                              backgroundColor: '#0073b7', //Blue
+                              borderColor: '#0073b7' //Blue
+                          }
+
+
+                      ],
+
+
+
+                      editable: false,
+                      droppable: true, // this allows things to be dropped onto the calendar !!!
+                      drop: function (info) {
+                          // is the "remove after drop" checkbox checked?
+                          if (checkbox.checked) {
+                              // if so, remove the element from the "Draggable Events" list
+                              info.draggedEl.parentNode.removeChild(info.draggedEl);
+                          }
+                      }
+                  });
+
+
+                  calendar.render();
+
+                  $('#imgeloder').hide();
+              }
+          }
+
+          else {
+
+            var calendar = new Calendar(calendarEl, {
+
+              headerToolbar: {
+                left: 'prev,next today',
+                center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+              },
+              themeSystem: 'bootstrap',
+              //Random default events
+
+              events: [
+                {
+                  title: 'No Appointment',
+                  start: new Date(y, m, d, 10, 30),
+                  allDay: false,
+                  backgroundColor: '#0073b7', //Blue
+                  borderColor: '#0073b7' //Blue
+                }
+
+
+              ],
+
+
+
+              editable: false,
+              droppable: true, // this allows things to be dropped onto the calendar !!!
+              drop: function (info) {
+                // is the "remove after drop" checkbox checked?
+                if (checkbox.checked) {
+                  // if so, remove the element from the "Draggable Events" list
+                  info.draggedEl.parentNode.removeChild(info.draggedEl);
+                }
+              }
+            });
+
+
+            calendar.render();
+
+            $('#imgeloder').hide();
+
+
+
+          }
+
+        })
+        .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+          console.log("fail");
+        })
+
+
+
+
+
+    }
+
+
+
+
+  });
+
+
+    $("#CAppointment").click(function () {
+      //  clearfileds();
+
+        $('#Patient').val(null).trigger('change');
+    //    $('#Campus').val(null).trigger('change');
+
+       // getallpatient();
+
+      //  getallDoctor();
+
+            $('.loader').show()
+            $.ajax({
+
+                type: 'GET',
+
+                url: apiurl + 'api/Appointment/getPatientand_campus_and_doctors',
+
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': apiurl
+
+
+                }
+
+
+            }).done(function (res) {
+                $('.loader').hide()
+
+
+             
+                var datap = [];
+
+
+                for (var i = 0; i < res.object.patients.length; i++) {
+                    datap.push({ id: res.object.patients[i].patientID, text: res.object.patients[i].patientName })
+
+                }
+
+                $("#Patient").select2({
+                    placeholder: "Select a Patient",
+                    data: datap
+                });
+                //campus
+
+                var datac = [];
+
+
+                for (var i = 0; i < res.object.campuses.length; i++) {
+                    datac.push({ id: res.object.campuses[i].campusID, text: res.object.campuses[i].campusName })
+
+                }
+
+                $("#Campus").select2({
+                    placeholder: "Select a campus",
+                    data: datac
+                });
+
+
+
+                var html = '';
+
+                $('#Doctor').empty();
+
+
+                html += `<option value="-1">Please Select the Doctor </option>
+`
+                var doctorsarr = res.object.doctors;
+
+
+                $.each(doctorsarr, function (i, val) {
+                    html += `<option value= ` + doctorsarr[i].doctorID + `>` + doctorsarr[i].doctorName + `</option>`
+
+                });
+
+                $('#Doctor').append(html);
+
+
+            })
+                .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+                    console.log("fail");
+                })
+
+
+
+    });
+
+
+
+  function getpatientname(id) {
+
+        clearfileds2();
+
+        const [pid, name] = id.split('-');
+
+      $("#myModal2").modal();
+        var html = `<option value="`+pid+`">` + name + `</option>`;
+
+        $('#Patient2').append(html);
+        getallDoctor2();
+
+
+    }
+
+
+    function doctoredit() {
+        $.ajax({
+
+            type: 'GET',
+          url: apiurl +'api/getallDoctor',
+
+            headers: {
+                'Content-Type': 'application/json',
+              'Access-Control-Allow-Origin': apiurl
+
+
+            }
+
+
+        }).done(function (res) {
+
+
+            var data = JSON.parse(res.object);
+
+            var html = '';
+
+
+
+
+            $.each(data, function (i, val) {
+
+                if (data[i].UserID != editdoctor) {
+                    html += `<option value= ` + data[i].UserID + `>` + data[i].UserName + `</option>`
+
+                }
+
+
+            });
+
+            $('#Doctor3').append(html);
+
+
+        })
+            .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+                console.log("fail");
+            })
+
+    }
+
+
+    function editpateint() {
+        $.ajax({
+
+            type: 'GET',
+          url: apiurl+'api/getallPatient',
+
+            headers: {
+                'Content-Type': 'application/json',
+              'Access-Control-Allow-Origin': apiurl
+
+
+            }
+
+
+        }).done(function (res) {
+
+
+            var data = JSON.parse(res.object);
+
+            var html = '';
+            //$('#Patient3').empty();
+            var a = editpateinted
+
+            $.each(data, function (i, val) {
+
+                if (data[i].Patient_ID != editpateinted) {
+                    html += `<option value= "`+data[i].Patient_ID +`">` + data[i].Patient_Name + `</option>`
+
+                }
+
+
+            });
+
+            $('#Patient3').append(html);
+
+
+        })
+            .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+                console.log("fail");
+            })
+
+    }
+
+
+    function getallDoctor() {
+
+
+
+        $.ajax({
+
+          type: 'GET',
+
+          url: apiurl+'api/getallDoctor',
+
+            headers: {
+                'Content-Type': 'application/json',
+              'Access-Control-Allow-Origin': apiurl
+
+
+            }
+
+
+        }).done(function (res) {
+
+
+            var data = JSON.parse(res.object);
+
+            var html = '';
+
+            $('#Doctor').empty();
+
+
+            html += `<option value="-1">Please Select the Doctor </option>
+`
+
+            $.each(data, function (i, val) {
+                html += `<option value= ` + data[i].UserID + `>` + data[i].UserName + `</option>`
+
+            });
+
+            $('#Doctor').append(html);
+
+
+        })
+            .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+                console.log("fail");
+            })
+
+
+
+    }
+
+
+
+
+
+
+
+
+    function getallDoctor2() {
+
+
+
+        $.ajax({
+
+            type: 'GET',
+          url: apiurl+'api/getallDoctor',
+
+            headers: {
+                'Content-Type': 'application/json',
+              'Access-Control-Allow-Origin': apiurl
+
+
+            }
+
+
+        }).done(function (res) {
+
+
+            var data = JSON.parse(res.object);
+
+            var html = '';
+
+            $('#Doctor').empty();
+
+
+            html += `<option value="-1">Please Select the Doctor </option>
+`
+            $.each(data, function (i, val) {
+                html += `<option value= ` + data[i].UserID + `>` + data[i].UserName + `</option>`
+
+            });
+
+            $('#Doctor2').append(html);
+
+
+        })
+            .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+                console.log("fail");
+            })
+
+
+
+    }
+
+
+    var pid = "";
+    var appointdate = ""
+    var sdate = "";
+    var edate = "";
+    var did = "";
+
+    var pytp = "";
+    var amt = "";
+    var emailpateint = "";
+
+
+    $("#btnApp").click(function () {
+
+
+
+        if ($("#Patient").val() == '-1') {
+            isAllOkay = false;
+            alert('Patient is  Mandatory!');
+            return;
+        }
+
+        if ($("#sdate").val() == '') {
+            isAllOkay = false;
+
+            alert('Start Date is  Mandatory!');
+            return;
+        }
+        if ($("#AppointDate").val() == '') {
+            isAllOkay = false;
+
+            alert('Appointment Date is  Mandatory!');
+            return;
+        }
+        //if ($("#edate").val() == '') {
+        //    isAllOkay = false;
+
+        //    alert('End Date is  Mandatory!');
+        //    return;
+      //    }
+
+
+
+
+
+        if ($("#Doctor").val() == '-1') {
+            isAllOkay = false;
+
+            alert('Doctor is  Mandatory!');
+            return;
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        if ($("#PaymentType").val() == '-1' || $("#PaymentType").val() == null ) {
+            isAllOkay = false;
+
+            alert('PaymentType is  Mandatory!');
+            return;
+        }
+
+
+
+        if ($("#amount").val() == '') {
+            isAllOkay = false;
+
+            alert('Amount is  Mandatory!');
+            return;
+        }
+
+
+
+        //if ($("#Campus").val()=='') {
+        //    isAllOkay = false;
+
+
+        //    swal({
+        //        title: "Campus Name is Required",
+
+        //        icon: "warning",
+        //    });
+        //    return;
+        //}
+
+        createappoinment();
+    });
+
+
+
+
+    $("#btnApp2").click(function () {
+
+        if ($("#Patient2").val() == '-1') {
+            isAllOkay = false;
+            alert('Patient is  Mandatory!');
+            return;
+        }
+
+        if ($("#sdate2").val() == '') {
+            isAllOkay = false;
+
+            alert('Start Date is  Mandatory!');
+            return;
+        }
+        if ($("#AppointDate2").val() == '') {
+            isAllOkay = false;
+
+            alert('Appointment Date is  Mandatory!');
+            return;
+        }
+        //if ($("#edate2").val() == '') {
+        //    isAllOkay = false;
+
+        //    alert('End Date is  Mandatory!');
+        //    return;
+        //}
+
+
+        if ($("#Doctor2").val() == '-1') {
+            isAllOkay = false;
+
+            alert('Doctor is  Mandatory!');
+            return;
+        }
+
+        if ($("#PaymentType2").val() == '-1') {
+            isAllOkay = false;
+
+            alert('PaymentType is  Mandatory!');
+            return;
+        }
+
+        if ($("#amount2").val() == '') {
+            isAllOkay = false;
+
+            alert('Amount is  Mandatory!');
+            return;
+        }
+
+        createappoinment2();
+    });
+
+
+    function clearfileds() {
+
+        $("#Patient").val('');
+        $("#AppointDate").val('');
+        //$("#sdate").val('');
+        $("#edate").val('');
+        $("#Doctor").val('');
+
+        $("#PaymentType").val('');
+        $("#amount").val('');
+        $("#emailpateint").val('');
+        $("#Campus").val('');
+
+        $("#inperson").prop('checked', 'checked');
+        $(".linkclass").hide();
+        $("#link").val('');
+
+    }
+
+
+
+    function clearfileds2() {
+
+        $("#Patient2").val('');
+        $("#AppointDate2").val('');
+        $("#sdate2").val('');
+        $("#edate2").val('');
+        $("#Doctor2").val('');
+
+        $("#PaymentType2").val('');
+        $("#amount2").val('');
+
+    }
+
+
+
+
+
+    function createappoinment() {
+
+
+      clear();
+
+        var btn = $('.has-spinner');
+        $(btn).buttonLoader('start');
+
+        pid = $("#Patient").val();
+        appointdate = $("#AppointDate").val();
+      sdate = $("#sdate").val(); var theAdd = new Date();
+
+
+        if (pid == "") {
+
+            swal({
+                title: "Patient Name is Required",
+
+                icon: "warning",
+            });
+
+            $(btn).buttonLoader('stop');
+            return;
+
+        }
+        var theAdd = new Date(1900, 0, 1, sdate.split(":")[0], sdate.split(":")[1]);
+        debugger;
+
+        if ($("#20mins").prop("checked")) {
+         theAdd.setMinutes(theAdd.getMinutes() + 20);
+        var time = theAdd.getHours() + ":" + theAdd.getMinutes();
+
+        edate = time;
+        }
+      else if ($("#30mins").prop("checked")) {
+            theAdd.setMinutes(theAdd.getMinutes() + 30);
+            var time = theAdd.getHours() + ":" + theAdd.getMinutes();
+
+            edate = time;
+        }
+
+       else if ($("#45mins").prop("checked")) {
+            theAdd.setMinutes(theAdd.getMinutes() + 45);
+            var time = theAdd.getHours() + ":" + theAdd.getMinutes();
+
+            edate = time;
+        }
+
+        else if ($("#1hour").prop("checked")) {
+            theAdd.setMinutes(theAdd.getHours() + 1);
+            var time = theAdd.getHours() + ":" + theAdd.getMinutes();
+
+            edate = time;
+        }
+
+      
+      else {
+
+        alert("time is mandatory")
+        return
+      }
+
+        did = $("#Doctor").val();
+        pytp = $("#PaymentType").val();
+
+        amt = $("#amount").val();
+
+        var campusid = $("#Campus").val();
+
+        var AppType = $("input[name='AppType']:checked").val();
+        var link = $("#link").val();
+
+        $.ajax({
+
+            type: 'POST',
+          url: apiurl+'api/CreateAppoint',
+
+            data: JSON.stringify({
+
+                PatientId: pid,
+
+                Appointment_Data: appointdate,
+                sDate: sdate,
+                eDate: edate,
+                DoctorID: did,
+                PaymentType: pytp,
+
+                Amount: amt,
+                AppointmentStatus: "Not Completed",
+                campusid: campusid,
+                AppType: AppType,
+                link: link
+
+
+
+            }),
+
+            headers: {
+                'Content-Type': 'application/json',
+              'Access-Control-Allow-Origin': apiurl
+
+
+            }
+
+
+        }).done(function (res) {
+
+            if (res.status == "success") {
+
+                alert("Appoinment Created")
+               
+                if (res.object != "No Email") {
+                    
+
+                 sendeamil(res.object, 1);
+
+
+                }
+
+                clearfileds();
+                setTimeout(function () {
+                    $(btn).buttonLoader('stop');
+                }, 3000);
+                window.location.href = '@Url.Action("Dashboard", "Dashboard")';
+
+            }
+
+            else if (res.status =="Appointment Already exists")
+            {
+
+                var d = confirm("Appointment Already exists at this time Do you really appointment  ")
+
+                if (d) {
+                    confirmappoinment();
+                } else {
+
+                $("#myModal").modal('hide');
+                    setTimeout(function () {
+                        $(btn).buttonLoader('stop');
+                    }, 3000);
+                clearfileds();
+                }
+
+
+
+
+            }
+
+            else {
+                alert("error")
+
+
+            }
+
+
+
+
+
+        })
+            .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+                console.log("fail");
+            })
+
+
+
+
+
+    };
+
+
+
+    function confirmappoinment() {
+
+
+        clear();
+
+
+        pid = $("#Patient").val();
+        appointdate = $("#AppointDate").val();
+        sdate = $("#sdate").val();
+
+      var theAdd = new Date();
+
+
+      var theAdd = new Date(1900, 0, 1, sdate.split(":")[0], sdate.split(":")[1]);
+
+
+      if ($("#30mins").prop("checked")) {
+        theAdd.setMinutes(theAdd.getMinutes() + 30);
+        var time = theAdd.getHours() + ":" + theAdd.getMinutes();
+
+        edate = time;
+
+
+      }
+      else if ($("#1hour").prop("checked")) {
+        theAdd.setHours(theAdd.getHours() + 1);
+        var time = theAdd.getHours() + ":" + theAdd.getMinutes();
+
+        edate = time;
+      }
+      else {
+
+        alert("time is mandatory")
+        return
+      }
+
+      did = $("#Doctor").val();
+        pytp = $("#PaymentType").val();
+
+        amt = $("#amount").val();
+
+        var campusid = $("#Campus").val();
+
+        var AppType = $("input[name='AppType']:checked").val();
+        var link = $("#link").val();
+
+
+        $.ajax({
+
+            type: 'POST',
+          url: apiurl+'api/confirmAppoint',
+
+            data: JSON.stringify({
+
+                PatientId: pid,
+
+                Appointment_Data: appointdate,
+                sDate: sdate,
+                eDate: edate,
+                DoctorID: did,
+                PaymentType: pytp,
+
+                Amount: amt,
+                AppointmentStatus: "Not Completed",
+                campusid: campusid,
+                AppType: AppType,
+                link: link
+
+
+
+
+
+            }),
+
+            headers: {
+                'Content-Type': 'application/json',
+              'Access-Control-Allow-Origin': apiurl
+
+
+            }
+
+
+        }).done(function (res) {
+
+            if (res.status == "success") {
+
+                alert("Appoinment Created")
+                setTimeout(function () {
+                    $(btn).buttonLoader('stop');
+                }, 3000);
+                clearfileds();
+                if (res.object != "No Email") {
+
+
+                   sendeamil(res.object, 1);
+
+
+                }
+
+
+                window.location.href = '@Url.Action("Dashboard", "Dashboard")';
+
+            }
+
+            else {
+                alert("error")
+
+
+            }
+
+
+
+
+
+        })
+            .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+                console.log("fail");
+            })
+
+
+
+
+
+    }
+
+
+
+
+
+    function confirmappoinment2() {
+
+
+        clear();
+
+
+        pid = $("#Patient2").val();
+        appointdate = $("#AppointDate2").val();
+      sdate = $("#sdate2").val();
+
+      var theAdd = new Date();
+
+
+      var theAdd = new Date(1900, 0, 1, sdate.split(":")[0], sdate.split(":")[1]);
+
+
+      if ($("#30mins2").prop("checked")) {
+        theAdd.setMinutes(theAdd.getMinutes() + 30);
+        var time = theAdd.getHours() + ":" + theAdd.getMinutes();
+
+        edate = time;
+
+
+      }
+      else if ($("#1hour2").prop("checked")) {
+        theAdd.setHours(theAdd.getHours() + 1);
+        var time = theAdd.getHours() + ":" + theAdd.getMinutes();
+
+        edate = time;
+      }
+      else {
+
+        alert("time is mandatory")
+        return
+      }
+
+ //       edate = $("#edate2").val();
+        did = $("#Doctor2").val();
+        pytp = $("#PaymentType2").val();
+
+        amt = $("#amount2").val();
+
+
+        var campusid = $("#Campus").val();
+
+        var AppType = $("input[name='AppType']:checked").val();
+        var link = $("#link").val();
+
+        $.ajax({
+
+            type: 'POST',
+          url: apiurl+'api/confirmAppoint',
+
+            data: JSON.stringify({
+
+                PatientId: pid,
+
+                Appointment_Data: appointdate,
+                sDate: sdate,
+                eDate: edate,
+                DoctorID: did,
+                PaymentType: pytp,
+
+                Amount: amt,
+                AppointmentStatus: "Not Completed",
+
+                campusid: campusid,
+                AppType: AppType,
+                link: link
+
+
+            }),
+
+            headers: {
+                'Content-Type': 'application/json',
+              'Access-Control-Allow-Origin': apiurl
+
+
+            }
+
+
+        }).done(function (res) {
+
+            if (res.status == "success") {
+
+                alert("Appoinment Created")
+
+                      if (res.object != "No Email") {
+
+
+                    sendeamil(res.object, 1);
+
+
+                }
+
+                clearfileds2();
+                window.location.href = '@Url.Action("Dashboard", "Dashboard")';
+
+            }
+
+            else {
+                alert("error")
+
+
+            }
+
+
+
+
+
+        })
+            .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+                console.log("fail");
+            })
+
+
+
+
+
+    }
+
+
+    function createappoinment2() {
+
+
+        clear();
+
+
+        pid = $("#Patient2").val();
+        appointdate = $("#AppointDate2").val();
+      sdate = $("#sdate2").val();
+      var theAdd = new Date();
+
+
+      var theAdd = new Date(1900, 0, 1, sdate.split(":")[0], sdate.split(":")[1]);
+
+
+      if ($("#30mins2").prop("checked")) {
+        theAdd.setMinutes(theAdd.getMinutes() + 30);
+        var time = theAdd.getHours() + ":" + theAdd.getMinutes();
+
+        edate = time;
+
+
+      }
+      else if ($("#1hour2").prop("checked")) {
+        theAdd.setHours(theAdd.getHours() + 1);
+        var time = theAdd.getHours() + ":" + theAdd.getMinutes();
+
+        edate = time;
+      }
+      else {
+
+        alert("time is mandatory")
+        return
+      }
+
+
+        did = $("#Doctor2").val();
+        pytp = $("#PaymentType2").val();
+
+        amt = $("#amount2").val();
+
+        var campusid = $("#Campus").val();
+
+        var AppType = $("input[name='AppType']:checked").val();
+        var link = $("#link").val();
+
+
+        $.ajax({
+
+            type: 'POST',
+          url: apiurl+'api/CreateAppoint',
+
+            data: JSON.stringify({
+
+                PatientId: pid,
+
+                Appointment_Data: appointdate,
+                sDate: sdate,
+                eDate: edate,
+                DoctorID: did,
+                PaymentType: pytp,
+
+                Amount: amt,
+                AppointmentStatus: "Not Completed",
+
+
+                campusid: campusid,
+                AppType: AppType,
+                link: link
+
+            }),
+
+            headers: {
+                'Content-Type': 'application/json',
+              'Access-Control-Allow-Origin': apiurl
+
+
+            }
+
+
+        }).done(function (res) {
+
+            if (res.status == "success") {
+
+                alert("Appoinment Created")
+
+                if (res.object != "No Email") {
+
+
+                    sendeamil(res.object, 1);
+
+
+                    clearfileds2();
+                    window.location.href = '@Url.Action("Dashboard", "Dashboard")';
+
+
+                }
+
+                else if (res.status == "Appointment Already exists") {
+
+
+                    var d = confirm("Appointment Already exists at this time Do you really appointment  ")
+
+                    if (d) {
+                        confirmappoinment2();
+                    } else {
+
+                        $("#myModal2").modal('hide');
+
+
+
+                        clearfileds2();
+
+                    }
+
+
+
+
+
+                }
+
+                else {
+                    alert("error")
+
+
+                }
+
+
+
+            }
+
+        }).fail(function (XMLHttpRequest, textStatus, errorThrown) {
+                console.log("fail");
+            })
+
+
+
+
+
+    };
+
+    function clear() {
+
+        pid = "";
+        appointdate = "";
+        sdate = "";
+        edate = "";
+        did = "";
+       pytp = "";
+        amt = "";
+        emailpateint=""
+
+
+
+
+
+
+
+    }
+
+    function validateamount(amount) {
+        var maintainplus = '';
+        var numval = amount.value
+        if (numval.charAt(0) == '+') {
+            var maintainplus = '';
+        }
+        curphonevar = numval.replace(/[\\A-Za-z!"£$%^&\,*+_={};:'@@#~,.Š\/<>?|`¬\]\[]/g, '');
+        amount.value = maintainplus + curphonevar;
+        var maintainplus = '';
+        amount.focus;
+    }
+
+
+
+
+
+
+
+
+
+    /////
+
+
+    function clearfileds3() {
+
+        $("#appointid").val('');
+        $("#Patient3").val('');
+        $("#AppointDate3").val('');
+        $("#sdate3").val('');
+        //$("#edate3").val('');
+        $("#Doctor3").val('');
+
+        $("#PaymentType3").val('');
+        $("#amount3").val('');
+        $("#Campus3").val('');
+
+        $("#inperson3").prop('checked', 'checked');
+        $(".linkclass").hide();
+        $("#link3").val('');
+
+
+    }
+
+
+
+
+
+
+    $(document).on("click", "#Editbutton", function () {
+
+        if ($("#Patient3").val() == '-1') {
+            isAllOkay = false;
+            alert('Patient is  Mandatory!');
+            return;
+        }
+
+        if ($("#sdate3").val() == '') {
+            isAllOkay = false;
+
+            alert('Start Date is  Mandatory!');
+            return;
+        }
+        if ($("#AppointDate3").val() == '') {
+            isAllOkay = false;
+
+            alert('Appointment Date is  Mandatory!');
+            return;
+        }
+        //if ($("#edate3").val() == '') {
+        //    isAllOkay = false;
+
+        //    alert('End Date is  Mandatory!');
+        //    return;
+        //}
+
+
+        if ($("#Doctor3").val() == '-1') {
+            isAllOkay = false;
+
+            alert('Doctor is  Mandatory!');
+            return;
+        }
+
+
+
+
+        if ($("#PaymentType3").val() == '-1') {
+            isAllOkay = false;
+
+            alert('PaymentType is  Mandatory!');
+            return;
+        }
+
+
+
+        if ($("#amount3").val() == '') {
+            isAllOkay = false;
+
+            alert('Amount is  Mandatory!');
+            return;
+        }
+
+
+        //if ($("#Campus3").val() == '') {
+        //    isAllOkay = false;
+
+        //    alert('Campus is  Mandatory!');
+        //    return;
+        //}
+
+
+
+
+
+
+        Editappoinment();
+    });
+
+
+
+
+
+    function Editappoinment() {
+
+
+        clear();
+
+
+        pid = $("#Patient3").val();
+        appointdate = $("#AppointDate3").val();
+        sdate = $("#sdate3").val();
+      var theAdd = new Date();
+
+
+      var theAdd = new Date(1900, 0, 1, sdate.split(":")[0], sdate.split(":")[1]);
+
+
+
+      if ($("#20mins3").prop("checked")) {
+        theAdd.setMinutes(theAdd.getMinutes() + 20);
+        var time = theAdd.getHours() + ":" + theAdd.getMinutes();
+
+        edate = time+":"+"00";
+        } 
+
+      else if ($("#30mins3").prop("checked")) {
+
+          theAdd.setHours(theAdd.getHours() + 30);
+          var time = theAdd.getHours() + ":" + theAdd.getMinutes();
+
+          edate = time;
+      }
+
+      else if ($("#45mins3").prop("checked")) {
+
+          theAdd.setHours(theAdd.getHours() + 45);
+          var time = theAdd.getHours() + ":" + theAdd.getMinutes();
+
+          edate = time;
+      }
+
+      else if ($("#1hour3").prop("checked")) {
+        theAdd.setHours(theAdd.getHours() + 1);
+        var time = theAdd.getHours() + ":" + theAdd.getMinutes();
+
+        edate = time;
+      }
+      else {
+
+        alert("time is mandatory")
+        return
+      }
+
+      //  edate = $("#edate3").val();
+        did = $("#Doctor3").val();
+        pytp = $("#PaymentType3").val();
+
+        amt = $("#amount3").val();
+        var email = $("#appointid").val();
+        if (email == "undefined"|| email == null) {
+
+            email = "";
+        }
+
+        var campusid = $("#Campus3").val();
+
+        var AppType = $("input[name='AppType3']:checked").val();
+        var link = $("#link3").val();
+
+
+
+        $.ajax({
+
+            type: 'POST',
+          url: apiurl+'api/EditAppoint',
+
+            data: JSON.stringify({
+
+                PatientId: pid,
+
+                Appointment_Data: appointdate,
+                sDate: sdate,
+                eDate: edate,
+                DoctorID: did,
+                PaymentType: pytp,
+
+                Amount: amt,
+                AppointmentID: $("#appointid").val(),
+
+                AppointmentStatus: "Not Completed",
+                Pateint_Email: email,
+                campusid: campusid,
+                AppType: AppType,
+                link: link
+
+
+            }),
+
+            headers: {
+                'Content-Type': 'application/json',
+              'Access-Control-Allow-Origin': apiurl
+
+
+            }
+
+
+        }).done(function (res) {
+
+            if (res.status == "success") {
+
+                alert("Appoinment updated")
+                clearfileds3();
+                window.location.href = '@Url.Action("Dashboard", "Dashboard")';
+
+
+            }
+
+            else if (res.status == "Appointment Already exists")
+            {
+
+
+                var d = confirm("Appointment Already exists at this time Do you really appointment  ")
+
+                if (d) {
+                    EditConfimAppointment();
+                } else {
+
+                    $("#myModal3").modal('hide');
+
+
+
+                    clearfileds3();
+
+                }
+
+
+
+
+
+            }
+
+            else {
+                alert("error")
+
+
+            }
+
+
+
+
+
+        })
+            .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+                console.log("fail");
+            })
+
+
+
+
+
+    };
+
+
+
+
+
+    function EditConfimAppointment() {
+
+
+        clear();
+
+
+
+        pid = $("#Patient3").val();
+        appointdate = $("#AppointDate3").val();
+        sdate = $("#sdate3").val();
+      //  edate = $("#edate3").val();
+
+      var theAdd = new Date(1900, 0, 1, sdate.split(":")[0], sdate.split(":")[1]);
+
+      if ($("#30mins3").prop("checked")) {
+        theAdd.setMinutes(theAdd.getMinutes() + 30);
+        var time = theAdd.getHours() + ":" + theAdd.getMinutes();
+
+        edate = time;
+
+
+      }
+      else if ($("#1hour3").prop("checked")) {
+        theAdd.setHours(theAdd.getHours() + 1);
+        var time = theAdd.getHours() + ":" + theAdd.getMinutes();
+
+        edate = time;
+      }
+      else {
+
+        alert("time is mandatory")
+        return
+      }
+
+      did = $("#Doctor3").val();
+        pytp = $("#PaymentType3").val();
+
+        amt = $("#amount3").val();
+        var campusid = $("#Campus3").val();
+
+        var AppType = $("input[name='AppType3']:checked").val();
+        var link = $("#link3").val();
+
+
+        $.ajax({
+
+            type: 'POST',
+          url: apiurl+'api/ConfirmEditAppoint',
+
+            data: JSON.stringify({
+
+                PatientId: pid,
+
+                Appointment_Data: appointdate,
+                sDate: sdate,
+                eDate: edate,
+                DoctorID: did,
+                PaymentType: pytp,
+
+                Amount: amt,
+                AppointmentID: $("#appointid").val(),
+
+                AppointmentStatus: "Not Completed",
+
+                campusid: campusid,
+                AppType: AppType,
+                link: link
+
+
+            }),
+
+            headers: {
+                'Content-Type': 'application/json',
+              'Access-Control-Allow-Origin': apiurl
+
+
+            }
+
+
+        }).done(function (res) {
+
+            if (res.status == "success") {
+
+                alert("Appoinment updated")
+                clearfileds3();
+                window.location.href = '@Url.Action("Dashboard", "Dashboard")';
+
+            }
+
+            else {
+                alert("error")
+
+
+            }
+
+
+
+
+
+        })
+            .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+                console.log("fail");
+            })
+
+
+
+
+
+    }
+
+
+    function CancledAppointment(ID) {
+
+        var btn = $('.has-spinner');
+        $(btn).buttonLoader('start');
+
+
+            $.ajax({
+
+                type: 'GET',
+              url: apiurl+'api/DeleteAppointment',
+                data: {
+
+
+
+
+                    id: ID
+                },
+                headers: {
+                    'Content-Type': 'application/json',
+                  'Access-Control-Allow-Origin': apiurl,
+                    'Authorization': 'Bearer  @Request.Cookies["Token"]'
+
+                }
+
+
+            }).done(function (res) {
+
+                if (res.status == 'success') {
+
+                    alert('Cancel');
+                    setTimeout(function () {
+                        $(btn).buttonLoader('stop');
+                    }, 3000);
+
+                    window.location.href = '@Url.Action("Dashboard", "Dashboard")';
+
+                }
+                else {
+                    alert(res.message);
+
+                }
+
+
+            })
+                .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+
+
+                    if (XMLHttpRequest.status==403) {
+                        window.location.href = '~/Account/Login'
+                    }
+
+                    if (XMLHttpRequest.status == 401) {
+                        window.location.href = '/Account/Login'
+                    }
+
+                    console.log("fail");
+
+
+                })
+
+    }
+
+
+
+
+  function getallAppoinmentsbydoctorid(id) {
+
+    var date = new Date()
+    var d = date.getDate(),
+      m = date.getMonth(),
+      y = date.getFullYear()
+
+    var Calendar = FullCalendar.Calendar;
+    var Draggable = FullCalendar.Draggable;
+
+    var containerEl = document.getElementById('external-events');
+    var checkbox = document.getElementById('drop-remove');
+    var calendarEl = document.getElementById('calendar');
+
+
+    $('#imgeloder').show();
+    $.ajax({
+      type: 'get',
+
+      url: apiurl + 'api/getAppointmentbyDoctorID',
+      data: {
+
+        id: id
+      },
+
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': apiurl,
+
+
+      }
+
+
+    })
+
+
+
+
+
+
+      .done(function (res) {
+
+
+        if (res.status == "success") {
+
+
+
+          var eventsArray = [];
+
+          var data = $.parseJSON(res.object);
+
+            $.each(data, function (i, val) {
+
+
+                var h = data[i].Appointment_Data;
+
+            var sd = data[i].StartDate;
+            var s = h + "T" + sd;
+            var e = h + "T" + data[i].EndDate
+
+            var pateintID = data[i].u[0].p[0].Patient_ID
+
+            eventsArray.push({
+              title: data[i].u[0].p[0].Patient_Name,
+
+              start: new Date(s),
+              end: new Date(e),
+              moredata: {
+                pateintname: data[i].u[0].p[0].Patient_Name,
+                pateintemail: data[i].u[0].p[0].Patient_Email,
+                pateintid: pateintID,
+                doctorname: data[i].u[0].UserName,
+                doctorid: data[i].u[0].UserID,
+                starttime: sd,
+                  AppointmentDate: h,
+                endtime: data[i].EndDate,
+
+                paymenttype: data[i].PaymentType,
+                amoun: data[i].Amount,
+                appointid: data[i].AppointID
+                ,
+                complete: data[i].AppointmentStatus
+
+
+
+
+              },
+              //url: '/Patient/PatientDetails?id=' + pateintID + '&appointmentdate=' + h + '',
+              backgroundColor: '#3c8dbc', //Primary (light-blue)
+              borderColor: '#3c8dbc' //Primary (light-blue)
+
+            })
+
+
+            var calendar = new Calendar(calendarEl, {
+
+              headerToolbar: {
+                left: 'prev,next today',
+                center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+              },
+              themeSystem: 'bootstrap',
+              //Random default events
+
+              events: eventsArray,
+
+
+              eventClick: function (event, jsEvent, view) {  //This is the editing function
+                console.log(event);
+                var fields = event;
+
+                $('#editmodal').empty();
+
+
+                $('#myModal3').modal('show');
+
+
+                editpateinted = fields.event._def.extendedProps.moredata.pateintid;
+
+                editdoctor = fields.event._def.extendedProps.moredata.doctorid;
+
+                var seditdate = fields.event._def.extendedProps.moredata.starttime;
+
+                var eeditdate = fields.event._def.extendedProps.moredata.endtime;
+
+                var theAdd1 = new Date(1900, 0, 1, seditdate.split(":")[0], seditdate.split(":")[1]);
+
+                var theAdd2 = new Date(1900, 0, 1, eeditdate.split(":")[0], eeditdate.split(":")[1]);
+
+                var diff = Math.abs(theAdd1.getMinutes() - theAdd2.getMinutes());
+
+                var modal = `<form>
+
+
+
+                    <div class="form-group">
+
+<input type="hidden"  id="appointid" value="`+ fields.event._def.extendedProps.moredata.appointid + `"/>
+
+<input type="hidden" id="pateintemailsend" value="`+ fields.event._def.extendedProps.moredata.pateintemail + `"/>
+
+                        <label for="Pateint"><span class="req">* </span> Patient Name: </label>
+                        <select class="form-control" id="Patient3">
+<option value="`+ fields.event._def.extendedProps.moredata.pateintid + `" >` + fields.event._def.extendedProps.moredata.pateintname + `</option>
+                        </select>
+
+                    </div>
+
+
+
+
+                    <div class="form-group">
+                        <label for="EDate"><span class="req">* </span>  Appointment Date </label>
+                        <input type="text" class="form-control date" id="AppointDate3" value="`+ dates+ `" />
+
+                    </div>
+
+                    <div class="form-group">
+                        <label for="SDate"><span class="req">* </span>  Start Time </label>
+                        <input type="time" min="00:00" max="23:59" class="form-control" id="sdate3" value="`+ fields.event._def.extendedProps.moredata.starttime + `" />
+
+                    </div>
+`;
+
+
+                if (diff == 30) {
+
+                  modal += `    <div class="form-group">
+
+                      <label for="EDate"><span class="req">* </span>  Time Duration </label>
+                      <br />
+                      <label class="radio-inline">
+                        <input type="radio" name="optradio" id="30mins3" checked="checked"> 30 mins
+            </label>
+                        <label class="radio-inline">
+                          <input type="radio" name="optradio" id="1hour3"> 1 hour
+            </label>
+          </div>`;
+                }
+                else {
+
+
+                  modal += `        <div class="form-group">
+
+                            <label for="EDate"><span class="req">* </span>  Time Duration </label>
+                            <br />
+                            <label class="radio-inline">
+                              <input type="radio" name="optradio" id="30mins3" > 30 mins
+            </label>
+                              <label class="radio-inline">
+                                <input type="radio" name="optradio" id="1hour3" checked="checked"> 1 hour
+            </label>
+          </div> `;
+                }
+
+
+
+
+
+
+                modal += `
+                    <div class="form-group">
+                        <label for="Doctor"><span class="req">* </span> Doctor Name: </label>
+                        <select class="form-control" id="Doctor3">
+<option value="`+ fields.event._def.extendedProps.moredata.doctorid + `" >` + fields.event._def.extendedProps.moredata.doctorname + `</option>
+                        </select>
+
+                    </div>
+
+
+
+                    <div class="form-group">
+                        <label for="PaymentType"><span class="req">* </span>Payment Type: </label>
+                        <select class="form-control" id="PaymentType3">
+
+
+
+                            <option value="`+ fields.event._def.extendedProps.moredata.paymenttype + `">` + fields.event._def.extendedProps.moredata.paymenttype + `</option>`;
+
+
+                if (fields.event._def.extendedProps.moredata.paymenttype == "Cash") {
+                  modal += `<option value="Credit Card">Credit Card </option>
+                                            <option value="Account">Account </option>`;
+
+                }
+                else if (fields.event._def.extendedProps.moredata.paymenttype == "Credit Card") {
+                  modal += ` <option value="Cash"> Cash</option >
+
+                                            <option value="Account">Account </option>`;
+
+
+
+                }
+                else if (fields.event._def.extendedProps.moredata.paymenttype == "Account") {
+
+                  modal += `<option value="Cash"> Cash</option>
+                                            <option value="Credit Card">Credit Card </option>`;
+
+                }
+
+                else {
+                  modal += `
+                                                   <option value="Account">Account </option>
+                                                 <option value = "Cash"> Cash</option>
+                                            <option value="Credit Card">Credit Card </option>`;
+
+                }
+
+
+
+
+
+
+                modal += `</select>
+
+                    </div>
+
+
+
+                    <div class="form-group">
+                        <label for="Amount"><span class="req">* </span>Enter the Amount : </label>
+                        <input type="text" class="form-control" id="amount3" value="`+ fields.event._def.extendedProps.moredata.amoun + `" onkeyup="validateamount(this);" placeholder="enter the amount" />
+
+                    </div>
+
+
+
+
+
+                    <button type="button" class="btn btn-success" id="Editbutton">save</button>
+
+                    <button type="button" class="btn btn-success" onclick="Completed(`+ fields.event._def.extendedProps.moredata.appointid, editpateinted + `)" >Complete</button>
+
+
+
+    <a  class="btn btn-success" href="/Appointment/AppointmentDetails?id=`+ fields.event._def.extendedProps.moredata.pateintid + `&ApppointmentID=` + fields.event._def.extendedProps.moredata.appointid + ` " >View Details</a>
+
+
+                    <button type="button" class="btn btn-success has-spinner"  onclick="CancledAppointment(`+ fields.event._def.extendedProps.moredata.appointid + `)">Cancled</button>
+
+
+
+                </form>
+
+`;
+
+
+
+
+                $("#editmodal").append(modal);
+
+
+                //editpateint();
+                doctoredit();
+              },
+              editable: false,
+              droppable: true, // this allows things to be dropped onto the calendar !!!
+
+              drop: function (info) {
+
+                // is the "remove after drop" checkbox checked?
+                if (checkbox.checked) {
+                  // if so, remove the element from the "Draggable Events" list
+                  info.draggedEl.parentNode.removeChild(info.draggedEl);
+                }
+              }
+            });
+
+
+            calendar.render();
+
+            $('#imgeloder').hide();
+
+
+          })
+
+        }
+
+        else {
+
+          var calendar = new Calendar(calendarEl, {
+
+            headerToolbar: {
+              left: 'prev,next today',
+              center: 'title',
+              right: 'dayGridMonth,timeGridWeek,timeGridDay'
+            },
+            themeSystem: 'bootstrap',
+            //Random default events
+
+            events: [
+              {
+                title: 'No Appointment',
+                start: new Date(y, m, d, 10, 30),
+                allDay: false,
+                backgroundColor: '#0073b7', //Blue
+                borderColor: '#0073b7' //Blue
+              }
+
+
+            ],
+
+
+
+            editable: false,
+            droppable: true, // this allows things to be dropped onto the calendar !!!
+            drop: function (info) {
+              // is the "remove after drop" checkbox checked?
+              if (checkbox.checked) {
+                // if so, remove the element from the "Draggable Events" list
+                info.draggedEl.parentNode.removeChild(info.draggedEl);
+              }
+            }
+          });
+
+
+          calendar.render();
+
+          $('#imgeloder').hide();
+
+
+
+        }
+
+      })
+      .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+        console.log("fail");
+      })
+
+
+  }
+  function getallAppoinmentsbyPateint (id) {
+
+    var date = new Date()
+    var d = date.getDate(),
+      m = date.getMonth(),
+      y = date.getFullYear()
+
+    var Calendar = FullCalendar.Calendar;
+    var Draggable = FullCalendar.Draggable;
+
+    var containerEl = document.getElementById('external-events');
+    var checkbox = document.getElementById('drop-remove');
+    var calendarEl = document.getElementById('calendar');
+
+
+    $('#imgeloder').show();
+    $.ajax({
+      type: 'get',
+
+      url: apiurl + 'api/getAppointmentbyPateintID',
+      data: {
+
+        id: id
+      },
+
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': apiurl,
+
+
+      }
+
+
+    })
+
+
+
+
+
+
+      .done(function (res) {
+
+
+        if (res.status == "success") {
+
+
+
+          var eventsArray = [];
+
+          var data = $.parseJSON(res.object);
+
+          $.each(data, function (i, val) {
+            var h = data[i].Appointment_Data;
+
+            var sd = data[i].StartDate;
+            var s = h + "T" + sd;
+            var e = h + "T" + data[i].EndDate
+
+            var pateintID = data[i].u[0].p[0].Patient_ID
+
+
+            eventsArray.push({
+              title: data[i].u[0].p[0].Patient_Name,
+
+              start: new Date(s),
+              end: new Date(e),
+              moredata: {
+                pateintname: data[i].u[0].p[0].Patient_Name,
+                pateintemail: data[i].u[0].p[0].Patient_Email,
+                pateintid: pateintID,
+                doctorname: data[i].u[0].UserName,
+                doctorid: data[i].u[0].UserID,
+                starttime: sd,
+                AppointmentDate: h,
+                endtime: data[i].EndDate,
+
+                paymenttype: data[i].PaymentType,
+                amoun: data[i].Amount,
+                appointid: data[i].AppointID
+                ,
+                complete: data[i].AppointmentStatus
+
+
+
+
+              },
+              //url: '/Patient/PatientDetails?id=' + pateintID + '&appointmentdate=' + h + '',
+              backgroundColor: '#3c8dbc', //Primary (light-blue)
+              borderColor: '#3c8dbc' //Primary (light-blue)
+
+            })
+
+
+            var calendar = new Calendar(calendarEl, {
+
+              headerToolbar: {
+                left: 'prev,next today',
+                center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+              },
+              themeSystem: 'bootstrap',
+              //Random default events
+
+              events: eventsArray,
+
+
+              eventClick: function (event, jsEvent, view) {  //This is the editing function
+                console.log(event);
+                var fields = event;
+
+                $('#editmodal').empty();
+
+
+                $('#myModal3').modal('show');
+
+
+                editpateinted = fields.event._def.extendedProps.moredata.pateintid;
+
+                editdoctor = fields.event._def.extendedProps.moredata.doctorid;
+
+                var seditdate = fields.event._def.extendedProps.moredata.starttime;
+
+                var eeditdate = fields.event._def.extendedProps.moredata.endtime;
+
+                var theAdd1 = new Date(1900, 0, 1, seditdate.split(":")[0], seditdate.split(":")[1]);
+
+                var theAdd2 = new Date(1900, 0, 1, eeditdate.split(":")[0], eeditdate.split(":")[1]);
+
+                var diff = Math.abs(theAdd1.getMinutes() - theAdd2.getMinutes());
+
+                var modal = `<form>
+
+                            <div class="form-group">
+                            
+                            <input type="hidden"  id="appointid" value="`+ fields.event._def.extendedProps.moredata.appointid + `"/>
+                            
+                            <input type="hidden" id="pateintemailsend" value="`+ fields.event._def.extendedProps.moredata.pateintemail + `"/>
+                            
+                             <label for="Pateint"><span class="req">* </span> Patient Name: </label>
+                             <select class="form-control" id="Patient3">
+                            <option value="`+ fields.event._def.extendedProps.moredata.pateintid + `" >` + fields.event._def.extendedProps.moredata.pateintname + `</option>
+                        </select>
+
+                    </div>
+
+ 
+
+
+                    <div class="form-group">
+                        <label for="EDate"><span class="req">* </span>  Appointment Date </label>
+                        <input type="date" class="form-control" id="AppointDate3" value="`+ fields.event._def.extendedProps.moredata.AppointmentDate + `" />
+
+                    </div>
+
+                    <div class="form-group">
+                        <label for="SDate"><span class="req">* </span>  Start Time </label>
+                        <input type="time" min="00:00" max="23:59" class="form-control" id="sdate3" value="`+ fields.event._def.extendedProps.moredata.starttime + `" />
+
+                    </div>
+
+
+
+`;
+
+
+                if (diff == 30) {
+
+                  modal += `    <div class="form-group">
+
+                      <label for="EDate"><span class="req">* </span>  Time Duration </label>
+                      <br />
+                      <label class="radio-inline">
+                        <input type="radio" name="optradio" id="30mins3" checked="checked"> 30 mins
+            </label>
+                        <label class="radio-inline">
+                          <input type="radio" name="optradio" id="1hour3"> 1 hour
+            </label>
+          </div>`;
+                }
+                else {
+
+
+                  modal += `        <div class="form-group">
+
+                            <label for="EDate"><span class="req">* </span>  Time Duration </label>
+                            <br />
+                            <label class="radio-inline">
+                              <input type="radio" name="optradio" id="30mins3" > 30 mins
+            </label>
+                              <label class="radio-inline">
+                                <input type="radio" name="optradio" id="1hour3" checked="checked"> 1 hour
+            </label>
+          </div> `;
+                }
+
+
+
+
+
+
+                modal += ` <div class="form-group">
+                        <label for="Doctor"><span class="req">* </span> Doctor Name: </label>
+                        <select class="form-control" id="Doctor3">
+<option value="`+ fields.event._def.extendedProps.moredata.doctorid + `" >` + fields.event._def.extendedProps.moredata.doctorname + `</option>
+                        </select>
+
+                    </div>
+
+
+
+                    <div class="form-group">
+                        <label for="PaymentType"><span class="req">* </span>Payment Type: </label>
+                        <select class="form-control" id="PaymentType3">
+
+
+
+                            <option value="`+ fields.event._def.extendedProps.moredata.paymenttype + `">` + fields.event._def.extendedProps.moredata.paymenttype + `</option>`;
+
+
+                if (fields.event._def.extendedProps.moredata.paymenttype == "Cash") {
+                  modal += `<option value="Credit Card">Credit Card </option>
+                                            <option value="Account">Account </option>`;
+
+                }
+                else if (fields.event._def.extendedProps.moredata.paymenttype == "Credit Card") {
+                  modal += ` <option value="Cash"> Cash</option >
+
+                                            <option value="Account">Account </option>`;
+
+
+
+                }
+                else if (fields.event._def.extendedProps.moredata.paymenttype == "Account") {
+
+                  modal += `<option value="Cash"> Cash</option>
+                                            <option value="Credit Card">Credit Card </option>`;
+
+                }
+
+                else {
+                  modal += `
+                                                   <option value="Account">Account </option>
+                                                 <option value = "Cash"> Cash</option>
+                                            <option value="Credit Card">Credit Card </option>`;
+
+                }
+
+
+
+
+
+
+                modal += `</select>
+
+                    </div>
+
+
+
+                    <div class="form-group">
+                        <label for="Amount"><span class="req">* </span>Enter the Amount : </label>
+                        <input type="text" class="form-control" id="amount3" value="`+ fields.event._def.extendedProps.moredata.amoun + `" onkeyup="validateamount(this);" placeholder="enter the amount" />
+
+                    </div>
+
+
+
+
+
+                    <button type="button" class="btn btn-success" id="Editbutton">save</button>
+
+                    <button type="button" class="btn btn-success" onclick="Completed(`+ fields.event._def.extendedProps.moredata.appointid + `)" >Complete</button>
+
+
+
+    <a  class="btn btn-success" href="/Appointment/AppointmentDetails?id=`+ fields.event._def.extendedProps.moredata.pateintid + `&ApppointmentID=` + fields.event._def.extendedProps.moredata.appointid + ` " >View Details</a>
+
+
+                    <button type="button" class="btn btn-success has-spinner"  onclick="CancledAppointment(`+ fields.event._def.extendedProps.moredata.appointid + `)">Cancled</button>
+
+
+
+                </form>
+
+`;
+
+
+
+
+                $("#editmodal").append(modal);
+
+
+                //editpateint();
+                doctoredit();
+              },
+              editable: false,
+              droppable: true, // this allows things to be dropped onto the calendar !!!
+
+              drop: function (info) {
+
+                // is the "remove after drop" checkbox checked?
+                if (checkbox.checked) {
+                  // if so, remove the element from the "Draggable Events" list
+                  info.draggedEl.parentNode.removeChild(info.draggedEl);
+                }
+              }
+            });
+
+
+            calendar.render();
+
+            $('#imgeloder').hide();
+
+
+          })
+
+        }
+
+        else {
+
+          var calendar = new Calendar(calendarEl, {
+
+            headerToolbar: {
+              left: 'prev,next today',
+              center: 'title',
+                  right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+            },
+            themeSystem: 'bootstrap',
+            //Random default events
+
+            events: [
+              {
+                title: 'No Appointment',
+                start: new Date(y, m, d, 10, 30),
+                allDay: false,
+                backgroundColor: '#0073b7', //Blue
+                borderColor: '#0073b7' //Blue
+              }
+
+
+            ],
+
+
+
+            editable: false,
+            droppable: true, // this allows things to be dropped onto the calendar !!!
+            drop: function (info) {
+              // is the "remove after drop" checkbox checked?
+              if (checkbox.checked) {
+                // if so, remove the element from the "Draggable Events" list
+                info.draggedEl.parentNode.removeChild(info.draggedEl);
+              }
+            }
+          });
+
+
+          calendar.render();
+
+          $('#imgeloder').hide();
+
+
+
+        }
+
+      })
+      .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+        console.log("fail");
+      })
+  }
+
+
+    function Completed(ID,Pid) {
+
+        debugger;
+
+        window.location.href = "/Dashboard/AmountPayble?Appid=" + ID + "&Pid=" + Pid;
+
+
+
+            @*$.ajax({
+
+                type: 'GET',
+              url: apiurl+'api/CompleteAppointment',
+                data: {
+
+
+
+
+                    id: ID
+                },
+                headers: {
+                    'Content-Type': 'application/json',
+                  'Access-Control-Allow-Origin': apiurl,
+                    'Authorization': 'Bearer  @Request.Cookies["Token"]'
+
+                }
+
+
+            }).done(function (res) {
+
+                if (res.status == 'success') {
+
+
+
+
+                    window.location.href = '@Url.Action("Dashboard", "Dashboard")';
+
+                }
+                else {
+                    alert(res.message);
+
+                }
+
+
+            })
+                .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+
+
+                    if (XMLHttpRequest.status==403) {
+                        window.location.href = '~/Account/Login'
+                    }
+
+                    if (XMLHttpRequest.status == 401) {
+                        window.location.href = '/Account/Login'
+                    }
+
+                    console.log("fail");
+
+
+                })*@
+
+    }
+
+
+
+
+
+    function DidNotAttempt(ID) {
+
+
+
+            $.ajax({
+
+                type: 'GET',
+                url: apiurl +'api/Appointment/DidNotAttempt',
+                data: {
+
+
+
+
+                    id: ID
+                },
+                headers: {
+                    'Content-Type': 'application/json',
+                  'Access-Control-Allow-Origin': apiurl,
+                    'Authorization': 'Bearer  @Request.Cookies["Token"]'
+
+                }
+
+
+            }).done(function (res) {
+
+                if (res.status == 'success') {
+
+
+
+
+                    window.location.href = '@Url.Action("Dashboard", "Dashboard")';
+
+                }
+                else {
+                    alert(res.message);
+
+                }
+
+
+            })
+                .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+
+
+                    if (XMLHttpRequest.status==403) {
+                        window.location.href = '~/Account/Login'
+                    }
+
+                    if (XMLHttpRequest.status == 401) {
+                        window.location.href = '/Account/Login'
+                    }
+
+                    console.log("fail");
+
+
+                })
+
+    }
+
+
+
+
+
+
+    var id = localStorage.getItem('userID');
+   
+  var apiurl = "@System.Configuration.ConfigurationManager.AppSettings["url"]";
+
+    @Request.Cookies["userID"].Value.ToString()
+     function getstatus() {
+
+
+
+
+            $.ajax({
+
+              type: 'GET',
+
+              url: apiurl + 'api/ClinicStatus',
+              data:{
+                id: id
+
+            },
+                headers: {
+                    'Content-Type': 'application/json',
+
+                  'Access-Control-Allow-Origin': apiurl,
+                    'Authorization': 'Bearer  @Request.Cookies["Token"]'
+
+                }
+
+
+            }).done(function (res) {
+
+              if (res.status == 'success') {
+
+
+                $("#tp").empty();
+                if (res.object.totalPateint == "") {
+
+                  $("#tp").append("0");
+                }
+                else {
+                  $("#tp").append(res.object.totalPateint);
+
+                }
+
+                $("#ms").empty();
+
+                if (res.object.monthlySales == "") {
+                  $("#ms").append("0");
+
+                }
+                else {
+                  $("#ms").append(res.object.monthlySales);
+                }
+
+                $("#tc").empty();
+
+                if (res.object.totalCash == "") {
+
+                  $("#tc").append("0");
+                }
+                else {
+                  $("#tc").append(res.object.totalCash);
+
+
+                }
+
+
+                $("#ad").empty();
+                if (res.object.appointmentsDue == "") {
+                  $("#ad").append("0");
+                }
+                else {
+                  $("#ad").append(res.object.appointmentsDue);
+
+                }
+
+
+
+                $("#tss").empty();
+
+                if (res.object.todaySales == "") {
+                  $("#tss").append("0");
+                }
+                else {
+                  $("#tss").append(res.object.todaySales);
+                }
+
+
+
+
+                }
+                else {
+                    alert(res.message);
+
+                }
+
+
+            })
+                .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+
+                    if (XMLHttpRequest.status==403) {
+                        window.location.href = '~/Account/Login'
+                    }
+
+                    if (XMLHttpRequest.status == 401) {
+                        window.location.href = '/Account/Login'
+                    }
+
+                    console.log("fail");
+
+
+                })
+
+
+
+
+
+    }
+
+
+    $("#Generate").click(function () {
+
+
+
+
+        if ($("#fromDate").val()=="") {
+            swal({
+                title: "warning",
+                text: "Start Date is Required",
+                icon: "warning",
+
+                dangerMode: true,
+            })
+            return;
+
+        }
+
+        if ($("#toDate").val()== "") {
+            swal({
+                title: "warning",
+                text: "End Date is Required",
+                icon: "warning",
+
+                dangerMode: true,
+            })
+            return;
+
+        }
+
+        if ($("#doctordropdwon").val()== "") {
+            swal({
+                title: "warning",
+                text: "One Doctor is Required",
+                icon: "warning",
+
+                dangerMode: true,
+            })
+            return;
+
+        }
+
+        var startdate = $("#fromDate").val();
+
+        var enddate = $("#toDate").val();
+
+        var ids = $("#doctordropdwon").val();
+
+        var doctorids = "";
+
+
+        doctorids = ids.join(',');
+
+
+            $.ajax({
+
+              type: 'POST',
+
+                url: apiurl+'api/Appointment/GenerateReport',
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                data:JSON.stringify({
+                    startdate:startdate,
+                    enddate:enddate,
+                    ids: doctorids
+                })
+
+
+
+            }).done(function (res) {
+
+
+                if (res.status == 'success') {
+
+                    $("#doctordropdwon").val('default').selectpicker('refresh');
+                    $('#fromDate').val('');
+                    $('#toDate').val('');;
+                    window.location.href = apiurl+res.object
+
+                }
+
+            })
+                .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+
+                    if (XMLHttpRequest.status==403) {
+                        window.location.href = '~/Account/Login'
+                    }
+
+                    if (XMLHttpRequest.status == 401) {
+                        window.location.href = '/Account/Login'
+                    }
+
+                    console.log("fail");
+
+
+                })
+
+
+
+
+
+
+    });
+
+    $("#serachAppointmentsbydoctors").click(function () {
+
+        var dotorid = $("#doctordropdwonsearchforApp").val();
+
+        if ($("#doctordropdwonsearchforApp").val() != null) {
+
+     
+
+        $('#imgeloder').show();
+        $.ajax({
+            type: 'get',
+
+            url: apiurl + 'api/Appointment/getAppointmentsbyuserid?userid=' + dotorid,
+
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': apiurl,
+
+
+            }
+
+
+        })
+
+
+
+
+
+
+            .done(function (res) {
+
+
+                if (res.status == "success") {
+                    if (res.object.length > 0) {
+
+
+
+
+                        var eventsArray = [];
+
+                        var data = $.parseJSON(res.object);
+
+                        $.each(data, function (i, val) {
+                            var h = data[i].Appointment_Data;
+
+                            var sd = data[i].StartDate;
+                            var s = h + "T" + sd;
+                            var e = h + "T" + data[i].EndDate
+
+                            var pateintID = data[i].u[0].p[0].Patient_ID
+
+
+                            eventsArray.push({
+                                title: data[i].u[0].p[0].Patient_Name,
+
+                                start: new Date(s),
+                                end: new Date(e),
+                                moredata: {
+                                    pateintname: data[i].u[0].p[0].Patient_Name,
+                                    pateintemail: data[i].u[0].p[0].Patient_Email,
+                                    pateintid: pateintID,
+                                    doctorname: data[i].u[0].UserName,
+                                    doctorid: data[i].u[0].UserID,
+                                    starttime: sd,
+                                    AppointmentDate: h,
+                                    endtime: data[i].EndDate,
+
+                                    paymenttype: data[i].PaymentType,
+                                    amoun: data[i].Amount,
+                                    appointid: data[i].AppointID
+                                    ,
+                                    complete: data[i].AppointmentStatus,
+                                    AppType: data[i].AppType,
+                                    cumpusid: data[i].cumpusid,
+                                    link: data[i].link,
+                                    AppointmentStatus: data[i].AppointmentStatus
+
+                                },
+                                //url: '/Patient/PatientDetails?id=' + pateintID + '&appointmentdate=' + h + '',
+                                backgroundColor: '#3c8dbc', //Primary (light-blue)
+                                borderColor: '#3c8dbc' //Primary (light-blue)
+
+                            })
+
+
+                            var calendar = new Calendar(calendarEl, {
+
+                                headerToolbar: {
+                                    left: 'prev,next today',
+                                    center: 'title',
+                                    right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+                                },
+                                themeSystem: 'bootstrap',
+                                //Random default events
+
+                                events: eventsArray,
+
+
+                                eventClick: function (event, jsEvent, view) {  //This is the editing function
+                                    console.log(event);
+                                    var fields = event;
+
+                                    $('#editmodal').empty();
+
+
+                                    $('#myModal3').modal('show');
+
+                                    editpateinted = fields.event._def.extendedProps.moredata.pateintid;
+
+                                    editdoctor = fields.event._def.extendedProps.moredata.doctorid;
+                                    var seditdate = fields.event._def.extendedProps.moredata.starttime;
+
+                                    var eeditdate = fields.event._def.extendedProps.moredata.endtime;
+
+                                    var theAdd1 = new Date(1900, 0, 1, seditdate.split(":")[0], seditdate.split(":")[1]);
+
+                                    var theAdd2 = new Date(1900, 0, 1, eeditdate.split(":")[0], eeditdate.split(":")[1]);
+
+                                    var diff = Math.abs(theAdd1.getMinutes() - theAdd2.getMinutes());
+                                    var date = new Date(fields.event._def.extendedProps.moredata.AppointmentDate);
+                                    var dates = (((date.getMonth() > 8) ? (date.getMonth() + 1) : ('0' + (date.getMonth() + 1))) + '/' + ((date.getDate() > 9) ? date.getDate() : ('0' + date.getDate())) + '/' + date.getFullYear());
+
+                                    var modal = `<form>
+
+
+
+                    <div class="form-group">
+
+<input type="hidden"  id="appointid" value="`+ fields.event._def.extendedProps.moredata.appointid + `"/>
+
+<input type="hidden" id="pateintemailsend" value="`+ fields.event._def.extendedProps.moredata.pateintemail + `"/>
+
+                        <label for="Pateint"><span class="req">* </span> Patient Name: </label>
+                        <select class="form-control" id="Patient3">
+<option value="`+ fields.event._def.extendedProps.moredata.pateintid + `" >` + fields.event._def.extendedProps.moredata.pateintname + `</option>
+                        </select>
+
+                    </div>
+
+
+
+
+                    <div class="form-group">
+                        <label for="EDate"><span class="req">* </span>  Appointment Dates </label>
+                        <input type="text" class="form-control date" id="AppointDate3" value="`+ dates + `" />
+
+                    </div>
+
+                    <div class="form-group">
+                        <label for="SDate"><span class="req">* </span>  Start Time </label>
+                        <input type="time" min="00:00" max="23:59" class="form-control" id="sdate3" value="`+ fields.event._def.extendedProps.moredata.starttime + `" />
+
+                    </div>`;
+
+
+                                    if (diff == 30) {
+
+                                        modal += `    <div class="form-group">
+
+                      <label for="EDate"><span class="req">* </span>  Time Duration </label>
+                      <br />
+                      <label class="radio-inline">
+                        <input type="radio" name="optradio" id="30mins3" checked="checked"> 30 mins
+            </label>
+                        <label class="radio-inline">
+                          <input type="radio" name="optradio" id="1hour3"> 1 hour
+            </label>
+          </div>`;
+                                    }
+                                    else {
+
+
+                                        modal += `        <div class="form-group">
+
+                            <label for="EDate"><span class="req">* </span>  Time Duration </label>
+                            <br />
+                            <label class="radio-inline">
+                              <input type="radio" name="optradio" id="30mins3" > 30 mins
+            </label>
+                              <label class="radio-inline">
+                                <input type="radio" name="optradio" id="1hour3" checked="checked"> 1 hour
+            </label>
+          </div> `;
+                                    }
+
+
+
+
+
+
+                                    modal += `
+
+
+
+
+                    <div class="form-group" style="display:none"> 
+                        <label for="Campus"><span class="req">* </span> Campus Name: </label>
+                        <select class="form-control" id="Campus3" style="width: 100%">
+                            <option></option>
+                        </select>
+
+                    </div>
+<div class="form-group">
+                        <label for="Doctor"><span class="req">* </span> Doctor Name: </label>
+                        <select class="form-control" id="Doctor3">
+<option value="`+ fields.event._def.extendedProps.moredata.doctorid + `" >` + fields.event._def.extendedProps.moredata.doctorname + `</option>
+                        </select>
+
+                    </div>
+
+
+
+
+
+                    <div class="form-group">
+                        <label for="PaymentType"><span class="req">* </span>Payment Type: </label>
+                        <select class="form-control" id="PaymentType3">
+
+
+
+                            <option value="`+ fields.event._def.extendedProps.moredata.paymenttype + `">` + fields.event._def.extendedProps.moredata.paymenttype + `</option>`;
+
+
+                                    if (fields.event._def.extendedProps.moredata.paymenttype == "Cash") {
+                                        modal += `<option value="Credit Card">Credit Card </option>
+                                            <option value="Account">Account </option>`;
+
+                                    }
+                                    else if (fields.event._def.extendedProps.moredata.paymenttype == "Credit Card") {
+                                        modal += ` <option value="Cash"> Cash</option >
+
+                                            <option value="Account">Account </option>`;
+
+
+
+                                    }
+                                    else if (fields.event._def.extendedProps.moredata.paymenttype == "Account") {
+
+                                        modal += `<option value="Cash"> Cash</option>
+                                            <option value="Credit Card">Credit Card </option>`;
+
+                                    }
+
+                                    else {
+                                        modal += `
+                                                   <option value="Account">Account </option>
+                                                 <option value = "Cash"> Cash</option>
+                                            <option value="Credit Card">Credit Card </option>`;
+
+                                    }
+
+
+
+                                    if (fields.event._def.extendedProps.moredata.AppType == "1") {
+
+                                        modal += ` <div class="form-group">
+                        <label for=""><span class="req">* </span>Please select Appointment Type : </label><br />
+
+                        <input type="radio" id="inperson3" class="AppType3" checked name="AppType3" checked value="1" />
+                        <label for="2">In Person</label>
+
+                        <input type="radio" id="online3" class="AppType3" name="AppType3" value="2" style="margin-left:3%" />
+                        <label for="2">Online</label>
+                    </div>
+
+                        <div class="form-group linkclass3" style="display:none">
+                            <label for="link"><span class="req">* </span>Link : </label>
+                            <input type="text" class="form-control" id="link3" value="`+ fields.event._def.extendedProps.moredata.link + `" placeholder="enter the link" />
+
+                        </div>
+
+
+
+`;
+                                    }
+                                    else {
+
+
+                                        modal += `<div class="form-group">
+                        <label for=""><span class="req">* </span>Please select Appointment Type : </label><br />
+
+                        <input type="radio" id="inperson3" class="AppType3" name="AppType3" checked value="1" />
+                        <label for="2">In Person</label>
+
+                        <input type="radio" id="online3" class="AppType3" checked name="AppType3" value="2" style="margin-left:3%" />
+                        <label for="2">Online</label>
+                    </div>
+
+
+
+                        <div class="form-group linkclass3">
+                            <label for="link"><span class="req">* </span>Link : </label>
+                            <input type="text" class="form-control" id="link3" value="`+ fields.event._def.extendedProps.moredata.link + `" placeholder="enter the link" />
+
+                        </div>
+
+
+`;
+                                    }
+
+
+
+
+
+
+
+                                    modal += `</select>
+
+                    </div>
+
+
+
+                    <div class="form-group">
+                        <label for="Amount"><span class="req">* </span>Enter the Amount : </label>
+                        <input type="text" class="form-control" id="amount3" value="`+ fields.event._def.extendedProps.moredata.amoun + `" onkeyup="validateamount(this);" placeholder="enter the amount" />
+
+                    </div>
+
+   <div class="form-group">
+                        <label for="Amount"><span class="req">* </span>Appoinment Status : </label>
+                        <input type="text" readonly="readonly" class="form-control" value="`+ fields.event._def.extendedProps.moredata.AppointmentStatus + `"  />
+
+                    </div>
+
+
+                    <button type="button" class="btn btn-success" id="Editbutton">save</button>
+
+                   <button type="button" class="btn btn-success" onclick="Completed(`+ fields.event._def.extendedProps.moredata.appointid + `,` + fields.event._def.extendedProps.moredata.pateintid +`)" >Complete</button>
+                        <button type="button" class="btn btn-success" onclick="DidNotAttempt(`+ fields.event._def.extendedProps.moredata.appointid + `)">Not Attempted</button>
+
+
+
+    <a class="btn btn-success" href="/Appointment/AppointmentDetails?id=`+ fields.event._def.extendedProps.moredata.pateintid + `&ApppointmentID=` + fields.event._def.extendedProps.moredata.appointid + ` " >View Details</a>
+
+
+                    <button type="button" class="btn btn-success has-spinner"  onclick="CancledAppointment(`+ fields.event._def.extendedProps.moredata.appointid + `)">Cancel</button>
+
+
+
+                </form>
+
+`;
+
+
+
+
+                                    $("#editmodal").append(modal);
+                                    $(".date").keydown(function (e) {
+                                        var key = e.keyCode || e.charCode;
+
+                                        e.preventDefault();
+                                        e.stopPropagation();
+
+                                    });
+
+                                    $('.date').datepicker({
+
+                                        multidate: true,
+
+                                        format: "mm/dd/yyyy",
+
+
+
+                                    })
+
+
+
+                                    //searchcampusrun(fields.event._def.extendedProps.moredata.cumpusid
+                                    //);
+
+                                    //editpateint();
+                                    doctoredit();
+                                },
+                                editable: false,
+                                droppable: true, // this allows things to be dropped onto the calendar !!!
+
+                                drop: function (info) {
+
+                                    // is the "remove after drop" checkbox checked?
+                                    if (checkbox.checked) {
+                                        // if so, remove the element from the "Draggable Events" list
+                                        info.draggedEl.parentNode.removeChild(info.draggedEl);
+                                    }
+                                }
+                            });
+
+
+                            calendar.render();
+
+                            $('#imgeloder').hide();
+
+
+                        })
+
+                    }
+
+                    else {
+
+                        var calendar = new Calendar(calendarEl, {
+
+                            headerToolbar: {
+                                left: 'prev,next today',
+                                center: 'title',
+                                //right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+                            },
+                            themeSystem: 'bootstrap',
+                            //Random default events
+
+                            events: [
+                                {
+                                    title: 'No Appointment',
+                                    start: new Date(y, m, d, 10, 30),
+                                    allDay: false,
+                                    backgroundColor: '#0073b7', //Blue
+                                    borderColor: '#0073b7' //Blue
+                                }
+
+
+                            ],
+
+
+
+                            editable: false,
+                            droppable: true, // this allows things to be dropped onto the calendar !!!
+                            drop: function (info) {
+                                // is the "remove after drop" checkbox checked?
+                                if (checkbox.checked) {
+                                    // if so, remove the element from the "Draggable Events" list
+                                    info.draggedEl.parentNode.removeChild(info.draggedEl);
+                                }
+                            }
+                        });
+
+
+                        calendar.render();
+
+                        $('#imgeloder').hide();
+
+                    }
+                }
+                else {
+
+                    var calendar = new Calendar(calendarEl, {
+
+                        headerToolbar: {
+                            left: 'prev,next today',
+                            center: 'title',
+                            right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+                        },
+                        themeSystem: 'bootstrap',
+                        //Random default events
+
+                        events: [
+                            {
+                                title: 'No Appointment',
+                                start: new Date(y, m, d, 10, 30),
+                                allDay: false,
+                                backgroundColor: '#0073b7', //Blue
+                                borderColor: '#0073b7' //Blue
+                            }
+
+
+                        ],
+
+
+
+                        editable: false,
+                        droppable: true, // this allows things to be dropped onto the calendar !!!
+                        drop: function (info) {
+                            // is the "remove after drop" checkbox checked?
+                            if (checkbox.checked) {
+                                // if so, remove the element from the "Draggable Events" list
+                                info.draggedEl.parentNode.removeChild(info.draggedEl);
+                            }
+                        }
+                    });
+
+
+                    calendar.render();
+
+                    $('#imgeloder').hide();
+
+
+
+                }
+
+                
+
+            })
+            .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+                console.log("fail");
+            })
+
+        }
+
+
+    })
+
+
+
+    $("#ReseAppointment").click(function () {
+        var userid = localStorage.getItem('userID')
+
+        $('#imgeloder').show();
+        $.ajax({
+            type: 'get',
+
+            url: apiurl + 'api/Appointment/getAppointmentsbyuserid?userid=' + parseInt(userid),
+
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': apiurl,
+
+
+            }
+
+
+        })
+
+
+
+
+
+
+            .done(function (res) {
+
+
+                if (res.status == "success") {
+                    if (res.object.length > 0) {
+
+
+                        var eventsArray = [];
+
+                        var data = $.parseJSON(res.object);
+
+                        $.each(data, function (i, val) {
+                            var h = data[i].Appointment_Data;
+
+                            var sd = data[i].StartDate;
+                            var s = h + "T" + sd;
+                            var e = h + "T" + data[i].EndDate
+
+                            var pateintID = data[i].u[0].p[0].Patient_ID
+
+
+                            eventsArray.push({
+                                title: data[i].u[0].p[0].Patient_Name,
+
+                                start: new Date(s),
+                                end: new Date(e),
+                                moredata: {
+                                    pateintname: data[i].u[0].p[0].Patient_Name,
+                                    pateintemail: data[i].u[0].p[0].Patient_Email,
+                                    pateintid: pateintID,
+                                    doctorname: data[i].u[0].UserName,
+                                    doctorid: data[i].u[0].UserID,
+                                    starttime: sd,
+                                    AppointmentDate: h,
+                                    endtime: data[i].EndDate,
+
+                                    paymenttype: data[i].PaymentType,
+                                    amoun: data[i].Amount,
+                                    appointid: data[i].AppointID
+                                    ,
+                                    complete: data[i].AppointmentStatus,
+                                    AppType: data[i].AppType,
+                                    cumpusid: data[i].cumpusid,
+                                    link: data[i].link,
+                                    AppointmentStatus: data[i].AppointmentStatus
+
+                                },
+                                //url: '/Patient/PatientDetails?id=' + pateintID + '&appointmentdate=' + h + '',
+                                backgroundColor: '#3c8dbc', //Primary (light-blue)
+                                borderColor: '#3c8dbc' //Primary (light-blue)
+
+                            })
+
+
+                            var calendar = new Calendar(calendarEl, {
+
+                                headerToolbar: {
+                                    left: 'prev,next today',
+                                    center: 'title',
+                                    right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+                                },
+                                themeSystem: 'bootstrap',
+                                //Random default events
+
+                                events: eventsArray,
+
+
+                                eventClick: function (event, jsEvent, view) {  //This is the editing function
+                                    console.log(event);
+                                    var fields = event;
+
+                                    $('#editmodal').empty();
+
+
+                                    $('#myModal3').modal('show');
+
+                                    editpateinted = fields.event._def.extendedProps.moredata.pateintid;
+
+                                    editdoctor = fields.event._def.extendedProps.moredata.doctorid;
+                                    var seditdate = fields.event._def.extendedProps.moredata.starttime;
+
+                                    var eeditdate = fields.event._def.extendedProps.moredata.endtime;
+
+                                    var theAdd1 = new Date(1900, 0, 1, seditdate.split(":")[0], seditdate.split(":")[1]);
+
+                                    var theAdd2 = new Date(1900, 0, 1, eeditdate.split(":")[0], eeditdate.split(":")[1]);
+
+                                    var diff = Math.abs(theAdd1.getMinutes() - theAdd2.getMinutes());
+                                    var date = new Date(fields.event._def.extendedProps.moredata.AppointmentDate);
+                                    //var date = fields.event._def.extendedProps.moredata.AppointmentDate;
+                                    var dates = (((date.getMonth() > 8) ? (date.getMonth() + 1) : ('0' + (date.getMonth() + 1))) + '/' + ((date.getDate() > 9) ? date.getDate() : ('0' + date.getDate())) + '/' + date.getFullYear());
+                                    //var dates = fields.event._def.extendedProps.moredata.AppointmentDate;
+                                    var modal = `<form>
+
+
+
+                    <div class="form-group">
+
+<input type="hidden"  id="appointid" value="`+ fields.event._def.extendedProps.moredata.appointid + `"/>
+
+<input type="hidden" id="pateintemailsend" value="`+ fields.event._def.extendedProps.moredata.pateintemail + `"/>
+
+                        <label for="Pateint"><span class="req">* </span> Patient Name: </label>
+                        <select class="form-control" id="Patient3">
+<option value="`+ fields.event._def.extendedProps.moredata.pateintid + `" >` + fields.event._def.extendedProps.moredata.pateintname + `</option>
+                        </select>
+
+                    </div>
+
+
+
+
+                    <div class="form-group">
+                        <label for="EDate"><span class="req">* </span>  Appointment Dates </label>
+                        <input type="text" class="form-control date" id="AppointDate3" value="`+ dates + `" />
+
+                    </div>
+
+                    <div class="form-group">
+                        <label for="SDate"><span class="req">* </span>  Start Time </label>
+                        <input type="time" min="00:00" max="23:59" class="form-control" id="sdate3" value="`+ fields.event._def.extendedProps.moredata.starttime + `" />
+
+                    </div>`;
+
+
+                                    if (diff == 30) {
+
+                                        modal += `    <div class="form-group">
+
+                      <label for="EDate"><span class="req">* </span>  Time Duration </label>
+                      <br />
+                      <label class="radio-inline">
+                        <input type="radio" name="optradio" id="30mins3" checked="checked"> 30 mins
+            </label>
+                        <label class="radio-inline">
+                          <input type="radio" name="optradio" id="1hour3"> 1 hour
+            </label>
+          </div>`;
+                                    }
+                                    else {
+
+
+                                        modal += `        <div class="form-group">
+
+                            <label for="EDate"><span class="req">* </span>  Time Duration </label>
+                            <br />
+                            <label class="radio-inline">
+                              <input type="radio" name="optradio" id="30mins3" > 30 mins
+            </label>
+                              <label class="radio-inline">
+                                <input type="radio" name="optradio" id="1hour3" checked="checked"> 1 hour
+            </label>
+          </div> `;
+                                    }
+
+
+
+
+
+
+                                    modal += `
+
+
+
+
+                    <div class="form-group" style="display:none">
+                        <label for="Campus"><span class="req">* </span> Campus Name: </label>
+                        <select class="form-control" id="Campus3" style="width: 100%">
+                            <option></option>
+                        </select>
+
+                    </div>
+<div class="form-group">
+                        <label for="Doctor"><span class="req">* </span> Doctor Name: </label>
+                        <select class="form-control" id="Doctor3">
+<option value="`+ fields.event._def.extendedProps.moredata.doctorid + `" >` + fields.event._def.extendedProps.moredata.doctorname + `</option>
+                        </select>
+
+                    </div>
+
+
+
+
+
+                    <div class="form-group">
+                        <label for="PaymentType"><span class="req">* </span>Payment Type: </label>
+                        <select class="form-control" id="PaymentType3">
+
+
+
+                            <option value="`+ fields.event._def.extendedProps.moredata.paymenttype + `">` + fields.event._def.extendedProps.moredata.paymenttype + `</option>`;
+
+
+                                    if (fields.event._def.extendedProps.moredata.paymenttype == "Cash") {
+                                        modal += `<option value="Credit Card">Credit Card </option>
+                                            <option value="Account">Account </option>`;
+
+                                    }
+                                    else if (fields.event._def.extendedProps.moredata.paymenttype == "Credit Card") {
+                                        modal += ` <option value="Cash"> Cash</option >
+
+                                            <option value="Account">Account </option>`;
+
+
+
+                                    }
+                                    else if (fields.event._def.extendedProps.moredata.paymenttype == "Account") {
+
+                                        modal += `<option value="Cash"> Cash</option>
+                                            <option value="Credit Card">Credit Card </option>`;
+
+                                    }
+
+                                    else {
+                                        modal += `
+                                                   <option value="Account">Account </option>
+                                                 <option value = "Cash"> Cash</option>
+                                            <option value="Credit Card">Credit Card </option>`;
+
+                                    }
+
+
+
+                                    if (fields.event._def.extendedProps.moredata.AppType == "1") {
+
+                                        modal += ` <div class="form-group">
+                        <label for=""><span class="req">* </span>Please select Appointment Type : </label><br />
+
+                        <input type="radio" id="inperson3" class="AppType3" checked name="AppType3" checked value="1" />
+                        <label for="2">In Person</label>
+
+                        <input type="radio" id="online3" class="AppType3" name="AppType3" value="2" style="margin-left:3%" />
+                        <label for="2">Online</label>
+                    </div>
+
+                        <div class="form-group linkclass3" style="display:none">
+                            <label for="link"><span class="req">* </span>Link : </label>
+                            <input type="text" class="form-control" id="link3" value="`+ fields.event._def.extendedProps.moredata.link + `" placeholder="enter the link" />
+
+                        </div>
+
+
+
+`;
+                                    }
+                                    else {
+
+
+                                        modal += `<div class="form-group">
+                        <label for=""><span class="req">* </span>Please select Appointment Type : </label><br />
+
+                        <input type="radio" id="inperson3" class="AppType3" name="AppType3" checked value="1" />
+                        <label for="2">In Person</label>
+
+                        <input type="radio" id="online3" class="AppType3" checked name="AppType3" value="2" style="margin-left:3%" />
+                        <label for="2">Online</label>
+                    </div>
+
+
+
+                        <div class="form-group linkclass3">
+                            <label for="link"><span class="req">* </span>Link : </label>
+                            <input type="text" class="form-control" id="link3" value="`+ fields.event._def.extendedProps.moredata.link + `" placeholder="enter the link" />
+
+                        </div>
+
+
+`;
+                                    }
+
+
+
+
+
+
+
+                                    modal += `</select>
+
+                    </div>
+
+
+
+                    <div class="form-group">
+                        <label for="Amount"><span class="req">* </span>Enter the Amount : </label>
+                        <input type="text" class="form-control" id="amount3" value="`+ fields.event._def.extendedProps.moredata.amoun + `" onkeyup="validateamount(this);" placeholder="enter the amount" />
+
+                    </div>
+
+   <div class="form-group">
+                        <label for="Amount"><span class="req">* </span>Appoinment Status : </label>
+                        <input type="text" readonly="readonly" class="form-control" value="`+ fields.event._def.extendedProps.moredata.AppointmentStatus + `"  />
+
+                    </div>
+
+
+                    <button type="button" class="btn btn-success" id="Editbutton">save</button>
+
+                    <button type="button" class="btn btn-success" onclick="Completed(`+ fields.event._def.extendedProps.moredata.appointid, fields.event._def.extendedProps.moredata.pateintid + `)" >Complete</button>
+                    <button type="button" class="btn btn-success" onclick="DidNotAttempt(`+ fields.event._def.extendedProps.moredata.appointid + `)">Not Attempted</button>
+
+
+
+    <a  class="btn btn-success" href="/Appointment/AppointmentDetails?id=`+ fields.event._def.extendedProps.moredata.pateintid + `&ApppointmentID=` + fields.event._def.extendedProps.moredata.appointid + ` " >View Details</a>
+
+
+                    <button type="button" class="btn btn-success has-spinner"  onclick="CancledAppointment(`+ fields.event._def.extendedProps.moredata.appointid + `)">Cancel</button>
+
+
+
+                </form>
+
+`;
+
+
+
+
+                                    $("#editmodal").append(modal);
+                                    $(".date").keydown(function (e) {
+                                        var key = e.keyCode || e.charCode;
+
+                                        e.preventDefault();
+                                        e.stopPropagation();
+
+                                    });
+
+                                    $('.date').datepicker({
+
+                                        multidate: true,
+
+                                        format: "mm/dd/yyyy",
+
+
+
+                                    })
+
+
+
+                                   // searchcampusrun(fields.event._def.extendedProps.moredata.cumpusid);
+
+                                    //editpateint();
+                                    doctoredit();
+                                },
+                                editable: false,
+                                droppable: true, // this allows things to be dropped onto the calendar !!!
+
+                                drop: function (info) {
+
+                                    // is the "remove after drop" checkbox checked?
+                                    if (checkbox.checked) {
+                                        // if so, remove the element from the "Draggable Events" list
+                                        info.draggedEl.parentNode.removeChild(info.draggedEl);
+                                    }
+                                }
+                            });
+
+
+                            calendar.render();
+
+                            $('#imgeloder').hide();
+
+
+                        })
+
+                    }
+                    else {
+                        var calendar = new Calendar(calendarEl, {
+
+                            headerToolbar: {
+                                left: 'prev,next today',
+                                center: 'title',
+                                right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+                            },
+                            themeSystem: 'bootstrap',
+                            //Random default events
+
+                            events: [
+                                {
+                                    title: 'No Appointment',
+                                    start: new Date(y, m, d, 10, 30),
+                                    allDay: false,
+                                    backgroundColor: '#0073b7', //Blue
+                                    borderColor: '#0073b7' //Blue
+                                }
+
+
+                            ],
+
+
+
+                            editable: false,
+                            droppable: true, // this allows things to be dropped onto the calendar !!!
+                            drop: function (info) {
+                                // is the "remove after drop" checkbox checked?
+                                if (checkbox.checked) {
+                                    // if so, remove the element from the "Draggable Events" list
+                                    info.draggedEl.parentNode.removeChild(info.draggedEl);
+                                }
+                            }
+                        });
+
+
+                        calendar.render();
+
+                        $('#imgeloder').hide();
+                    }
+
+                }
+
+                else {
+
+                    var calendar = new Calendar(calendarEl, {
+
+                        headerToolbar: {
+                            left: 'prev,next today',
+                            center: 'title',
+                            right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+                        },
+                        themeSystem: 'bootstrap',
+                        //Random default events
+
+                        events: [
+                            {
+                                title: 'No Appointment',
+                                start: new Date(y, m, d, 10, 30),
+                                allDay: false,
+                                backgroundColor: '#0073b7', //Blue
+                                borderColor: '#0073b7' //Blue
+                            }
+
+
+                        ],
+
+
+
+                        editable: false,
+                        droppable: true, // this allows things to be dropped onto the calendar !!!
+                        drop: function (info) {
+                            // is the "remove after drop" checkbox checked?
+                            if (checkbox.checked) {
+                                // if so, remove the element from the "Draggable Events" list
+                                info.draggedEl.parentNode.removeChild(info.draggedEl);
+                            }
+                        }
+                    });
+
+
+                    calendar.render();
+
+                    $('#imgeloder').hide();
+
+
+
+                }
+
+            })
+            .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+                console.log("fail");
+            })
+
+
+
+
+    })
+
+
+  //  $("#pushmenudash").click(function () {
+  //  var id = $(this).attr('data-id');
+
+
+  //  var a = $('#bodytocheckclass').hasClass('sidebar-collapse');
+
+  //  if (a == true) {
+
+  //    $('#bodytocheckclass').removeClass('sidebar-mini layout-fixed  sidebar-collapse');
+  //    $('#bodytocheckclass').addClass('sidebar-mini layout-fixed  ')
+  //  }
+
+  //  else {
+
+  //    $('#bodytocheckclass').removeClass('sidebar-mini layout-fixed  ');
+  //    $('#bodytocheckclass').addClass('sidebar-mini layout-fixed  sidebar-collapse ')
+  //  }
+
+  //});
+
+
+    function sendeamil(email, status) {
+
+        $.ajax({
+
+            type: 'POST',
+            url: apiurl + 'api/Appointment/sendEmail',
+            data: JSON.stringify({
+                Email: email,
+                status: status
+
+            }),
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': apiurl
+
+
+            }
+
+
+        }).done(function (res) {
+
+
+            
+
+
+            });
+
+            
+
+
+
+    }
+</script>

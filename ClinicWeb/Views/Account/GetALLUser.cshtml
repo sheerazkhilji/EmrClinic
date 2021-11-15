@@ -1,0 +1,1175 @@
+﻿
+@{
+    ViewBag.Title = "GetALLUser";
+}
+
+
+
+<div class="modal fade" id="modalUser" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+
+        <!--Content-->
+        <div class="modal-content">
+
+            <!--Body-->
+            <div class="modal-body mb-0 p-0">
+
+
+                <div class="row">
+                    <div class="col-md-12 p-5">
+                        <form>
+                            <fieldset>
+
+
+                                <div class="form-group">
+                                    <label for="username"><span class="req">* </span> User name:  </label>
+                                    <input class="form-control" type="text" name="username" id="username2" placeholder="User name" required />
+                                    <div id="errLast"></div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="email"><span class="req">* </span> Email Address: </label>
+                                    <input class="form-control" required type="email" name="email" id="email2" onchange="email_validate(this.value)" ; />
+                                    <div class="status" id="status"></div>
+                                </div>
+
+
+
+                                <div class="form-group">
+                                    <label for="password"><span class="req">* </span> Password: </label>
+                                    <input required name="password" type="password" class="form-control inputpass" minlength="4" maxlength="16" id="pass12" />
+
+                                    <label for="password"><span class="req">* </span> Password Confirm: </label>
+                                    <input required name="password" type="password" class="form-control inputpass" minlength="4" maxlength="16" placeholder="Enter again to validate" id="pass22" onkeyup="checkPass(); return false;" />
+                                    <span id="confirmMessage" class="confirmMessage"></span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="phonenumber"><span class="req">* </span> Phone Number: </label>
+                                    <input required type="text" name="phonenumber" id="phone2" class="form-control phone" maxlength="28" onkeyup="validatephone(this);" placeholder="Phone No:" />
+                                </div>
+
+
+
+
+
+                                <div class="form-group">
+                                    <label for="City"><span class="req">* </span>  City </label>
+
+                                    <select class="form-control" name="CId" id="CId2">
+                                    </select>
+
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-6">
+                                        <input type="checkbox" id="Doctor2" name="Doctor" value="3">
+                                        <label for="Doctor"> Doctor </label>
+                                    </div>
+                                    <div class="col-6 doctorSpeciality" style="display:none">
+                                        <label for="Doctor"> Speciality </label>
+                                        <input type="text" id="Speciality" value="" />
+                                    </div>
+                                </div>
+
+                                  <div class="row">
+                                      <div class="col-12">
+                                          <input type="checkbox" id="Assistant2" name="Assistant " value="2">
+                                          <label for="Assistant ">Assistant</label><br>
+                                      </div>
+                                      <div class="col-12">
+                                          <input type="checkbox" id="Admin2" name="Admin" value="1">
+                                          <label for="Admin">Admin</label><br><br>
+                                      </div>
+                                </div>
+
+                                
+                                
+
+
+
+                              
+                               
+
+
+                                <div class="form-group">
+
+                                    <button type="button" class="btn btn-success" id="Register">Register</button>
+
+                                </div>
+
+
+                            </fieldset>
+                        </form><!-- ends register form -->
+                    </div><!-- ends col-6 -->
+
+
+                </div>
+
+
+            </div>
+
+            <!--Footer-->
+            <div class="modal-footer">
+                <button type="button" class=" btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+    <!--/.Content-->
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="modal fade" id="modalUserEdit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+
+        <!--Content-->
+        <div class="modal-content">
+
+            <!--Body-->
+            <div class="modal-body mb-0 p-0">
+
+
+                <div class="row">
+                    <div class="col-md-12 p-5">
+                        <div id="editusermodalbody">
+
+
+                        </div>
+
+
+                    </div><!-- ends col-6 -->
+
+
+                </div>
+
+
+            </div>
+
+            <!--Footer-->
+            <div class="modal-footer">
+                <button type="button" class=" btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+    <!--/.Content-->
+
+</div>
+<div class="Edituser">                  @*EDIT USER*@
+  @*<div class="row">
+        <div class="col-6">
+            <input type="checkbox" id="Doctor2" name="Doctor" value="3">
+            <label for="Doctor"> Doctor </label>
+        </div>
+        <div class="col-6 doctorSpeciality" style="display:none">
+            <label for="Doctor"> Speciality </label>
+            <input type="text" id="Speciality" value="" />
+        </div>
+    </div>*@
+</div>
+
+
+
+<div class="container-fluid">
+    <!-- ============================================================== -->
+    <!-- Start Page Content -->
+    <!-- ============================================================== -->
+    <div class="row">
+        <!-- Column -->
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title"><button id="Addnewuser" class="btn-success mb-3" data-toggle='modal' data-target='#modalUser'>Registration</button></h3>
+
+                    <div class="table-responsive">
+                        <table id="producttable" class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+
+                                    <th>User Name</th>
+                             
+                                    <th>User Email </th>
+
+                                    <th>Phone Number </th>
+
+                                    <th>City</th>
+
+                                    <th>Actions</th>
+
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Column -->
+    </div>
+    <!-- ============================================================== -->
+    <!-- End PAge Content -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- Right sidebar -->
+    <!-- ============================================================== -->
+    <!-- .right-sidebar -->
+    <!-- ============================================================== -->
+    <!-- End Right sidebar -->
+    <!-- ============================================================== -->
+</div>
+
+
+<script>
+   
+    $('#Doctor2').on('click', function ()
+    {
+        if ($('#Doctor2').is(':checked')){
+            $('.doctorSpeciality').css({ "display": "block" })
+            
+        }
+        else {
+            $('.doctorSpeciality').css({ "display": "none" })
+        }
+
+    })
+
+
+
+
+
+
+
+
+  var apiurl = "@System.Configuration.ConfigurationManager.AppSettings["url"]";
+
+        $(document).ready(function () {
+            $("#producttable").DataTable({
+                "bServerSide": true, //make server side processing to true
+              "sAjaxSource": apiurl+"api/UserList", //url of the Ajax source,i.e. web api method
+                "sAjaxDataProp": "aaData", // data property of the returned ajax which contains table data
+                "bProcessing": true,
+                "bLengthChange": true,
+                "sPaginationType": "full_numbers",//pagination type
+
+                "aoColumns": [
+
+
+
+
+                    {
+                        "mData": "userName",
+                        "mRender": function (data,fullData,FullXtraData) {
+                            debugger
+                            if (FullXtraData.speciality != "") {
+
+                                return '<p>' + FullXtraData.userName + '<br/> <small>(' + FullXtraData.speciality + ')</small></p>'
+                            } else {
+
+
+                                return '<p>'+ FullXtraData.userName +'</p>'
+                            }
+                        }
+                    },
+
+                    { "mData": "email" },
+
+                    { "mData": "phoneNumber" },
+                    { "mData": "cityname" },
+
+
+
+                {
+                    "mData": "userId", "bSearchable": false, "bSortable": false,
+                    "mRender": function (data) {
+
+
+                        var id = data;
+
+                        return "<button type = 'button'   onclick='EditUser(" + JSON.stringify(id) + ")' data-toggle='modal' data-target='#modalUserEdit' class='ml-2 btn btn-info btn-circle'><i class='fa fa-edit'></i></button>"
+                               + "<button type='button' class=' ml-2 btn btn-danger btn-circle'   onclick='Deletep(" + JSON.stringify(id) + ")'> <i class='fa fa-trash-alt'></i></button > ";
+                         
+                    }
+                }
+
+                ]
+            });
+
+        });
+
+
+    var cityuserid = "";
+
+    function Deletep(ID) {
+
+
+
+
+            $.ajax({
+
+                type: 'GET',
+              url: apiurl+'api/DeleteUser',
+                data: {
+
+
+
+
+                    id: ID
+                },
+                headers: {
+                    'Content-Type': 'application/json',
+                  'Access-Control-Allow-Origin': apiurl,
+                    'Authorization': 'Bearer  @Request.Cookies["Token"].Value.ToString()'
+
+                }
+
+
+            }).done(function (res) {
+
+                console.log(res);
+
+                if (res.status == 'success') {
+
+                    alert('deleted');
+
+
+                    window.location.reload();
+
+                }
+                else {
+                    alert(res.message);
+
+                }
+
+
+            })
+                .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+
+
+                    if (XMLHttpRequest.status==403) {
+                        window.location.href = '~/Account/Login'
+                    }
+
+                    if (XMLHttpRequest.status == 401) {
+                        window.location.href = '/Account/Login'
+                    }
+
+                    console.log("fail");
+
+
+                })
+
+
+
+
+
+    }
+
+
+
+  $("#Addnewuser").click(function () {
+
+    getallcities();
+  })
+
+
+  function getallcities() {
+
+    $.ajax({
+
+      type: 'GET',
+      url: apiurl+'api/getallcities',
+
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': apiurl
+
+
+      }
+
+
+    }).done(function (res) {
+
+
+      var data = JSON.parse(res.object);
+
+
+      var html = '';
+
+
+      $.each(data, function (i, val) {
+        html += `<option value= ` + data[i].CityID + `>` + data[i].City_Name + `</option>`
+
+      });
+
+      $('#CId2').append(html);
+
+
+      console.log(res);
+    })
+      .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+        console.log("fail");
+      })
+
+
+  }
+
+
+
+    var userID = "";
+    var username = "";
+    var email = "";
+    var cityid = "";
+    var phone = "";;
+    var roles = [];
+    var roleisactive = [];
+
+
+    function EditUser(id) {
+
+            $.ajax({
+
+                type: 'GET',
+              url: apiurl+'api/getUserbyID',
+                data: {
+
+
+
+
+                    id: id
+                },
+                headers: {
+                    'Content-Type': 'application/json',
+                  'Access-Control-Allow-Origin': apiurl,
+                    'Authorization': 'Bearer  @Request.Cookies["Token"].Value.ToString()'
+
+                }
+
+
+            }).done(function (res) {
+
+
+
+                var data = JSON.parse(res.object);
+
+
+
+                if (res.status == 'success') {
+
+                    cityuserid = data[0].ur[0].r[0].c[0].CityID;
+
+
+                    var editform = `
+
+
+            <form>
+                <fieldset>
+  <input class="form-control" type="hidden" readonly="" name="username" id="userID"   value="`+data[0].UserID +`"  placeholder="Uasername" required />
+
+
+                    <div class="form-group">
+                        <label for="username"><span class="req">* </span> User  name:  </label>
+                        <input class="form-control" type="text" name="username" id="userName"   value="`+data[0].UserName+`"  placeholder="Uasername" required />
+                        <div id="errLast"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="email"><span class="req">* </span> UserEmail : </label>
+                        <input class="form-control" required type="email" name="email" id="UserEmail"  value="`+data[0].UserEmail +`"   onchange="email_validate(this.value)" ; />
+                        <div class="status" id="status"></div>
+                    </div>
+
+
+
+
+                    <div class="form-group">
+                        <label for="phonenumber"><span class="req">* </span> PhoneNo: </label>
+                        <input required type="text" name="phonenumber"    value="`+data[0].PhoneNo+`" id="PhoneNo" class="form-control phone" maxlength="28" onkeyup="validatephone(this);" placeholder="Phone No:" />
+                    </div>
+
+
+                   `;
+
+
+
+
+
+                    editform += `
+
+
+
+                    <div class="form-group">
+                        <label for="City"><span class="req">* </span> Patient  City </label>
+
+                        <select name="CId" id="CId" class="form-control">
+
+ <option value="`+data[0].ur[0].r[0].c[0].CityID+`">` + data[0].ur[0].r[0].c[0].City_Name + `</option>
+
+</select>
+
+                    </div>
+
+
+
+           <div class=" form-group rolediv">
+<label>Roles</label>
+ <br/>
+
+
+</div>
+
+
+                    <div class="form-group">
+
+                        <button type="button" class="btn btn-success" id="EdituserOne">Update</button>
+
+                    </div>
+
+
+
+
+
+
+
+
+                </fieldset>
+            </form><!-- ends register form -->
+
+
+
+`;
+
+
+
+
+                  $('#editusermodalbody').empty();
+
+
+                  $('#editusermodalbody').append(editform);
+
+                    var rolescheck = '';
+
+                    var roleids = [];
+
+                    console.log(data[0].ur[0]);
+
+                    if (data[0].ur.length > 0) {
+                        for (var i = 0; i < data[0].ur.length; i++) {
+
+                            if (data[0].ur[i].isActive==1) {
+
+                                roleids.push(data[0].ur[i].r[0].RoleID);
+                            }
+                        }
+                    }
+                    else {
+
+                            rolescheck += '<input type="checkbox" id="Admin" name="Admin" value="1" >  Admin<br>';
+                            rolescheck += '<input type="checkbox" id="Assistant" name="Assistant " value="2" > Assistant <br>';
+
+                            rolescheck += '<input type="checkbox" id="Doctor" name="Doctor " value="3">  Doctor <br>';
+
+                    }
+
+
+                    if (roleids.length > 0) {
+
+                        if (roleids.includes(1)) {
+                            rolescheck += '<input type="checkbox" id="Admin" name="Admin" value="1"  checked>  Admin<br>';
+
+
+
+                        }
+                        else {
+                            rolescheck += '<input type="checkbox" id="Admin" name="Admin" value="1" >  Admin<br>';
+
+                        }
+
+                        if (roleids.includes(2)) {
+
+                            rolescheck += '<input type="checkbox" id="Assistant" name="Assistant " value="2" checked>  Assistant  <br>';
+                        }
+                        else {
+                            rolescheck += '<input type="checkbox" id="Assistant" name="Assistant " value="2" >  Assistant  <br>';
+
+
+                        }
+
+
+
+                        if (roleids.includes(3)) {
+
+                            rolescheck += '<input type="checkbox" id="Doctor" name="Doctor " value="3" checked> Doctor <br>';  }
+                        else {
+                            rolescheck += '<input type="checkbox" id="Doctor" name="Doctor " value="3" > Doctor <br>';
+                        }
+
+
+                        }
+
+
+
+
+
+
+                    $('.rolediv').append(rolescheck);
+
+
+                  getallcitiesedit();
+
+
+                }
+                else {
+                    alert(res.message);
+
+                }
+
+
+            })
+                .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+
+
+                    if (XMLHttpRequest.status==403) {
+                        window.location.href = '~/Account/Login'
+                    }
+
+                    if (XMLHttpRequest.status == 401) {
+                        window.location.href = '/Account/Login'
+                    }
+
+                    console.log("fail");
+
+
+                })
+
+    }
+
+    /*DetailsFunctions*/
+
+
+                                                                    /*EndDetails*/
+
+
+
+    function validatephone(phone) {
+        var maintainplus = '';
+        var numval = phone.value
+        if (numval.charAt(0) == '+') {
+            var maintainplus = '';
+        }
+        curphonevar = numval.replace(/[\\A-Za-z!"£$%^&\,*+_={};:'@@#~,.Š\/<>?|`¬\]\[]/g, '');
+        phone.value = maintainplus + curphonevar;
+        var maintainplus = '';
+        phone.focus;
+    }
+
+
+    function getallcitiesedit() {
+
+        $.ajax({
+
+            type: 'GET',
+          url: apiurl+'api/getallcities',
+
+            headers: {
+                'Content-Type': 'application/json',
+              'Access-Control-Allow-Origin': apiurl
+
+
+            }
+
+
+        }).done(function (res) {
+
+
+            var data = JSON.parse(res.object);
+
+            var html = '';
+
+
+            $.each(data, function (i, val) {
+
+
+                var idd = data[i].CityID
+
+                if (cityuserid != idd) {
+                    html += `<option value= ` + data[i].CityID + `>` + data[i].City_Name + `</option>`
+
+                }
+
+            });
+
+
+
+            $('#CId').append(html);
+
+
+        })
+            .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+                console.log("fail");
+            })
+
+
+    }
+
+
+    $(document).on("click","#EdituserOne",function () {
+
+
+        var isAllOkay = true;
+
+        if ($('#userName').val() == '') {
+            isAllOkay = false;
+            alert("User name is required")
+            return;
+        }
+
+
+        if ($('#UserEmail').val() == '') {
+            isAllOkay = false;
+
+
+            alert("email is required");
+
+            return;
+        }
+
+
+
+        if ($('#CId').val() == '') {
+            isAllOkay = false;
+            alert('City is required');
+            return;
+        }
+
+
+        if ($('#PhoneNo').val() == '') {
+            isAllOkay = false;
+            alert('Phone No:  is required');
+            return;
+        }
+
+        Edit();
+
+
+    });
+
+
+         function  Edit() {
+             cleardatavariables();
+             userID = $("#userID").val();
+             username = $('#userName').val();
+             email = $('#UserEmail').val();
+
+             cityid = $('#CId').val();
+             phone = $('#PhoneNo').val();
+
+             //$("input[type=checkbox]:checked").each(function (i) {
+             //    ($("input[type=checkbox]:checked:eq(" + i + ")").val());
+
+             //});
+
+
+
+             if ($("#Admin").prop("checked") == false) {
+                 roleisactive.push(1)
+             }
+             else {
+                 roles.push(1)
+             }
+
+
+             if ($("#Assistant").prop("checked") == false) {
+                 roleisactive.push(2)
+
+             }
+             else {
+                 roles.push(2)
+             }
+
+
+             if ($("#Doctor").prop("checked") == false) {
+                 roleisactive.push(3)
+             }
+             else {
+                 roles.push(3)
+             }
+
+
+
+
+            $.ajax({
+
+                type: 'POST',
+              url: apiurl+'api/UpdateUser',
+                data: JSON.stringify({
+                    UserId:userID,
+                    UserName:username,
+                    Email:email,
+
+                    PhoneNumber:phone,
+
+                    Cid:cityid,
+                    rolesids:roles,
+                    roleisactive: roleisactive
+
+
+
+
+                }),
+                headers: {
+                    'Content-Type': 'application/json',
+                  'Access-Control-Allow-Origin': apiurl,
+                      'Authorization': 'Bearer  @Request.Cookies["Token"].Value.ToString()'
+
+
+
+                }
+
+
+            }).done(function (res) {
+
+                console.log(res.status);
+
+
+                if (res.status == "exits") {
+
+                    alert('Email Already Exits');
+                }
+
+
+                else if (res.status == "success") {
+
+                    alert('Updated');
+                    window.location.href='@Url.Action("GetALLUser","Account")'
+                }
+                else {
+                    alert(res.message);
+
+                }
+
+
+            })
+                .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+                    if (XMLHttpRequest.status == 403) {
+                        window.location.href = '~/Account/Login'
+                    }
+
+                    if (XMLHttpRequest.status == 401) {
+                        window.location.href = '/Account/Login'
+                    }
+
+
+
+
+                    console.log("fail");
+                })
+
+
+
+
+
+
+
+        };
+
+
+    function ClearFromFileds() {
+        $("#userID").val('');
+        username = $('#userName').val('');
+        email = $('#UserEmail').val('');
+
+        cityid = $('#CId').val('');
+        phone = $('#PhoneNo').val('');
+
+    }
+
+    function cleardatavariables() {
+        userID=""
+        username = "";
+        email = "";
+        cityid = "";
+        phone = "";;
+        roles = [];
+
+    }
+
+
+  ///newuser
+
+
+
+        var username2 = "";
+        var email2 = "";
+        var password2 = "";
+        var confirm2 = "";
+        var cityid2 = "";
+        var phone = "";
+        var Speciality = "";
+        var type = "";
+        var roles2 = [];
+        var roleisactive2 = Array(3);
+
+        $('#Register').click(function () {
+
+            username2 = $('#username2').val();
+            email2 = $('#email2').val();
+            password2 = $('#pass12').val();
+            confirm2 = $('#pass22').val();
+            cityid2 = $('#CId2').val();
+            phone2 = $('#phone2').val();
+            Speciality = $('#Speciality').val()
+
+
+
+            if ($('#Doctor2').is(':checked')) {
+               
+                type = 'Doctor';
+            }
+            else {
+                type = 'User';
+            }
+
+            var isAllOkay = true;
+
+            if ($('#username2').val() == '') {
+                isAllOkay = false;
+                alert("User name is required")
+                return;
+            }
+
+
+            if ($('#email2').val() == '') {
+                isAllOkay = false;
+
+
+                alert("email is required");
+
+                return;
+            }
+            if ($('#pass12').val() == '') {
+                isAllOkay = false;
+                alert(' password is reqiuired');
+                return;
+            }
+
+
+            if ($('#pass22').val() == '') {
+                isAllOkay = false;
+                alert("Confirm Password is required")
+                return;
+            }
+
+            if ($('#pass22').val() != $('#pass12').val() ) {
+                isAllOkay = false;
+                alert("Password does not match")
+                return;
+            }
+
+
+
+            if ($('#CId2').val() == '') {
+                isAllOkay = false;
+                alert('City is required');
+                return;
+            }
+
+
+            if ($('#phone2').val() == '') {
+                isAllOkay = false;
+                alert('Phone No:  is required');
+                return;
+            }
+
+            Submit();
+
+
+        });
+
+
+        var email = $('#email2').val();
+        var pasword = $('#pass12').val();
+
+         function  Submit() {
+            cleardatavariables2();
+
+            username2 = $('#username2').val();
+            email2 = $('#email2').val();
+            password2 = $('#pass12').val();
+            confirm2 = $('#pass22').val();
+            cityid2 = $('#CId2').val();
+             phone2 = $('#phone2').val();
+             Speciality = $('#Speciality').val();
+
+
+             $("input[type=checkbox]:checked").each(function (i) {
+
+                 roles2.push($("input[type=checkbox]:checked:eq(" + i + ")").val());
+
+             });
+
+
+            $.ajax({
+
+                type: 'POST',
+              url: apiurl +'api/Registration',
+                data: JSON.stringify({
+                    Rid: '',
+                    UserName: username2,
+                    Email: email2,
+                    Password: password2,
+                    ConfirmPassword: confirm2,
+                    PhoneNumber: phone2,
+                    Speciality: Speciality,
+                    Cid: cityid2,
+                    rolesids: roles2,
+
+
+                }),
+                headers: {
+                    'Content-Type': 'application/json',
+                  'Access-Control-Allow-Origin': apiurl
+
+
+                }
+
+
+            }).done(function (res) {
+
+
+                if (res.status == "exits") {
+
+                    alert('Email Already Exits');
+                }
+
+
+                else if (res.status == "success") {
+
+                    alert('registered');
+                    window.location.href='@Url.Action("GetALLUser","Account")'
+                }
+                else {
+                    alert(res.message);
+
+                }
+
+
+            })
+                .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+                    console.log("fail");
+                })
+
+
+
+
+
+
+
+        };
+
+
+  function ClearFromFileds2() {
+
+
+    $('#username2').val('');
+    $('#email2').val('');
+    $('#pass12').val('');
+    $('#pass22').val('');
+    $('#CId2').val('');
+    $('#phone2').val('');
+    $('#Speciality').val('');
+
+    base64StringForm = "";
+  }
+
+  function cleardatavariables2() {
+
+    username2 = "";
+    email2 = "";
+    password2= "";
+    confirm2 = "";
+    cityid2 = "";
+    phone2 = "";;
+    roles2 = [];
+
+  }
+
+  function email_validate(email) {
+    var regMail = /^([_a-zA-Z0-9-]+)(\.[_a-zA-Z0-9-]+)*@@([a-zA-Z0-9-]+\.)+([a-zA-Z]{2,3})$/;
+
+    if (regMail.test(email) == false) {
+      document.getElementById("status").innerHTML = "<span class='warning'>Email address is not valid yet.</span>";
+    }
+    else {
+      document.getElementById("status").innerHTML = "<span class='valid'>Thanks, you have entered a valid Email address!</span>";
+    }
+  }
+
+
+  function checkPass() {
+    //Store the password field objects into variables ...
+    var pass1 = document.getElementById('pass12');
+    var pass2 = document.getElementById('pass22');
+    //Store the Confimation Message Object ...
+    var message = document.getElementById('confirmMessage');
+    //Set the colors we will be using ...
+    var goodColor = "#66cc66";
+    var badColor = "#ff6666";
+    //Compare the values in the password field
+    //and the confirmation field
+    if (pass12.value == pass22.value) {
+      //The passwords match.
+      //Set the color to the good color and inform
+      //the user that they have entered the correct password
+      pass2.style.backgroundColor = goodColor;
+      message.style.color = goodColor;
+      message.innerHTML = "Passwords Match"
+    } else {
+      //The passwords do not match.
+      //Set the color to the bad color and
+      //notify the user.
+      pass2.style.backgroundColor = badColor;
+      message.style.color = badColor;
+      message.innerHTML = "Passwords Do Not Match!"
+    }
+  }
+
+
+  $("#pushmenudash").click(function () {
+
+    var id = $(this).attr('data-id');
+
+
+    var a = $('#bodytocheckclass').hasClass('sidebar-collapse');
+
+    if (a == true) {
+
+      $('#bodytocheckclass').removeClass('sidebar-mini layout-fixed  sidebar-collapse');
+      $('#bodytocheckclass').addClass('sidebar-mini layout-fixed  ')
+    }
+
+    else {
+
+      $('#bodytocheckclass').removeClass('sidebar-mini layout-fixed  ');
+      $('#bodytocheckclass').addClass('sidebar-mini layout-fixed  sidebar-collapse ')
+    }
+
+  });
+
+
+
+
+</script>
+

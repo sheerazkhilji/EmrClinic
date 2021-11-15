@@ -1,0 +1,90 @@
+﻿
+@{
+    ViewBag.Title = "City";
+}
+<div>
+    <div class="row">
+
+
+        <div class="col-md-3  m-3 mt-5">
+            <div class="form-group">
+
+
+                <button id="newbtn" class="btn-success">Create City</button>
+
+            </div>
+        </div>
+
+
+
+    </div>
+</div>
+
+
+<div id="actioncontainer">
+
+</div>
+
+
+<section class="content">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+
+
+                <!-- /.card-header -->
+                <div class="card-body">
+                    <div id="registration">
+
+                        @{ Html.RenderAction("CityList");}
+
+
+
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<script>
+
+  var apiurl = "@System.Configuration.ConfigurationManager.AppSettings["url"]";
+
+
+    function focusaction(focusdivid) {
+        $('html, body').animate({
+            scrollTop: $("#" + focusdivid).offset().top - 70
+        }, 1000);
+    }
+
+
+
+    $("#newbtn").click(function () {
+        $.ajax({
+            type: "Get",
+            url: '@(Url.Action("CreateCity", "Dashboard"))',
+
+        })
+            .done(function (response) {
+                $("#actioncontainer").html(response);
+                focusaction("actioncontainer");
+
+            })
+            .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+                alert("Fail");
+            })
+
+    });
+
+
+
+
+</script>
+
+
+
+

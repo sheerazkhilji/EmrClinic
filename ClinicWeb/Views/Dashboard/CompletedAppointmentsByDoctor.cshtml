@@ -1,0 +1,448 @@
+﻿
+@{
+    ViewBag.Title = "completedAppointments";
+}
+
+<div class="row">
+    <div class="col-md-12 p-5 d-flex justify-content-center">
+
+        <h2>Completed Appointments</h2>
+
+    </div>
+
+
+
+</div>
+
+<div class="row" style="display:none">
+
+    <div class="col-md-12">
+        <div class="card card-primary">
+            <div class="card-body">
+
+
+
+
+
+                <div class="form-group row">
+                    <label class="control-label">Start Date</label>
+                    <div class="col-md-2">
+
+                        <input type="text" id="fromDate" placeholder="select date">
+                    </div>
+                    <label class="control-label" style="margin-left:2%">End Date</label>
+                    <div class="col-md-2">
+
+                        <input type="text" id="toDate" placeholder="select date">
+                    </div>
+
+                    <div class="col-md-2" style="margin-left:5%">
+                        <button type="button" class="btn btn-outline-secondary" id="search">search</button>
+
+
+                    </div>
+                    <div class="col-md-2" style="margin-left:5%">
+                        <button type="button" class="btn btn-secondary" id="Reset">Reset</button>
+
+
+                    </div>
+                </div>
+
+
+
+
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+<section class="content">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="producttable" class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+
+
+                                    <th>Patient Name</th>
+                                    <th> Doctor Name </th>
+
+                                    <th>AppoinmentDate</th>
+
+                                    <th>Amount</th>
+
+                                    <th>Payemnt Type</th>
+                                    @*<th>Actions</th>*@
+
+
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+
+
+    var apiurl = "@System.Configuration.ConfigurationManager.AppSettings["url"]";
+    var LogeduserID;
+    $(document).ready(function () {
+        var UserID = document.cookie.split(";");
+        for (var i = 0; i < UserID.length; i++) {
+            if (UserID[i].split("userID=").length > 1) {
+                LogeduserID = document.cookie.split(";")[i].split("userID=")[2];
+                break;
+
+            }
+        }
+
+     var startdate= $("#fromDate").val();
+
+      var toDate = $("#toDate").val();
+
+
+            $("#producttable").DataTable({
+                "bServerSide": true, //make server side processing to true
+                "sAjaxSource": apiurl + "api/Appoinments/CompeltedAppoinemntByDoctor?startdate=" + startdate + "&enddate=" + toDate + "&id=" + LogeduserID,
+                 //url of the Ajax source,i.e. web api method
+                "sAjaxDataProp": "aaData", // data property of the returned ajax which contains table data
+                "bProcessing": true,
+                "bLengthChange": true,
+                "sPaginationType": "full_numbers",//pagination type
+
+                "aoColumns": [
+
+
+
+                  {
+                    "mData": "pidandaid", "bSearchable": false, "bSortable": false,
+                    "mRender": function (data) {
+
+                      const [name, pid, aid] = data.split("$");
+
+                   //     return "<a  href='/Appointment/AppointmentDetails?id=" + pid + "&ApppointmentID=" + aid + "' >" + name + "</a>";
+
+                        return "<a  href='/Appointment/AppointmentDetails?id=" + pid +"' >" + name + "</a>";
+
+                    }
+
+                  },
+
+
+
+                  { "mData": "doctorName" },
+
+
+
+                  { "mData": "appoinement_date" },
+
+
+
+                  { "mData": "amount" },
+
+
+
+                  { "mData": "paymenttype" },
+
+
+
+                    //{
+                    //    "mData": "appoientmentID", "bSearchable": false, "bSortable": false,
+                    //    "mRender": function (data) {
+
+
+                    //        return "<button  onclick='notcomplete(" + data + ")' >Not Complete</button>";
+
+                    //    }
+
+                    //},
+
+
+
+                ]
+            });
+
+  });
+    $("#search").click(function () {
+
+
+        if ($("#fromDate").val() == "") {
+            swal({
+                title: "warning",
+                text: "Start Date is Required",
+                icon: "warning",
+
+                dangerMode: true,
+            })
+            return;
+
+        }
+
+        if ($("#toDate").val() == "") {
+            swal({
+                title: "warning",
+                text: "End Date is Required",
+                icon: "warning",
+
+                dangerMode: true,
+            })
+            return;
+
+        }
+        //$('#producttable').dataTable().fnClearTable();
+        $('#producttable').dataTable().fnDestroy();
+
+        $("#producttable").DataTable({
+            "bServerSide": true, //make server side processing to true
+            "sAjaxSource": apiurl + "api/Appoinments/CompeltedAppoinemntByDoctor?startdate=" + $("#fromDate").val() + "&enddate=" + $("#toDate").val() + "&id=" + LogeduserID ,
+            //url of the Ajax source,i.e. web api method
+            "sAjaxDataProp": "aaData", // data property of the returned ajax which contains table data
+            "bProcessing": true,
+            "bLengthChange": true,
+            "sPaginationType": "full_numbers",//pagination type
+
+            "aoColumns": [
+
+
+
+                {
+                    "mData": "pidandaid", "bSearchable": false, "bSortable": false,
+                    "mRender": function (data) {
+
+                        const [name, pid, aid] = data.split("$");
+
+                        //     return "<a  href='/Appointment/AppointmentDetails?id=" + pid + "&ApppointmentID=" + aid + "' >" + name + "</a>";
+
+                        return "<a  href='/Appointment/AppointmentDetails?id=" + pid + "' >" + name + "</a>";
+
+                    }
+
+                },
+
+
+
+                { "mData": "doctorName" },
+
+
+
+                { "mData": "appoinement_date" },
+
+
+
+                { "mData": "amount" },
+
+
+
+                { "mData": "paymenttype" },
+
+
+                {
+                    "mData": "appoientmentID", "bSearchable": false, "bSortable": false,
+                    "mRender": function (data) {
+
+
+                        return "<button  onclick='notcomplete("+data+")' >Not Complete</button>";
+
+                    }
+
+                },
+
+
+
+
+            ]
+        });
+
+    })
+    $("#fromDate").datepicker({
+        format: 'yyyy-mm-dd',
+        autoclose: true,
+    }).on('changeDate', function (selected) {
+        var minDate = new Date(selected.date.valueOf());
+        $('#toDate').datepicker('setStartDate', minDate);
+    });
+
+    $("#toDate").datepicker({
+        format: 'yyyy-mm-dd',
+        autoclose: true,
+    }).on('changeDate', function (selected) {
+        var minDate = new Date(selected.date.valueOf());
+        $('#fromDate').datepicker('setEndDate', minDate);
+    });
+
+
+    $("#Reset").click(function () {
+
+        $('#fromDate').val('').datepicker("refresh");
+        $('#toDate').val('').datepicker('refresh');
+        var startdate = "";
+
+        var toDate = "";
+
+        //$('#producttable').dataTable().fnClearTable();
+        $('#producttable').dataTable().fnDestroy();
+
+        $("#producttable").DataTable({
+            "bServerSide": true, //make server side processing to true
+            "sAjaxSource": apiurl + "api/CompeltedAppoinemnt?startdate=" + startdate + "&enddate=" + toDate,
+            //url of the Ajax source,i.e. web api method
+            "sAjaxDataProp": "aaData", // data property of the returned ajax which contains table data
+            "bProcessing": true,
+            "bLengthChange": true,
+            "sPaginationType": "full_numbers",//pagination type
+
+            "aoColumns": [
+
+
+
+                {
+                    "mData": "pidandaid", "bSearchable": false, "bSortable": false,
+                    "mRender": function (data) {
+
+                        const [name, pid, aid] = data.split("$");
+
+                        //     return "<a  href='/Appointment/AppointmentDetails?id=" + pid + "&ApppointmentID=" + aid + "' >" + name + "</a>";
+
+                        return "<a  href='/Appointment/AppointmentDetails?id=" + pid + "' >" + name + "</a>";
+
+                    }
+
+                },
+
+
+
+                { "mData": "doctorName" },
+
+
+
+                { "mData": "appoinement_date" },
+
+
+
+                { "mData": "amount" },
+
+
+
+                { "mData": "paymenttype" },
+
+
+                {
+                    "mData": "appoientmentID", "bSearchable": false, "bSortable": false,
+                    "mRender": function (data) {
+
+
+                        return "<button  onclick='notcomplete(" + data + ")' >Not Complete</button>";
+
+                    }
+
+                },
+
+
+
+
+            ]
+        });
+
+
+
+
+    });
+    function notcomplete(data) {
+           $.ajax({
+
+              type: 'get',
+               url: apiurl +'api/Appointment/NotCompleted?id='+data,
+
+                headers: {
+                  'Content-Type': 'application/json',
+
+                  'Access-Control-Allow-Origin': apiurl,
+                    'Authorization': 'Bearer  @Request.Cookies["Token"].Value.ToString()'
+
+                }
+
+
+            }).done(function (res) {
+
+                if (res.status == 'success') {
+
+                    $("#producttable").DataTable().ajax.reload();
+                    swal({
+                        title: "Saved",
+
+                        icon: "success",
+                    });
+
+                }
+                else {
+                    alert(res.message);
+
+                }
+
+
+            })
+                .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+
+
+                    if (XMLHttpRequest.status==403) {
+                        window.location.href = '~/Account/Login'
+                    }
+
+                    if (XMLHttpRequest.status == 401) {
+                        window.location.href = '/Account/Login'
+                    }
+
+                    console.log("fail");
+
+
+                })
+
+
+
+
+
+    }
+
+
+
+  $("#pushmenudash").click(function () {
+
+    var id = $(this).attr('data-id');
+
+
+    var a = $('#bodytocheckclass').hasClass('sidebar-collapse');
+
+    if (a == true) {
+
+      $('#bodytocheckclass').removeClass('sidebar-mini layout-fixed  sidebar-collapse');
+      $('#bodytocheckclass').addClass('sidebar-mini layout-fixed  ')
+    }
+
+    else {
+
+      $('#bodytocheckclass').removeClass('sidebar-mini layout-fixed  ');
+      $('#bodytocheckclass').addClass('sidebar-mini layout-fixed  sidebar-collapse ')
+    }
+
+  });
+
+
+</script>

@@ -1,0 +1,400 @@
+﻿
+@{
+    ViewBag.Title = "DoctorAppointmentShedule";
+}
+
+
+
+<div class="container-fluid">
+
+
+    <div class="row">
+
+        <form class="form-inline" id="docshc">
+            <label for="email">Dates</label>
+            <input type="text" class="form-control" name="doctor_schedule_date" id="doctor_schedule_date">
+            <label for="pwd">Start Time</label>
+            <input type="text" name="doctor_schedule_start_time" id="doctor_schedule_start_time" class="form-control datetimepicker-input" data-toggle="datetimepicker" data-target="#doctor_schedule_start_time" required="" onkeydown="return false" onpaste="return false;" ondrop="return false;" autocomplete="off" data-parsley-id="7">
+
+            <label for="pwd">End Time</label>
+            <input type="text" name="doctor_schedule_end_time" id="doctor_schedule_end_time" class="form-control datetimepicker-input" data-toggle="datetimepicker" data-target="#doctor_schedule_end_time" required="" onkeydown="return false" onpaste="return false;" ondrop="return false;" autocomplete="off" data-parsley-id="9">
+
+
+            <button type="button" class="btn btn-primary  ml-2 mt-2  " id="add">Add</button>
+        </form>
+
+    </div>
+    <table class="table table-bordered table-condensed">
+
+        <thead>
+            <tr>
+                <th>
+                    Date
+                </th>
+                <th>
+                    Start Time
+                </th>
+
+
+                <th>
+                    End Time
+                </th>
+
+                <th>
+                    Action
+                </th>
+
+            </tr>
+
+        </thead>
+
+        <tbody id="docschtable">
+        </tbody>
+
+
+
+    </table>
+
+
+    <div class="row">
+
+        <div class="col-md-6">
+
+            <button class="btn btn-primary" id="save" style="display:none">save</button>
+
+
+
+        </div>
+
+    </div>
+
+
+
+    <div class="row mt-3">
+
+        <div class="table-responsive">
+            <table id="producttable" class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>Date </th>
+
+                        <th>Start Time</th>
+
+
+
+                        <th>End Time</th>
+
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+
+
+    </div>
+
+
+
+
+</div>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.0/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.39.0/js/tempusdominus-bootstrap-4.min.js" integrity="sha512-k6/Bkb8Fxf/c1Tkyl39yJwcOZ1P4cRrJu77p83zJjN2Z55prbFHxPs9vN7q3l3+tSMGPDdoH51AEU8Vgo1cgAA==" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.39.0/css/tempusdominus-bootstrap-4.min.css" integrity="sha512-3JRrEUwaCkFUBLK1N8HehwQgu8e23jTH4np5NHOmQOobuC4ROQxFwFgBLTnhcnQRMs84muMh0PnnwXlPq5MGjg==" crossorigin="anonymous">
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js" integrity="sha512-37T7leoNS06R80c8Ulq7cdCDU5MNQBwlYoy1TX/WUsLFC2eYNqtKlV0QjH7r8JpG/S0GUMZwebnVFLPd6SU5yg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
+<script>
+
+  var apiurl = "@System.Configuration.ConfigurationManager.AppSettings["url"]";
+    var docsch = [];
+
+
+
+    $(document).ready(function () {
+
+
+        var date = new Date();
+        date.setDate(date.getDate());
+
+        $('#doctor_schedule_date').datepicker({
+            startDate: date,
+            format: "yyyy-mm-dd",
+            multidate: true,
+
+        });
+
+        $('#doctor_schedule_start_time').datetimepicker({
+            format: 'HH:mm'
+        });
+
+        $('#doctor_schedule_end_time').datetimepicker({
+            useCurrent: false,
+            format: 'HH:mm'
+        });
+
+        $("#doctor_schedule_start_time").on("change.datetimepicker", function (e) {
+            console.log('test');
+            $('#doctor_schedule_end_time').datetimepicker('minDate', e.date);
+        });
+
+        $("#doctor_schedule_end_time").on("change.datetimepicker", function (e) {
+            $('#doctor_schedule_start_time').datetimepicker('maxDate', e.date);
+        });
+
+
+
+        var doctorid = localStorage.userID
+
+        $("#producttable").DataTable({
+            "bServerSide": true, //make server side processing to true
+
+            "sAjaxSource": apiurl + "api/DoctorSchedule/GetAll?dotorId=" + doctorid,
+            "sAjaxDataProp": "aaData", // data property of the returned ajax which contains table data
+            "bProcessing": true,
+            "bLengthChange": true,
+            "sPaginationType": "full_numbers",//pagination type
+
+            "aoColumns": [
+
+
+                { "mData": "dates" },
+
+                { "mData": "starttime" },
+
+                { "mData": "endtime" },
+
+
+
+
+                //{
+                //    "mData": "id", "bSearchable": false, "bSortable": false,
+                //    "mRender": function (data) {
+
+                //        var id = data;
+                //        debugger;
+
+                //        return "<button type = 'button'   onclick='Editp(" + JSON.stringify(id) + ")' data-toggle='modal' data-target='#modalDocuments' class='ml-2 btn btn-info btn-circle'><i class='fa fa-edit'></i></button>" + "<button type='button' class=' ml-2 btn btn-danger btn-circle'   onclick='Deleted(" + JSON.stringify(id) + ")'> <i class='fa fa-trash-alt'></i></button > ";
+
+
+
+                //    }
+                //}
+
+
+
+            ]
+        });
+
+
+    });
+
+
+
+
+    $("#add").click(function () {
+
+        if ($("#docshc").valid()) {
+            var validator = $("#docshc").validate();
+            validator.resetForm();
+
+
+
+            var dates = $("#doctor_schedule_date").val().split(',');
+
+            var starttime = $("#doctor_schedule_start_time").val()
+
+            var endtime = $("#doctor_schedule_end_time").val()
+
+            for (var i = 0; i < dates.length; i++) {
+
+                docsch.push({ dates: dates[i], starttime: starttime, endtime: endtime });
+
+
+            }
+            $("#docschtable").empty();
+
+
+            for (var i = 0; i < docsch.length; i++) {
+
+                $("#docschtable").append('<tr><td>' + docsch[i].dates + '</td><td>' + docsch[i].starttime + '</td><td>' + docsch[i].endtime + '</td><td><button class="btn btn-danger"  onclick="deletetable(' + i + ')" >Delete</button></td></tr>')
+
+
+            }
+
+            $("#save").css("display", "block");
+
+
+
+        }
+
+
+
+
+    });
+
+
+    function deletetable(i) {
+
+        docsch.splice(i, 1);
+
+        $("#docschtable").empty();
+
+
+        for (var i = 0; i < docsch.length; i++) {
+
+            $("#docschtable").append('<tr><td>' + docsch[i].dates + '</td><td>' + docsch[i].starttime + '</td><td>' + docsch[i].endtime + '</td><td><button class="btn btn-danger"  onclick="deletetable(' + i + ')" >Delete</button></td></tr>')
+
+
+        }
+
+
+        if (docsch.length == 0) {
+
+            $("#save").css("display", "none");
+
+        }
+
+
+    }
+
+    $("#docshc").validate({
+
+        rules: {
+            doctor_schedule_date: {
+                required: true,
+
+
+            },
+            doctor_schedule_start_time: {
+                required: true,
+
+            },
+            doctor_schedule_end_time: {
+                required: true,
+
+            },
+
+
+
+        },
+        messages: {
+            ProjectId: "This field is required.",
+            Location: "This field is required.",
+            SampleFormation: "This field is required.",
+            LocationAccessedBy: "This field is required.",
+
+
+        },
+        highlight: function (element) {
+            $(element).parent().addClass('has-error');
+        },
+        unhighlight: function (element) {
+            $(element).parent().removeClass('has-error');
+        },
+        errorElement: 'div',
+        errorClass: 'validation-error-message bold',
+        errorPlacement: function (error, element) {
+            error.appendTo(element.parent().parent().after());
+        },
+
+
+    });
+
+
+
+    $("#save").click(function () {
+        debugger;
+        var arr = [];
+        for (var i = 0; i < docsch.length; i++) {
+            let temp = {
+                dates: docsch[i].dates,
+                starttime: docsch[i].starttime,
+                endtime: docsch[i].endtime,
+                DoctorId: localStorage.userID
+            };
+            arr.push(temp);
+        }
+
+          $.ajax({
+
+              type: 'POST',
+              url: apiurl +'api/DoctorSchedule/AddDoctorSchedule',
+              data: JSON.stringify(arr),
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Access-Control-Allow-Origin': apiurl,
+                    'Authorization': 'Bearer  @Request.Cookies["Token"].Value.ToString()'
+
+                }
+
+
+            }).done(function (res) {
+
+                console.log(res);
+
+                if (res.status == 'success') {
+                    alert('Created');
+                    $("#producttable").DataTable().ajax.reload();
+                    $("#docschtable").empty();
+
+                   
+                    docsch = [];
+
+
+
+                    $("#save").css("display", "none");
+
+
+                
+
+                }
+                else {
+                    alert(res.message);
+
+                }
+
+
+            })
+                .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+                    debugger;
+
+                    if (XMLHttpRequest.status==403) {
+                        window.location.href = '~/Account/Login'
+                    }
+
+                    if (XMLHttpRequest.status == 401) {
+                        window.location.href = '/Account/Login'
+                    }
+
+                    console.log("fail");
+
+
+                })
+
+
+
+
+
+
+
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+
+
+

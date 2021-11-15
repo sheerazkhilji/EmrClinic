@@ -1,0 +1,453 @@
+﻿
+@{
+    ViewBag.Title = "ListofDouments";
+}
+
+
+
+
+<div class="container-fluid">
+    <!-- ============================================================== -->
+    <!-- Start Page Content -->
+    <!-- ============================================================== -->
+    <div class="row">
+        <!-- Column -->
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="producttable" class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Document Name</th>
+
+                                    <th>File</th>
+
+
+
+                                    <th>Actions</th>
+
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Column -->
+    </div>
+    <!-- ============================================================== -->
+    <!-- End PAge Content -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- Right sidebar -->
+    <!-- ============================================================== -->
+    <!-- .right-sidebar -->
+    <!-- ============================================================== -->
+    <!-- End Right sidebar -->
+    <!-- ============================================================== -->
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<script>
+
+  var apiurl = "@System.Configuration.ConfigurationManager.AppSettings["url"]";
+    function getQueryVariable(variable) {
+
+        var query = window.location.search.substring(1);
+        var vars = query.split("?");
+
+
+
+        for (var i = 0; i < vars.length; i++) {
+            var pair = vars[i].split("=");
+            if (pair[0] == variable) {
+              return pair[1].replaceAll('%20', ' ');
+            }
+        }
+    }
+
+    var pid = "";
+
+    $(document).ready(function () {
+        pid = getQueryVariable('id');
+
+
+            $("#producttable").DataTable({
+              "bServerSide": true, //make server side processing to true
+              "sAjaxSource": apiurl+"api/GetALLDocuments?id=" + pid,
+                 "sAjaxDataProp": "aaData", // data property of the returned ajax which contains table data
+                "bProcessing": true,
+                "bLengthChange": true,
+                "sPaginationType": "full_numbers",//pagination type
+
+                "aoColumns": [
+
+
+                    { "mData": "name" },
+
+
+                    {
+                        "mData": "file", "bSearchable": false, "bSortable": false,
+                        "mRender": function (data) {
+
+                            var id = data;
+
+                            return "<a target='blank'   href = " + apiurl+id + "     class='ml-2 btn btn-info btn-circle'><i class='fa fa-file'></i></a>";
+
+
+                        }
+                    },
+
+
+
+                {
+                    "mData": "id", "bSearchable": false, "bSortable": false,
+                    "mRender": function (data) {
+
+                        var id = data;
+
+
+                      return "<button type = 'button'   onclick='Editp(" + JSON.stringify(id) + ")'data-toggle='modal' data-target='#modalDocuments'  class='ml-2 btn btn-info btn-circle'><i class='fa fa-edit'></i></button>" + "<button type='button' class=' ml-2 btn btn-danger btn-circle'   onclick='Deleted(" + JSON.stringify(id) + ")'> <i class='fa fa-trash-alt'></i></button > " ;
+
+
+
+                    }
+                }
+
+
+
+                ]
+            });
+
+        });
+
+
+
+    function Editp(ID) {
+
+      ClearFromFileds();
+      $("#AddD").hide();
+      $("#Editdocument").css('display', "block");
+
+            $.ajax({
+
+              type: 'GET',
+              url: apiurl+'api/getdocumentbyidPatient',
+                data: {
+                    id: ID
+                },
+                headers: {
+                  'Content-Type': 'application/json',
+
+                  'Access-Control-Allow-Origin': apiurl,
+                    'Authorization': 'Bearer  @Request.Cookies["Token"].Value.ToString()'
+
+                }
+
+
+            }).done(function (res) {
+
+
+                var data = JSON.parse(res.object);
+
+
+
+
+              if (res.status == 'success') {
+
+
+                $("#DocumentName").val(data[0].FileName);
+                $('#ImageUploadnot').val(data[0].file_path);
+                $('#docid').val(data[0].pkID);
+
+
+
+
+
+
+
+                }
+                else {
+                    alert(res.message);
+
+                }
+
+
+            })
+                .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+
+
+                    if (XMLHttpRequest.status==403) {
+                        window.location.href = '~/Account/Login'
+                    }
+
+                    if (XMLHttpRequest.status == 401) {
+                        window.location.href = '/Account/Login'
+                    }
+
+                    console.log("fail");
+
+
+                })
+
+
+
+
+    }
+
+
+    $(document).on("change", "#ImageUpload", function () {
+
+        fasterPreview(this, "Document");
+
+    })
+
+
+
+
+    var filename = "";
+    var base64stringform = "";
+
+    var doc = "";
+
+
+
+
+
+
+    function fasterPreview(uploader, component) {
+        debugger;
+        if (uploader.files && uploader.files[0]) {
+            var fileName, fileExtension;
+            fileName = uploader.files[0].name;
+            fileExtension = fileName.replace(/^.*\./, '');
+
+            var FileSize = uploader.files[0].size / 1024 / 1024; // in MB
+            if (FileSize > 10) {
+                alert('File size exceeds 10 MB');
+                uploader.val('');
+                if (component == "Document")
+                    base64stringform = "";
+
+                return false;
+            }
+            var img = uploader.files[0];
+            var reader = new FileReader();
+            reader.onloadend = function () {
+                //var mybase64String = /,(.+)/.exec(reader.result)[1];
+                //base64String.push(/,(.+)/.exec(reader.result)[1]);
+                if (component == "Document")
+                       base64stringform= /,(.+)/.exec(reader.result)[1];
+
+            }
+            reader.readAsDataURL(img);
+
+        }
+
+
+
+    }
+
+
+
+    $(document).on("click", "#update",function () {
+
+        if ($('#DocumentName').val() == '') {
+            isAllOkay = false;
+
+            alert('Document Name is  Mandatory!');
+            return;
+        }
+
+
+
+
+        update();
+
+    })
+
+
+
+    function update() {
+
+
+
+        filename = $('#DocumentName').val();
+
+        doc = $("#ImageUploadnot").val();
+
+      var docid = $("#docid").val();
+
+            $.ajax({
+
+              type: 'POST',
+                url: apiurl +'api/UpdateDoc',
+               
+                data: JSON.stringify({
+
+                    ID: docid,
+                    Name:filename,
+
+                    file:base64stringform,
+                    Doc:doc
+
+
+                }),
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Access-Control-Allow-Origin': 'https://localhost:44306/',
+                    //'Access-Control-Allow-Origin': 'http://webapi.compassioncouch.com/',
+                    'Authorization': 'Bearer  @Request.Cookies["Token"].Value.ToString()'
+
+                }
+
+
+            }).done(function (res) {
+
+                if (res.status == 'success') {
+
+                    $("#imgeloderPatient").hide();
+                    alert('updated');
+                    base64stringform = "";
+                    //ClearFromFileds();
+                    //$("#actioncontainer").html("");
+                    setTimeout(function () {
+                        $(btn).buttonLoader('stop');
+                    }, 3000);
+                    window.location.reload();
+
+                }
+                else {
+                    alert(res.message);
+
+                }
+
+
+            })
+                .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+
+
+                    if (XMLHttpRequest.status==403) {
+                        window.location.href = '~/Account/Login'
+                    }
+
+                    if (XMLHttpRequest.status == 401) {
+                        window.location.href = '/Account/Login'
+                    }
+
+                    console.log("fail");
+
+
+                })
+
+
+    }
+
+
+    function ClearFromFileds() {
+
+        $('#DocumentName').val('');
+
+
+    }
+
+
+    function cleardatavariables() {
+
+
+        filename = "";
+        base64stringform = "";
+
+    }
+
+
+
+
+
+    function Deleted(ID) {
+
+            $.ajax({
+
+                type: 'get',
+                url: apiurl+'api/DeleteIDDoc',
+                data:{
+
+                    id:ID
+
+
+                },
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': 'http://webapi.compassioncouch.com/',
+                    'Authorization': 'Bearer  @Request.Cookies["Token"].Value.ToString()'
+
+                }
+
+
+            }).done(function (res) {
+
+                if (res.status == 'success') {
+
+                    $("#imgeloderPatient").hide();
+                    alert('Deleted');
+                    window.location.reload();
+                }
+                else {
+                    alert(res.message);
+
+                }
+
+
+            })
+                .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+
+
+                    if (XMLHttpRequest.status==403) {
+                        window.location.href = '~/Account/Login'
+                    }
+
+                    if (XMLHttpRequest.status == 401) {
+                        window.location.href = '/Account/Login'
+                    }
+
+                    console.log("fail");
+
+
+                })
+
+    }
+
+  $("#pushmenudash").click(function () {
+
+    var id = $(this).attr('data-id');
+
+
+    var a = $('#bodytocheckclass').hasClass('sidebar-collapse');
+
+    if (a == true) {
+
+      $('#bodytocheckclass').removeClass('sidebar-mini layout-fixed  sidebar-collapse');
+      $('#bodytocheckclass').addClass('sidebar-mini layout-fixed  ')
+    }
+
+    else {
+
+      $('#bodytocheckclass').removeClass('sidebar-mini layout-fixed  ');
+      $('#bodytocheckclass').addClass('sidebar-mini layout-fixed  sidebar-collapse ')
+    }
+
+  });
+
+
+</script>

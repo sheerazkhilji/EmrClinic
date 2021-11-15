@@ -1,0 +1,897 @@
+﻿
+@{
+    ViewBag.Title = "Referral";
+}
+
+<style>
+
+    .loader {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        height: 150px;
+        width: 150px;
+        overflow: hidden;
+        z-index: 9999;
+        opacity: 1;
+        transition: opacity 0.5s;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 16px solid #f3f3f3;
+        border-radius: 50%;
+        border-top: 16px solid #1c6279;
+        -webkit-animation: spin 2s linear infinite; /* Safari */
+        animation: spin 2s linear infinite;
+    }
+
+
+    /* Safari */
+    @@-webkit-keyframes spin {
+        0% {
+            -webkit-transform: rotate(0deg);
+        }
+
+        100% {
+            -webkit-transform: rotate(360deg);
+        }
+    }
+
+    @@keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+</style>
+
+<div class="loader"></div>
+<!-- Button to Open the Modal -->
+<button type="button" id="Addre" class="btn btn-primary mt-2 mb-5" data-toggle="modal" data-target="#myModal">
+    Add Referral
+</button>
+
+<!-- The Modal -->
+<div class="modal" id="myModal" data-backdrop="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Referral</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <form id="RFrom">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="tName">Name</label>
+                        <input type="text" class="form-control" id="Name" a placeholder="Enter Name">
+
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email1">Email</label>
+                        <input type="email" class="form-control" id="email1" name="email1" placeholder="Enter email">
+
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for=">MobileNo">Mobile No.</label>
+                        <input type="text" class="form-control" id="No" name="No" placeholder="Enter Mobile No.">
+
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Doctors">Doctors</label>
+
+
+                        <select id="doctordropdwonsearchforApp" class="form-control">
+                        </select>
+
+                    </div>
+
+                    <div class="form-group">
+                        <label for="No">Referred by</label>
+                        <input type="text" class="form-control" id="Referred" placeholder="Enter Referred by">
+
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="Cnic">Cnic</label>
+                        <input type="text" class="form-control" id="Cnic" placeholder="Enter Cnic">
+
+                    </div>
+
+
+
+                    <div class="form-group">
+                        <label for="Date">Date</label>
+                        <input type="date" class="form-control" id="Dates" placeholder="Enter Date">
+
+                    </div>
+
+
+
+
+                    <div class="form-group">
+                        <label for="Appointmentd">Appointment Date</label>
+                        <input type="date" class="form-control" id="Appointmentd" placeholder="Enter Date">
+
+                    </div>
+
+
+
+
+
+
+                    <div class="form-group">
+                        <label for="Bith">Date Of Bith</label>
+                        <input type="date" class="form-control" id="Bith">
+
+                    </div>
+
+
+
+                    <div class="form-group">
+                        <label for="Comments">Comments</label>
+                        <input type="text" class="form-control" id="Comments">
+
+                    </div>
+
+
+
+                </div>
+                <div class="modal-footer border-top-0 d-flex justify-content-center">
+                    <button type="button" id="Save" class="btn btn-success">Save</button>
+                </div>
+            </form>
+        </div>
+
+
+    </div>
+</div>
+
+
+
+<table id="Rtable" class="table table-bordered table-hover">
+
+    <thead>
+
+        <tr>
+            <th>Pateint Name</th>
+
+            <th>Mobile No.</th>
+            <th>Doctor</th>
+            <th>Refereed By</th>
+            <th>Age</th>
+            <th>Date</th>
+
+            <th>Appointment Date He Wants</th>
+            <th>Actions</th>
+
+        </tr>
+
+
+
+    </thead>
+
+    <tbody>
+    </tbody>
+
+
+</table>
+
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js" integrity="sha512-37T7leoNS06R80c8Ulq7cdCDU5MNQBwlYoy1TX/WUsLFC2eYNqtKlV0QjH7r8JpG/S0GUMZwebnVFLPd6SU5yg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="~/plugins/select2/js/select2.min.js"></script>
+<script>
+
+    var rid = "0";
+    var doctordropdown = [];
+
+    var apiurl = "@System.Configuration.ConfigurationManager.AppSettings["url"]";
+
+  $(document).ready(function () {
+      $('.loader').hide()
+      $("#Rtable").DataTable({
+              "bServerSide": true, //make server side processing to true
+                "sAjaxSource": apiurl +"api/Reference/GetDatatable", //url of the Ajax source,i.e. web api method
+
+                "sAjaxDataProp": "aaData", // data property of the returned ajax which contains table data
+                "bProcessing": true,
+                "bLengthChange": true,
+                "sPaginationType": "full_numbers",//pagination type
+
+                "aoColumns": [
+
+                    { "mData": "pateint_name" },
+
+
+
+                    { "mData": "mobileNumber" },
+
+                    { "mData": "doctorName" },
+                    { "mData": "refereedBy" },
+                    { "mData": "dateOfBirth" },
+
+                    { "mData": "createDate" },
+
+                    { "mData": "appointmentDate" },
+
+
+
+                {
+
+                    "mRender": function (data,type,full,meta) {
+
+
+                        var r = '@Request.Cookies["Role"].Value.ToString()';
+                        if (r.includes("Assistant") || r.includes("Admin")) {
+
+
+
+
+                            return "<button type = 'button' onclick='OpenEditForm(" + JSON.stringify(full.rid) + ")'   class='ml-2 btn btn-info btn-circle btn-sml' data-toggle='modal' data-target='#myModal' ><i class='fa fa-edit'></i></button>" + "<button type='button' class=' ml-2 btn btn-danger btn-circle btn-sml'   onclick='Deletep(" + JSON.stringify(full.rid) + ")'> <i class='fa fa-trash-alt'></i></button >  <button class='ml-2 btn btn-info btn-circle btn-sml' onclick='Registor(" + JSON.stringify(full.rid) + ")' ><i class=' fas fa-save'></i></button> ";
+
+                        }
+                        else {
+                            return "<button type = 'button'   class='ml-2 btn btn-info btn-circle btn-sml'><i class='fa fa-edit'></i></button>" + "<button type='button' class=' ml-2 btn btn-danger btn-circle btn-sml'   onclick='Deletep(" + JSON.stringify(full.patient_ID) + ")'> <i class='fa fa-trash-alt'></i></button > " ;
+
+
+                        }
+
+
+                    }
+                }
+
+
+
+                ]
+            });
+
+        });
+
+
+
+    function OpenEditForm(id) {
+
+        $("#doctordropdwonsearchforApp").empty();
+         $.ajax({
+
+             type: "GET",
+             url: apiurl + 'api/Reference/GetByid?id='+id,
+
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': apiurl,
+                    'Authorization': 'Bearer  @Request.Cookies["Token"].Value.ToString()'
+
+                }
+
+
+
+
+            }).done(function (res) {
+
+
+                if (res.status == 'success') {
+                    var doctors = res.object.doctors
+                    var data = res.object.reff;
+
+                    debugger;
+                    $('.loader').hide();
+                    doctordropdown = [];
+                    $.each(doctors, function (i, value) {
+
+
+                        doctordropdown.push({ id: doctors[i].doctorID, Name: doctors[i].doctorName });
+                        // mynames.push(data[i].UserName)
+
+                    })
+
+
+                    for (var i = 0; i < doctordropdown.length; i++) {
+
+
+
+                        $("#doctordropdwonsearchforApp").append('<option value="' + doctordropdown[i].id + '">' + doctordropdown[i].Name + '</option>')
+
+                    }
+
+
+                    $("#doctordropdwonsearchforApp").select2({
+                        placeholder: "Select a Doctor",
+                        data: doctordropdown
+                    });
+
+
+
+
+                    
+                    $("#No").val(data.mobileNumber),
+                        $("#email1").val(data.email),
+
+                        $("#Referred").val(data.refereedBy),
+                        $("#Bith").val(data.dateOfBirth),
+                        $("#Cnic").val(data.cnic),
+                        $("#Name").val(data.pateint_name)
+                    rid = data.rid;
+                    $("#Comments").val(data.comments)
+
+                    $("#Dates").val(data.createDate);
+
+                    $("#Appointmentd").val(data.appointmentDate)
+                    
+                    $("#doctordropdwonsearchforApp").val(data.doctorId).trigger('change');
+                   
+
+                }
+                else {
+                    alert(res.message);
+
+                }
+
+
+            })
+                .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+
+                    if (XMLHttpRequest.status == 403) {
+                        window.location.href = '~/Account/Login'
+                    }
+
+                    if (XMLHttpRequest.status == 401) {
+                        window.location.href = '/Account/Login'
+                    }
+
+                    console.log("fail");
+
+
+                })
+
+
+    }
+
+
+
+    $("#RFrom").validate({
+        errorClass: "alert alert-danger text-center errorClass",
+        errorElement: "div",
+        rules: {
+
+            No: {
+                required: true,
+                digits: true
+            }
+
+        },
+        messages: {
+
+
+            No: {
+                required: 'Mobile No. is mandatory!'
+            }
+
+
+
+        },
+        highlight: function (inputelement, errorClass) {
+            $(inputelement).removeClass(errorClass)
+        }
+    });
+
+    $("#Save").click(function () {
+
+
+       
+
+        if ($("#RFrom").valid()) {
+
+
+            if (parseInt(rid) > 0) {
+
+                var data = {
+                    Rid: rid,
+                    MobileNumber: $("#No").val(),
+                    Email: $("#email1").val(),
+
+                    RefereedBy: $("#Referred").val(),
+                    DateOfBirth: $("#Bith").val(),
+                    CNIC: $("#Cnic").val(),
+                    pateint_name: $("#Name").val(),
+
+
+                    CreateDate: $("#Dates").val(),
+
+                    appointmentDate: $("#Appointmentd").val(),
+                    DoctorId: $("#doctordropdwonsearchforApp").val(),
+                    Comments: $("#Comments").val()
+
+
+                }
+
+                     $.ajax({
+
+                type: "POST",
+                         url: apiurl + 'api/Reference/updateReference',
+                data: JSON.stringify(data),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': apiurl,
+                    'Authorization': 'Bearer  @Request.Cookies["Token"].Value.ToString()'
+
+                }
+
+
+
+
+            }).done(function (res) {
+
+
+                if (res.status == 'success') {
+
+                    swal({
+                        title: "Saved",
+
+                        icon: "success",
+                    });
+                    clear();
+                    $('#myModal').hide();
+
+                    $("#Rtable").DataTable().ajax.reload();
+
+                }
+                else {
+                    alert(res.message);
+
+                }
+
+
+            })
+                .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+
+                    if (XMLHttpRequest.status == 403) {
+                        window.location.href = '~/Account/Login'
+                    }
+
+                    if (XMLHttpRequest.status == 401) {
+                        window.location.href = '/Account/Login'
+                    }
+
+                    console.log("fail");
+
+
+                })
+            }
+            else {
+                var data = null;
+
+                swal({
+                    title: "Do You Want to Registor This Pateint",
+
+                    icon: "warning",
+                    buttons: true,
+                    buttons: ['No', 'Yes'],
+                    dangerMode: true,
+                })
+                    .then((willDelete) => {
+                        if (willDelete) {
+                          data = {
+
+                                MobileNumber: $("#No").val(),
+                                Email: $("#email1").val(),
+
+                                RefereedBy: $("#Referred").val(),
+                                DateOfBirth: $("#Bith").val(),
+                                CNIC: $("#Cnic").val(),
+                              pateint_name: $("#Name").val(),
+
+                              CreateDate: $("#Dates").val(),
+
+                              appointmentDate: $("#Appointmentd").val(),
+                              DoctorId: $("#doctordropdwonsearchforApp").val(),
+                              Comments: $("#Comments").val(),
+                              Save:1
+
+                            }
+
+
+
+            $.ajax({
+
+                type: "POST",
+                url: apiurl + 'api/Reference/Addreferral',
+                data: JSON.stringify(data),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': apiurl,
+                    'Authorization': 'Bearer  @Request.Cookies["Token"].Value.ToString()'
+
+                }
+
+
+
+
+            }).done(function (res) {
+
+
+                if (res.status == 'success') {
+                    if (res.object == "Pateint already exists") {
+                        swal({
+                            title: "Saved",
+                            text: res.object,
+                            icon: "success",
+                        });
+                    }
+                    else {
+                        swal({
+                            title: "Saved",
+
+                            icon: "success",
+                        });
+
+                    }
+
+                    clear();
+                    $('#myModal').hide();
+
+                    $("#Rtable").DataTable().ajax.reload();
+
+                }
+                else {
+                    alert(res.message);
+
+                }
+
+
+            })
+                .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+
+                    if (XMLHttpRequest.status == 403) {
+                        window.location.href = '~/Account/Login'
+                    }
+
+                    if (XMLHttpRequest.status == 401) {
+                        window.location.href = '/Account/Login'
+                    }
+
+                    console.log("fail");
+
+
+                })
+
+                        } else {
+                             data = {
+
+                                MobileNumber: $("#No").val(),
+                                Email: $("#email1").val(),
+
+                                RefereedBy: $("#Referred").val(),
+                                DateOfBirth: $("#Bith").val(),
+                                CNIC: $("#Cnic").val(),
+                                pateint_name: $("#Name").val(),
+
+                                 CreateDate: $("#Dates").val(),
+
+                                 appointmentDate: $("#Appointmentd").val(),
+                                 DoctorId: $("#doctordropdwonsearchforApp").val(),
+
+                                    Comments: $("#Comments").val()
+                            }
+
+
+            $.ajax({
+
+                type: "POST",
+                url: apiurl + 'api/Reference/Addreferral',
+                data: JSON.stringify(data),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': apiurl,
+                    'Authorization': 'Bearer  @Request.Cookies["Token"].Value.ToString()'
+
+                }
+
+
+
+
+            }).done(function (res) {
+
+
+                if (res.status == 'success') {
+                    if (res.object == "Pateint already exists") {
+                        swal({
+                            title: "Saved",
+                            text: res.object,
+                            icon: "success",
+                        });
+                    }
+                    else {
+                        swal({
+                            title: "Saved",
+
+                            icon: "success",
+                        });
+
+                    }
+
+                    clear();
+                    $('#myModal').hide();
+
+                    $("#Rtable").DataTable().ajax.reload();
+
+                }
+                else {
+                    alert(res.message);
+
+                }
+
+
+            })
+                .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+
+                    if (XMLHttpRequest.status == 403) {
+                        window.location.href = '~/Account/Login'
+                    }
+
+                    if (XMLHttpRequest.status == 401) {
+                        window.location.href = '/Account/Login'
+                    }
+
+                    console.log("fail");
+
+
+                })
+
+                        }
+                    });
+
+
+            }
+
+        }
+    })
+
+    $("#Addre").click(function () {
+        searchdoctor();
+        clear();
+    })
+
+
+    function clear() {
+
+        $("#No").val('');
+        $("#email1").val('');
+
+        $("#Referred").val('');
+        $("#Bith").val('');
+        $("#Cnic").val('');
+        $("#Name").val('');
+
+        $("#Dates").val('');
+
+        $("#Appointmentd").val('')
+
+        $("#Comments").val('')
+        rid = "0";
+    }
+
+
+    function Deletep(id) {
+
+        swal({
+            title: "Are you sure?",
+            text: "Once deleted, you will not be able to recover this Record!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+            .then((willDelete) => {
+                if (willDelete) {
+
+         $.ajax({
+
+             type: "GET",
+             url: apiurl + 'api/Reference/Delete?id='+id,
+
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': apiurl,
+                    'Authorization': 'Bearer  @Request.Cookies["Token"].Value.ToString()'
+
+                }
+
+
+
+
+            }).done(function (res) {
+
+
+                if (res.status == 'success') {
+
+                    swal({
+                        title: "Deleted",
+
+                        icon: "success",
+                    });
+
+                    $("#Rtable").DataTable().ajax.reload();
+
+
+                }
+                else {
+                    alert(res.message);
+
+                }
+
+
+            })
+                .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+
+                    if (XMLHttpRequest.status == 403) {
+                        window.location.href = '~/Account/Login'
+                    }
+
+                    if (XMLHttpRequest.status == 401) {
+                        window.location.href = '/Account/Login'
+                    }
+
+                    console.log("fail");
+
+
+                })
+                } else {
+                    swal("Your Record  is safe!");
+                }
+            });
+
+    }
+
+    function Registor(id) {
+         swal({
+            title: "Are you sure ?",
+
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+            .then((willDelete) => {
+                if (willDelete) {
+
+         $.ajax({
+
+             type: "GET",
+             url: apiurl + 'api/Reference/Registor?id='+id,
+
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': apiurl,
+                    'Authorization': 'Bearer  @Request.Cookies["Token"].Value.ToString()'
+
+                }
+
+
+
+
+            }).done(function (res) {
+
+
+
+
+
+                    if (res.object == "Pateint already exists") {
+                        swal({
+                            title: res.object,
+
+                            icon: "success",
+                        });
+                    }
+                    else {
+                        swal({
+                            title: "Saved",
+
+                            icon: "success",
+                        });
+                        $("#Rtable").DataTable().ajax.reload();
+                    }
+
+
+
+
+
+
+
+            })
+                .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+
+                    if (XMLHttpRequest.status == 403) {
+                        window.location.href = '~/Account/Login'
+                    }
+
+                    if (XMLHttpRequest.status == 401) {
+                        window.location.href = '/Account/Login'
+                    }
+
+                    console.log("fail");
+
+
+                })
+                }
+            });
+    }
+
+
+
+
+    function searchdoctor() {
+       
+        $("#doctordropdwonsearchforApp").empty();
+        $('.loader').show()
+        $.ajax({
+
+            type: 'GET',
+
+            url: apiurl + 'api/getallDoctor',
+
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': apiurl
+
+
+            }
+
+
+        }).done(function (res) {
+
+
+            var data = JSON.parse(res.object);
+
+
+
+            $('.loader').hide();
+            doctordropdown = [];
+            $.each(data, function (i, value) {
+              
+
+                doctordropdown.push({ id: data[i].UserID, Name: data[i].UserName });
+                // mynames.push(data[i].UserName)
+
+            })
+
+
+            for (var i = 0; i < doctordropdown.length; i++) {
+
+
+               
+                $("#doctordropdwonsearchforApp").append('<option value="' + doctordropdown[i].id + '">' + doctordropdown[i].Name + '</option>')
+
+            }
+
+
+            $("#doctordropdwonsearchforApp").select2({
+                placeholder: "Select a Doctor",
+                data: doctordropdown
+            });
+
+
+
+
+        })
+            .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+                console.log("fail");
+            })
+
+    }
+
+
+
+
+
+</script>

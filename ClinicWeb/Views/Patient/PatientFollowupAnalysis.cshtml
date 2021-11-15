@@ -1,0 +1,2571 @@
+﻿
+@{
+    ViewBag.Title = "PatientFollowupAnalysis";
+
+}
+
+
+<div class="row" >
+
+
+<div class="col-md-12" id="isAppointidthere">
+
+
+    <button class="btn btn-primary "> Follow ups</button>
+
+    <button class="btn btn-primary Initial_Analysiz">View Initial Analysis</button>
+
+
+
+
+
+    <button class="btn btn-primary PateintBasicInformation">Basic Info</button>
+
+    <button class="btn btn-primary" id="PDocument">Document</button>
+  
+    </div>
+
+</div>
+
+
+<div class="modal fade" id="myModal4" role="dialog">
+    <div class="modal-dialog modal-lg">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" style="font-style: italic; font-weight:600;font-family:'Times New Roman'">Documents Files</h5>
+
+            </div>
+            <div class="modal-body" id="Initial_Analysiz">
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="button" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<div class="modal fade" id="myModal5" role="dialog">
+    <div class="modal-dialog modal-lg">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" style="font-style: italic; font-weight:600;font-family:'Times New Roman'">Initial Assesment</h5>
+
+            </div>
+            <div class="modal-body mb-0 p-0">
+                <div class="row">
+
+                    <div class="col-md-12 p-5">
+
+                        <div id="Initial_Analysiz1">
+
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="button" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
+
+<div class="modal fade" id="myModal6" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+
+        <!--Content-->
+        <div class="modal-content">
+
+            <!--Body-->
+            <div class="modal-body mb-0 p-0">
+
+
+                <div class="row">
+                    <div class="col-md-12 p-5">
+                        <div id="Initial_Analysiz2">
+
+                        </div>
+
+
+                    </div><!-- ends col-6 -->
+
+
+                </div>
+
+
+            </div>
+
+            <!--Footer-->
+            <div class="modal-footer">
+                <button type="button" class=" btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+    <!--/.Content-->
+
+</div>
+
+
+
+
+
+
+
+
+
+
+<div class="modal fade" id="modalFollowups" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+
+        <!--Content-->
+        <div class="modal-content">
+
+            <!--Body-->
+            <div class="modal-body mb-0 p-0">
+
+
+                <div class="row">
+                    <div class="col-md-12 p-5">
+                        <form>
+                            <fieldset>
+                                <div class="form-group">
+                                    <input class="form-control" type="hidden" readonly="" name="username" id="PkID" value="" />
+
+
+                                    <input class="form-control" type="hidden" readonly="" name="username" id="PateintID" value="" />
+
+                                    <div class="form-group">
+                                        <label for="CurrentMedication"><span class="req">* </span> Current Medication  </label>
+                                        <input class="form-control jqte-test" type="text" name="CurrentMedication" id="CurrentMedication" value="" placeholder="Current Medication" />
+
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="ProgressiveNote"><span class="req">* </span> Progressive Note </label>
+                                        <input class="form-control jqte-test" required type="email" name="email" id="ProgressiveNote" value="" placeholder="Progressive Note" />
+
+                                    </div>
+
+
+
+
+                                    <div class="form-group">
+                                        <label for="Subjective"><span class="req">* </span> Subjective </label>
+                                        <input required type="text" name="Subjective" value="" id="Subjective" class="form-control jqte-test " placeholder="Subjective" />
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label for="ObjectiveandMentalStateExamination"><span class="req">* </span> ObjectiveandMentalStateExamination </label>
+                                        <input required type="text" name="ObjectiveandMentalStateExamination" value="" id="ObjectiveandMentalStateExamination" class="form-control jqte-test" placeholder="Objective and Mental State Examination" />
+                                    </div>
+
+
+
+                                    <div class="form-group">
+                                        <label for="Assessment"><span class="req">* </span> Assessment </label>
+                                        <br />
+                                        <textarea rows="4" cols="74" id="Assessment" class="jqte-test"></textarea>
+
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label for="CNIC"><span class="req">* </span> Plan </label>
+                                        <br />
+                                        <textarea rows="4" cols="74" id="Plan" class="jqte-test"></textarea>
+
+                                    </div>
+
+
+
+
+
+                                    <div class="form-group">
+
+                                        <button type="button" class="btn btn-success" id="FollowupAnalysisbtn">Add</button>
+
+                                        <div id="Editfollowps" style="display:none">
+                                            <input type="button" class="btn btn-success" id="EditFollowupAnalysisbtn" value="Update" />
+
+                                        </div>
+
+                                    </div>
+
+
+
+
+
+                                </div>
+
+
+
+
+
+                            </fieldset>
+                        </form><!-- ends register form -->
+
+                    </div><!-- ends col-6 -->
+
+
+                </div>
+
+
+            </div>
+
+            <!--Footer-->
+            <div class="modal-footer">
+                <button type="button" class=" btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+    <!--/.Content-->
+
+</div>
+
+<br />
+<br />
+
+
+
+<button class="btn btn-success FollowupAnalysis ml-2 mb-3" data-toggle='modal' data-target='#modalFollowups'>Add Follow ups</button>
+
+
+
+
+
+<section class="content">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                    <div class="table-responsive">
+
+                        <table id="producttable" class="table table-bordered table-hover ">
+                            <thead>
+                                <tr>
+                                    <th>CurrentMedication</th>
+
+                                    <th>ProgressiveNote</th>
+                                    <th>Subjective </th>
+
+                                    @*<th>ObjectiveandMentalStateExamination </th>*@
+
+
+
+                                    <th>Date</th>
+
+                                    <th>Actions</th>
+
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Column -->
+    <!-- ============================================================== -->
+    <!-- End PAge Content -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- Right sidebar -->
+    <!-- ============================================================== -->
+    <!-- .right-sidebar -->
+    <!-- ============================================================== -->
+    <!-- End Right sidebar -->
+    <!-- ============================================================== -->
+</section>
+<script src="~/RichText/jquery-te-1.4.0.min.js"></script>
+<script>
+
+  var apiurl = "@System.Configuration.ConfigurationManager.AppSettings["url"]";
+
+    function getQueryVariable(variable) {
+
+        var query = window.location.search.substring(1);
+        var vars = query.split("?");
+
+
+        var a = vars.split("&");
+        for (var i = 0; i < vars.length; i++) {
+            var pair = vars[i].split("=");
+            if (pair[0] == variable) {
+              return pair[1];
+            }
+        }
+    }
+
+    var patientid = "";
+    var appointmentId = "";
+    $(document).ready(function () {
+        var query = window.location.search.substring(1);
+        var aa = query.split('&');
+
+        var apId;
+
+        var id = aa[0].split('=')
+
+        if (aa[1] != undefined) {
+             apId = aa[1].split('=');
+            appointmentId = apId[1]
+            $("#isAppointidthere").append('<button class="btn btn-danger  has-spinner" id = "cencelappintment"> Cancel Appointment </button>');
+
+        }
+
+
+
+      patientid = id[1].replaceAll('%20', ' ')
+
+
+
+
+        if (patientid != "undefined" && patientid != null) {
+
+            $("#producttable").DataTable({
+              "bServerSide": true, //make server side processing to true
+
+              "sAjaxSource": apiurl+"api/GetFollowupAnalysisPage?id="+patientid,
+                 //url of the Ajax source,i.e. web api method
+                "sAjaxDataProp": "aaData", // data property of the returned ajax which contains table data
+                "bProcessing": true,
+                "bLengthChange": true,
+                "sPaginationType": "full_numbers",//pagination type
+
+                "aoColumns": [
+
+
+
+                    {
+                        "mData": "currentMedication", "bSearchable": false, "bSortable": false,
+                        "mRender": function (data) {
+                            var htmlEntities4 = data;
+                            if (htmlEntities4 != '') {
+                                var htmlDecode4 = $.parseHTML(htmlEntities4)[0]['wholeText'];
+
+
+
+                                return "<td>" + htmlDecode4 + "</td>"
+
+                            }
+                            else {
+
+
+
+                                return ""
+                            }
+
+                        }
+                    },
+
+
+
+                    {
+                        "mData": "progressiveNote", "bSearchable": false, "bSortable": false,
+                        "mRender": function (data) {
+                            var htmlEntities4 = data;
+                            if (htmlEntities4 != '') {
+                                var htmlDecode4 = $.parseHTML(htmlEntities4)[0]['wholeText'];
+
+
+
+                                return "<td>" + htmlDecode4 + "</td>"
+
+                            }
+                            else {
+
+
+
+                                return ""
+                            }
+
+                        }
+                    },
+
+
+
+
+
+                    {
+                        "mData": "subjective", "bSearchable": false, "bSortable": false,
+                        "mRender": function (data) {
+                            var htmlEntities4 = data;
+                            if (htmlEntities4 != '') {
+                                var htmlDecode4 = $.parseHTML(htmlEntities4)[0]['wholeText'];
+
+
+
+                                return "<td>" + htmlDecode4 + "</td>"
+
+                            }
+                            else {
+
+
+
+                                return ""
+                            }
+
+                        }
+                    },
+
+                    //{ "mData": "objectiveandMentalStateExamination" },
+
+                    { "mData": "date" },
+
+
+                    {
+                        "mData": "pkid", "bSearchable": false, "bSortable": false,
+                        "mRender": function (data) {
+
+
+
+                          return "<button class='btn btn-success' data-toggle='modal' data-target='#modalFollowups' onclick='EditA(" + JSON.stringify(data) + ")'>Edit</button>"
+
+                        }
+                    }
+
+
+
+
+                ]
+            });
+        }
+
+
+
+        $(".jqte-test").jqte();
+
+
+
+
+        });
+
+
+
+
+
+
+
+
+    $(".FollowupAnalysis").click(function () {
+
+    $("#FollowupAnalysisbtn").show();
+    $("#Editfollowps").hide();
+    $("#PkID").val('');
+    $("#PateintID").val('');
+      $("#CurrentMedication").jqteVal('');
+
+      $("#ProgressiveNote").jqteVal('');
+      $("#Subjective").jqteVal('');
+      $("#ObjectiveandMentalStateExamination").jqteVal('');
+      $("#Assessment").jqteVal('');
+      $("#Plan").jqteVal('');
+
+
+
+  });
+
+
+    $(document).on("click", "#FollowupAnalysisbtn", function () {
+
+        var pateintID = $("#PateintID").val();
+        var CurrentMedication = $("#CurrentMedication").val();
+        var Subjective = $("#Subjective").val();
+        var ProgressiveNote = $("#ProgressiveNote").val();
+        var ObjectiveandMentalStateExamination = $("#ObjectiveandMentalStateExamination").val();
+        var Assessment = $("#Assessment").val();
+        var Plan = $("#Plan").val();
+
+
+
+            $.ajax({
+
+              type: 'POST',
+              url: apiurl+'api/AddFollowupAnalysis',
+
+                data: JSON.stringify({
+                    CurrentMedication: CurrentMedication,
+                    ProgressiveNote: ProgressiveNote,
+
+                    Subjective: Subjective,
+
+                    ObjectiveandMentalStateExamination: ObjectiveandMentalStateExamination,
+                    Assessment: Assessment,
+                    Plan: Plan,
+                    PatientID: patientid
+
+                }),
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Access-Control-Allow-Origin': apiurl,
+
+                    'Authorization': 'Bearer  @Request.Cookies["Token"].Value.ToString()'
+
+                }
+
+
+            }).done(function (res) {
+
+                if (res.status == 'success') {
+
+                    alert('inserted');
+
+                    window.location.reload();
+
+                }
+                else {
+                    alert(res.message);
+
+                }
+
+
+            })
+                .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+
+
+                    if (XMLHttpRequest.status==403) {
+                        window.location.href = '~/Account/Login'
+                    }
+
+                    if (XMLHttpRequest.status == 401) {
+                        window.location.href = '/Account/Login'
+                    }
+
+                    console.log("fail");
+
+
+                })
+
+
+
+
+
+    });
+
+
+
+
+
+
+
+
+  function EditA(id) {
+    $("#FollowupAnalysisbtn").hide();
+    $("#Editfollowps").css('display','block');
+    ClearFromFileds();
+        $.ajax({
+
+            type: "Get",
+          url: apiurl+"api/GetFollowupAnalysisbyID",
+
+                data: {
+
+                    id:id
+
+            },
+
+                headers: {
+                    'Content-Type': 'application/json',
+                  'Access-Control-Allow-Origin': apiurl,
+                    'Authorization': 'Bearer  @Request.Cookies["Token"].Value.ToString()'
+
+                }
+
+
+            }).done(function (res) {
+
+
+                var data = JSON.parse(res.object);
+
+
+
+                if (res.status == 'success') {
+
+
+
+
+
+                  $("#PkID").val(data[0].PkID);
+                    $("#PateintID").val(data[0].PatientID);
+
+                    var htmlEntities3 = data[0].CurrentMedication;
+
+                    if (htmlEntities3!='') {
+                        var htmlDecode3 = $.parseHTML(htmlEntities3)[0]['wholeText'];
+
+
+                        $("#CurrentMedication").jqteVal(htmlDecode3);
+
+                    }
+
+
+
+                    var htmlEntities4 = data[0].ProgressiveNote;
+                    if (htmlEntities4!='') {
+                        var htmlDecode4 = $.parseHTML(htmlEntities4)[0]['wholeText'];
+
+
+
+                        $("#ProgressiveNote").jqteVal(htmlDecode4);
+
+                    }
+
+
+
+                    var htmlEntities5 = data[0].Subjective;
+
+
+                    if (htmlEntities5!='') {
+                        var htmlDecode5 = $.parseHTML(htmlEntities5)[0]['wholeText'];
+
+
+
+                        $("#Subjective").jqteVal(htmlDecode5);
+                    }
+
+
+
+                    var htmlEntities6 = data[0].ObjectiveandMentalStateExamination;
+                    if (htmlEntities6!='') {
+                        var htmlDecode6 = $.parseHTML(htmlEntities6)[0]['wholeText'];
+
+
+                        $("#ObjectiveandMentalStateExamination").jqteVal(htmlDecode6);
+                    }
+
+
+
+                    var htmlEntities = data[0].Assessment;
+
+                    if (htmlEntities!='') {
+                        var htmlDecode = $.parseHTML(htmlEntities)[0]['wholeText'];
+
+                        $("#Assessment").jqteVal(htmlDecode);
+
+
+                    }
+
+
+
+                    var htmlEntities2 = data[0].Plan;
+
+                    if (htmlEntities2!='') {
+                        var htmlDecode2 = $.parseHTML(htmlEntities2)[0]['wholeText'];
+
+
+
+
+                        $("#Plan").jqteVal(htmlDecode2);
+
+
+                    }
+
+
+
+
+
+
+                }
+                else {
+                    alert(res.message);
+
+                }
+
+
+            })
+                .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+
+
+                    if (XMLHttpRequest.status==403) {
+                        window.location.href = '~/Account/Login'
+                    }
+
+                    if (XMLHttpRequest.status == 401) {
+                        window.location.href = '/Account/Login'
+                    }
+
+                    console.log("fail");
+
+
+                })
+
+
+
+
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+    $(document).on("click", "#EditFollowupAnalysisbtn", function () {
+        var pkid = $("#PkID").val();
+        var pateintID = $("#PateintID").val();
+        var CurrentMedication = $("#CurrentMedication").val();
+        var Subjective = $("#Subjective").val();
+        var ProgressiveNote = $("#ProgressiveNote").val();
+        var ObjectiveandMentalStateExamination = $("#ObjectiveandMentalStateExamination").val();
+        var Assessment = $("#Assessment").val();
+        var Plan = $("#Plan").val();
+
+
+
+            $.ajax({
+
+              type: 'POST',
+
+              url: apiurl+'api/UpdateFollowupAnalysis',
+
+                data: JSON.stringify({
+                    CurrentMedication: CurrentMedication,
+                    ProgressiveNote: ProgressiveNote,
+
+                    Subjective: Subjective,
+
+                    ObjectiveandMentalStateExamination: ObjectiveandMentalStateExamination,
+                    Assessment: Assessment,
+                    Plan: Plan,
+                    PatientID: pateintID,
+                    pkid: pkid
+
+                }),
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Access-Control-Allow-Origin': apiurl,
+
+                    'Authorization': 'Bearer  @Request.Cookies["Token"].Value.ToString()'
+
+                }
+
+
+            }).done(function (res) {
+
+                if (res.status == 'success') {
+
+                    alert('updated');
+
+                    window.location.reload();
+
+                }
+                else {
+                    alert(res.message);
+
+                }
+
+
+            })
+                .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+
+
+                    if (XMLHttpRequest.status==403) {
+                        window.location.href = '~/Account/Login'
+                    }
+
+                    if (XMLHttpRequest.status == 401) {
+                        window.location.href = '/Account/Login'
+                    }
+
+                    console.log("fail");
+
+
+                })
+
+
+
+
+
+
+
+
+    });
+
+
+
+
+    $(".Initial_Analysiz").click(function () {
+
+
+
+                $.ajax({
+            type: 'GET',
+                  url: apiurl+'api/IsInitialAnalysized',
+
+
+                   data: {
+
+
+
+
+                       id: patientid
+
+                },
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Access-Control-Allow-Origin': apiurl,
+                    'Authorization': 'Bearer  @Request.Cookies["Token"].Value.ToString()'
+
+                }
+
+
+           }).done(function (res) {
+
+
+               if (res.status == 'success') {
+
+                   $('#Initial_Analysiz1').empty();
+
+                   $('#myModal5').modal('show');
+
+                var data = JSON.parse(res.object);
+
+
+
+                   var html = `
+<form >
+
+
+<input type="hidden" name="ID" value="`+ data[0].PkID + `" id="IDD" />
+
+    <input type="hidden" name="Pid" value="`+ data[0].Pid + `" />
+
+    <div class="form-group">
+        <label>Present Complaint</label>
+        <input  type="text" class="form-control jqte-test1" name="Present_Complaint" value=""  placeholder="Present Complaint" id="Present_Complaint">
+    </div>
+    <div class="form-group">
+        <label>History of Presenting Complaint</label>
+        <input type="text" class="form-control jqte-test1" name="History_of_Presenting_Complaint"  value=""  placeholder="History of Presenting Complaint" id="History_of_Presenting_Complaint">
+    </div>
+
+
+
+    <div class="form-group">
+        <label>Past Psychiatric History</label>
+        <input type="text" class="form-control jqte-test1 Past_psychiatric_history" name="Past_psychiatric_history" value="" placeholder="Past Psychiatric History" id="Past_Psychiatric_History">
+    </div>
+
+
+
+
+
+
+
+    <div class="form-group">
+        <label>Current Medication</label>
+        <input type="text" class="form-control jqte-test1" name="Current_Medication" value="" placeholder="Current Medication" id="Current_Medication">
+    </div>
+
+
+
+    <div class="form-group">
+        <label>Physical History</label>
+
+        <textarea class="form-control jqte-test1" name="Physical_History " id="Physical_History"   rows="3"> </textarea>
+
+
+    </div>
+
+
+    <div class="form-group">
+        <label>Family History</label>
+
+        <textarea class="form-control jqte-test1" name="Family_History" id="Family_History"    rows="3"></textarea>
+
+
+    </div>
+
+
+
+    <div class="form-group">
+        <label>Schooling</label>
+        <input type="text" class="form-control jqte-test1" name="schooling" placeholder="schooling" value=""  id="schooling">
+    </div>
+
+
+
+    <div class="form-group">
+        <label>Maritial Status</label>
+
+        <input   class="form-control " value="`+ data[0].MaritialStatus +`"  id="Maritial_Status"/>
+
+    </div>
+
+
+
+    <div class="form-group">
+        <label>Adolesence</label>
+        <input type="text" class="form-control jqte-test1" value="" name="Adolesence" placeholder="Adolesence" id="Adolesence">
+    </div>
+
+
+
+
+
+    <div class="form-group">
+        <label>Alcohal / Substance abuse</label>
+        <input type="text" class="form-control jqte-test1" name="AlcohalSubstance_abuse"  value="" placeholder="Alcohal / Substance abuse" id="Alcohal">
+    </div>
+
+
+
+
+    <div class="form-group">
+        <label>Premorbid personality</label>
+        <input type="text" class="form-control jqte-test1" name="Premorbid_personality" value="" placeholder="Premorbid personality" id="Premorbid_personality">
+    </div>
+
+
+
+
+    <div class="form-group">
+        <label>Mental State Examination</label>
+        <input type="text" class="form-control jqte-test1" name="Mental_State_Examination"  value="" placeholder="Mental State Examination" id="Mental_State_Examination">
+    </div>
+
+
+    <div class="form-group">
+        <label>Appearance and Behavior</label>
+        <input type="text" class="form-control jqte-test1" name="Appearance_and_Behavior"  value="" placeholder="Appearance and Behavior" id="Appearance_and_Behavior">
+    </div>
+
+
+    <div class="form-group">
+        <label>Speech</label>
+        <input type="text" class="form-control jqte-test1" name="Speech"  value="" placeholder="Speech" id="Speech">
+    </div>
+
+
+
+    <div class="form-group">
+        <label>Mood and Affect</label>
+        <input type="text" class="form-control jqte-test1" name="Mood_and_Affect" value="" placeholder="Mood and Affect" id="Mood_and_Affect">
+    </div>
+
+
+
+    <div class="form-group">
+        <label>Sucidial ideations</label>
+        <input type="text" class="form-control jqte-test1" name="Sucidial_ideations"  value="" placeholder="Sucidial ideations" id="Sucidial_ideations">
+    </div>
+
+
+
+
+    <div class="form-group">
+        <label>Thoughts</label>
+        <input type="text" class="form-control jqte-test1" name="Thoughts"  value="" placeholder="Thoughts" id="Thoughts">
+    </div>
+
+
+
+
+
+
+
+    <div class="form-group">
+        <label>Delusions</label>
+        <input type="text" class="form-control jqte-test1" name="Delusions" value="" placeholder="Delusions" id="Delusions">
+    </div>
+
+
+
+    <div class="form-group">
+        <label>Hallucinations</label>
+        <input type="text" class="form-control jqte-test1"   name="hallucinations"  value="" placeholder="Hallucinations" id="hallucinations">
+    </div>
+
+    <div class="form-group">
+        <label>Insight</label>
+        <input type="text" class="form-control jqte-test1" name="Insight" value="" placeholder="Insight" id="Insight">
+    </div>
+
+
+
+    <div class="form-group">
+        <label>Cognitions</label>
+        <input type="text" class="form-control jqte-test1" name="Cognitions" value="" placeholder="Cognitions" id="Cognitions">
+    </div>
+
+    <div class="form-group">
+        <label>Provisional Diagnosis</label>
+        <input type="text" class="form-control jqte-test1" name="Provisional_Diagnosis" value=""  placeholder="Provisional Diagnosis" id="Provisional_Diagnosis">
+    </div>
+
+    <div class="form-group">
+        <label>Differential Diagnosis</label>
+        <input type="text" class="form-control jqte-test1" name="differential_diagnosis"   value="" placeholder="differential diagnosis" id="differential_diagnosis">
+    </div>
+
+    <button type="button" id="submitbtn" class="btn btn-primary">Submit</button>
+</form>
+
+`;
+
+
+                   $("#Initial_Analysiz1").append(html);
+
+                   $(".jqte-test1").jqte();
+
+
+
+                   var IhtmlEntities1 = data[0].Present_Complaint;
+
+                   if (IhtmlEntities1!='') {
+                       var IhtmlDecode1 = $.parseHTML(IhtmlEntities1)[0]['wholeText'];
+
+
+                       $("#Present_Complaint").jqteVal(IhtmlDecode1);
+
+                   }
+
+
+                   //
+                   var IhtmlEntities2 = data[0].History_of_Presenting_Complaint;
+
+                   if (IhtmlEntities2 != '') {
+                       var IhtmlDecode2 = $.parseHTML(IhtmlEntities2)[0]['wholeText'];
+
+
+                       $("#History_of_Presenting_Complaint").jqteVal(IhtmlDecode2);
+
+                   }
+
+
+
+
+                   //
+                   var IhtmlEntities3 = data[0].Past_psychiatric_history;
+
+                   if (IhtmlEntities3!='') {
+                       var IhtmlDecode3 = $.parseHTML(IhtmlEntities3)[0]['wholeText'];
+
+
+                       $(".Past_psychiatric_history").jqteVal(IhtmlDecode3);
+
+                   }
+
+
+                   //
+
+                   var IhtmlEntities4 = data[0].Current_Medication;
+
+                   if (IhtmlEntities4!='') {
+                       var IhtmlDecode4 = $.parseHTML(IhtmlEntities4)[0]['wholeText'];
+
+
+                       $("#Current_Medication").jqteVal(IhtmlDecode4);
+
+                   }
+
+                   //
+
+
+
+                   var IhtmlEntities5 = data[0].Physical_History;
+
+
+                   if (IhtmlEntities5!='') {
+                       var IhtmlDecode5 = $.parseHTML(IhtmlEntities5)[0]['wholeText'];
+
+
+                       $("#Physical_History").jqteVal(IhtmlDecode5);
+
+                   }
+                   //
+
+
+
+
+                   var IhtmlEntities6 = data[0].Family_History;
+
+
+                   if (IhtmlEntities6!='') {
+                       var IhtmlDecode6 = $.parseHTML(IhtmlEntities6)[0]['wholeText'];
+
+
+                       $("#Family_History").jqteVal(IhtmlDecode6);
+
+                   }
+
+                   //
+
+
+
+
+
+                   var IhtmlEntities7 = data[0].schooling;
+
+                   if (IhtmlEntities7!='') {
+
+                       var IhtmlDecode7 = $.parseHTML(IhtmlEntities7)[0]['wholeText'];
+
+                       $("#schooling").jqteVal(IhtmlDecode7);
+                   }
+
+
+                   //
+
+
+
+
+
+                   var IhtmlEntities8 = data[0].Adolesence;
+
+                   if (IhtmlEntities8!='') {
+
+                       var IhtmlDecode8 = $.parseHTML(IhtmlEntities8)[0]['wholeText'];
+
+                       $("#Adolesence").jqteVal(IhtmlDecode8);
+                   }
+                   //
+
+
+
+
+
+
+
+                   var IhtmlEntities9 = data[0].Alcohal_Substance_abuse;
+
+                   if (IhtmlEntities9!='') {
+
+                       var IhtmlDecode9 = $.parseHTML(IhtmlEntities9)[0]['wholeText'];
+
+                       $("#Alcohal").jqteVal(IhtmlDecode9);
+                   }
+
+
+                   //
+
+                   var IhtmlEntities10 = data[0].Premorbid_personality;
+
+
+                   if (IhtmlEntities10!='') {
+
+                       var IhtmlDecode10 = $.parseHTML(IhtmlEntities10)[0]['wholeText'];
+
+                       $("#Premorbid_personality").jqteVal(IhtmlDecode10);
+                   }
+                   //
+
+
+
+
+
+                   var IhtmlEntities11 = data[0].Mental_State_Examination;
+
+
+                   if (IhtmlEntities11!='') {
+
+                       var IhtmlDecode11 = $.parseHTML(IhtmlEntities11)[0]['wholeText'];
+
+                       $("#Mental_State_Examination").jqteVal(IhtmlDecode11);
+                   }
+
+                   //
+
+
+
+
+                   var IhtmlEntities12 = data[0].Appearance_and_Behavior;
+
+                   if (IhtmlEntities12!='') {
+
+
+                       var IhtmlDecode12 = $.parseHTML(IhtmlEntities12)[0]['wholeText'];
+
+                       $("#Appearance_and_Behavior").jqteVal(IhtmlDecode12);
+                   }
+
+                   //
+
+
+
+
+
+
+                   var IhtmlEntities13 = data[0].Speech;
+
+
+                   if (IhtmlEntities13!='') {
+
+                       var IhtmlDecode13 = $.parseHTML(IhtmlEntities13)[0]['wholeText'];
+
+                       $("#Speech").jqteVal(IhtmlDecode13);
+                   }
+
+
+                   //
+
+
+
+
+                   var IhtmlEntities14 = data[0].Mood_and_Affect;
+
+                   if (IhtmlEntities14!='') {
+
+                       var IhtmlDecode14 = $.parseHTML(IhtmlEntities14)[0]['wholeText'];
+
+                       $("#Mood_and_Affect").jqteVal(IhtmlDecode14);
+                   }
+
+
+                   //
+
+
+
+
+                   var IhtmlEntities15 = data[0].Sucidial_ideations;
+
+                   if (IhtmlEntities15!='') {
+
+                       var IhtmlDecode15 = $.parseHTML(IhtmlEntities15)[0]['wholeText'];
+
+                       $("#Sucidial_ideations").jqteVal(IhtmlDecode15);
+                   }
+
+
+
+
+
+
+                   //
+
+
+
+                   var IhtmlEntities16 = data[0].Thoughts;
+
+                   if (IhtmlEntities16!='') {
+
+                       var IhtmlDecode16 = $.parseHTML(IhtmlEntities16)[0]['wholeText'];
+
+                       $("#Thoughts").jqteVal(IhtmlDecode16);
+                   }
+
+                   //data[0].Delusions
+
+
+
+                   var IhtmlEntities17 = data[0].Delusions;
+                   if (IhtmlEntities17!='') {
+
+                       var IhtmlDecode17 = $.parseHTML(IhtmlEntities17)[0]['wholeText'];
+
+                       $("#Delusions").jqteVal(IhtmlDecode17);
+                   }
+
+                   //
+
+
+
+
+                   var IhtmlEntities18 = data[0].hallucinations;
+
+                   if (IhtmlEntities18!='') {
+
+                       var IhtmlDecode18 = $.parseHTML(IhtmlEntities18)[0]['wholeText'];
+
+                       $("#hallucinations").jqteVal(IhtmlDecode18);
+                   }
+                   //
+
+
+
+
+                   var IhtmlEntities19 = data[0].Insight;
+                   if (IhtmlEntities19!='') {
+
+                       var IhtmlDecode19 = $.parseHTML(IhtmlEntities19)[0]['wholeText'];
+
+                       $("#Insight").jqteVal(IhtmlDecode19);
+                   }
+
+                   //
+
+
+
+
+
+                   var IhtmlEntities20 = data[0].Cognitions;
+
+                   if (IhtmlEntities20!='') {
+
+                       var IhtmlDecode20 = $.parseHTML(IhtmlEntities20)[0]['wholeText'];
+
+                       $("#Cognitions").jqteVal(IhtmlDecode20);
+                   }
+
+                   //
+
+
+
+
+                   var IhtmlEntities21 = data[0].Provisional_Diagnosis;
+                   if (IhtmlEntities21!='') {
+
+                       var IhtmlDecode21 = $.parseHTML(IhtmlEntities21)[0]['wholeText'];
+
+                       $("#Provisional_Diagnosis").jqteVal(IhtmlDecode21);
+                   }
+
+                   //
+
+
+
+                   var IhtmlEntities22 = data[0].differential_diagnosis;
+
+                   if (IhtmlEntities22!='') {
+
+                       var IhtmlDecode22 = $.parseHTML(IhtmlEntities22)[0]['wholeText'];
+
+                       $("#differential_diagnosis").jqteVal(IhtmlDecode22);
+                   }
+
+
+
+
+
+               }
+
+
+            else if (res.status=="no") {
+
+
+                   $('#Initial_Analysiz1').empty();
+
+                   $('#myModal5').modal('show');
+
+
+                   var html = `
+
+
+<form id="IA">
+
+    <input type="hidden" name="Pid" value="" />
+
+    <div class="form-group">
+        <label>Present Complaint</label>
+        <input type="text" class="form-control jqte-test1" name="Present_Complaint" placeholder="Present Complaint" id="Present_Complaint">
+    </div>
+    <div class="form-group">
+        <label>History of Presenting Complaint</label>
+        <input type="text" class="form-control jqte-test1" name="History_of_Presenting_Complaint" placeholder="History of Presenting Complaint" id="History_of_Presenting_Complaint">
+    </div>
+
+
+
+    <div class="form-group">
+        <label>Past Psychiatric History</label>
+        <input type="text" class="form-control jqte-test1" name="
+" placeholder="Past Psychiatric History" id="Past_Psychiatric_History">
+    </div>
+
+
+
+
+
+
+
+    <div class="form-group">
+        <label>Current Medication</label>
+        <input type="text" class="form-control jqte-test1" name="Current_Medication" placeholder="Current Medication" id="Current_Medication">
+    </div>
+
+
+
+    <div class="form-group">
+        <label>Physical History</label>
+
+        <textarea class="form-control jqte-test1" name="Physical_History" id="Physical_History" rows="3"></textarea>
+
+
+    </div>
+
+
+    <div class="form-group">
+        <label>Family History</label>
+
+        <textarea class="form-control jqte-test1" name="Family_History" id="Family_History" rows="3"></textarea>
+
+
+    </div>
+
+
+
+    <div class="form-group">
+        <label>Schooling</label>
+        <input type="text" class="form-control jqte-test1" name="schooling" placeholder="schooling" id="schooling">
+    </div>
+
+
+
+    <div class="form-group">
+        <label>Maritial Status</label>
+
+        <select id="Maritial_Status">
+
+            <option class="form-control" value="Single">Single</option>
+            <option class="form-control" value="Married">Married</option>
+            <option class="form-control" value="Divorced">Divorced</option>
+
+        </select>
+
+    </div>
+
+
+
+    <div class="form-group">
+        <label>Adolesence</label>
+        <input type="text" class="form-control jqte-test1" name="Adolesence" placeholder="Adolesence" id="Adolesence">
+    </div>
+
+
+
+
+
+    <div class="form-group">
+        <label>Alcohal / Substance abuse</label>
+        <input type="text" class="form-control jqte-test1" name="AlcohalSubstance_abuse" placeholder="Alcohal / Substance abuse" id="Alcohal">
+    </div>
+
+
+
+
+    <div class="form-group">
+        <label>Premorbid personality</label>
+        <input type="text" class="form-control jqte-test1" name="Premorbid_personality" placeholder="Premorbid personality" id="Premorbid_personality">
+    </div>
+
+
+
+
+    <div class="form-group">
+        <label>Mental State Examination</label>
+        <input type="text" class="form-control jqte-test1" name="Mental_State_Examination" placeholder="Mental State Examination" id="Mental_State_Examination">
+    </div>
+
+
+    <div class="form-group">
+        <label>Appearance and Behavior</label>
+        <input type="text" class="form-control jqte-test1" name="Appearance_and_Behavior" placeholder="Appearance and Behavior" id="Appearance_and_Behavior">
+    </div>
+
+
+    <div class="form-group">
+        <label>Speech</label>
+        <input type="text" class="form-control jqte-test1" name="Speech" placeholder="Speech" id="Speech">
+    </div>
+
+
+
+    <div class="form-group">
+        <label>Mood and Affect</label>
+        <input type="text" class="form-control   jqte-test1" name="Mood_and_Affect" placeholder="Mood and Affect" id="Mood_and_Affect">
+    </div>
+
+
+
+    <div class="form-group">
+        <label>Sucidial ideations</label>
+        <input type="text" class="form-control  jqte-test1" name="Sucidial_ideations" placeholder="Sucidial ideations" id="Sucidial_ideations">
+    </div>
+
+
+
+
+    <div class="form-group">
+        <label>Thoughts</label>
+        <input type="text" class="form-control jqte-test1" name="Thoughts" placeholder="Thoughts" id="Thoughts">
+    </div>
+
+
+
+
+
+
+
+    <div class="form-group">
+        <label>Delusions</label>
+        <input type="text" class="form-control jqte-test1" name="Delusions" placeholder="Delusions" id="Delusions">
+    </div>
+
+
+
+    <div class="form-group">
+        <label>Hallucinations</label>
+        <input type="text" class="form-control jqte-test1" name="hallucinations" placeholder="Hallucinations" id="hallucinations">
+    </div>
+
+    <div class="form-group">
+        <label>Insight</label>
+        <input type="text" class="form-control jqte-test1" name="Insight" placeholder="Insight" id="Insight">
+    </div>
+
+
+
+    <div class="form-group">
+        <label>Cognitions</label>
+        <input type="text" class="form-control jqte-test1 " name="Cognitions" placeholder="Cognitions" id="Cognitions">
+    </div>
+
+    <div class="form-group">
+        <label>Provisional Diagnosis</label>
+        <input type="text" class="form-control jqte-test1 " name="Provisional_Diagnosis" placeholder="Provisional Diagnosis" id="Provisional_Diagnosis">
+    </div>
+
+    <div class="form-group">
+        <label>Differential Diagnosis</label>
+        <input type="text" class="form-control jqte-test1 " name="differential_diagnosis" placeholder="differential diagnosis" id="differential_diagnosis">
+    </div>
+
+    <button type="button" id="submitbtnADD" class="btn btn-primary">Submit</button>
+</form>
+
+
+`;
+
+
+                   $("#Initial_Analysiz1").append(html);
+
+
+                   $(".jqte-test1").jqte();
+
+               }
+
+
+            else {
+
+
+
+
+
+                alert(res.message);
+
+
+            }
+
+
+            })
+                .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+
+
+                    if (XMLHttpRequest.status==403) {
+                        window.location.href = '~/Account/Login'
+                    }
+
+                    if (XMLHttpRequest.status == 401) {
+                        window.location.href = '/Account/Login'
+                    }
+
+                    console.log("fail");
+
+
+                })
+
+
+
+
+    });
+
+    //submitbtnADD
+
+    $(document).on('click',"#submitbtnADD",function () {
+
+
+
+        var Present_Complaint = $("#Present_Complaint").val();
+        var History_of_Presenting_Complaint = $("#History_of_Presenting_Complaint").val();
+        var Past_Psychiatric_History = $("#Past_Psychiatric_History").val();
+        var Current_Medication = $("#Current_Medication").val();
+        var Physical_History = $("#Physical_History").val();
+        var Family_History = $("#Family_History").val();
+        var schooling = $("#schooling").val();
+        var Maritial_Status = $("#Maritial_Status").val();
+        var Adolesence = $("#Adolesence").val();
+        var Alcohal = $("#Alcohal").val();
+        var Premorbid_personality = $("#Premorbid_personality").val();
+        var Mental_State_Examination = $("#Mental_State_Examination").val();
+        var Appearance_and_Behavior = $("#Appearance_and_Behavior").val();
+        var Speech = $("#Speech").val();
+        var Mood_and_Affect = $("#Mood_and_Affect").val();
+        var Sucidial_ideations = $("#Sucidial_ideations").val();
+        var Thoughts = $("#Thoughts").val();
+
+        var Delusions = $("#Delusions").val();
+
+        var hallucinations = $("#hallucinations").val();
+
+        var Insight = $("#Insight").val();
+
+        var Cognitions = $("#Cognitions").val();
+
+        var Provisional_Diagnosis = $("#Provisional_Diagnosis").val();
+
+
+        var differential_diagnosis = $("#differential_diagnosis").val();
+
+        $.ajax({
+
+            type: "POST",
+          url: apiurl+'api/AddInitialAnalysiz',
+            data: JSON.stringify({
+                Pid: patientid,
+                Present_Complaint:Present_Complaint,
+                History_of_Presenting_Complaint: History_of_Presenting_Complaint,
+                Past_Psychiatric_History: Past_Psychiatric_History,
+                Current_Medication: Current_Medication,
+                Physical_History: Physical_History,
+                Family_History: Family_History,
+                schooling: schooling,
+                Maritial_Status: Maritial_Status,
+                Adolesence: Adolesence,
+                AlcohalSubstance_abuse: Alcohal,
+                Premorbid_personality: Premorbid_personality,
+                Mental_State_Examination: Mental_State_Examination,
+                Appearance_and_Behavior: Appearance_and_Behavior,
+
+                Speech: Speech,
+
+                Mood_and_Affect: Mood_and_Affect,
+
+
+                Sucidial_ideations: Sucidial_ideations,
+
+                Thoughts: Thoughts,
+
+                Delusions: Delusions,
+
+                hallucinations: hallucinations,
+                Insight: Insight,
+                Cognitions: Cognitions,
+
+                Provisional_Diagnosis: Provisional_Diagnosis,
+                differential_diagnosis: differential_diagnosis,
+            }),
+            headers: {
+              'Content-Type': 'application/json',
+              'Access-Control-Allow-Origin': apiurl,
+                    'Authorization': 'Bearer  @Request.Cookies["Token"].Value.ToString()'
+
+                }
+
+
+
+
+        }).done(function (res) {
+
+
+            if (res.status == 'success') {
+
+                alert('Inserted');
+
+
+
+                window.location.reload();
+
+            }
+            else {
+                alert(res.message);
+
+            }
+
+
+        })
+            .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+
+                if (XMLHttpRequest.status == 403) {
+                    window.location.href = '~/Account/Login'
+                }
+
+                if (XMLHttpRequest.status == 401) {
+                    window.location.href = '/Account/Login'
+                }
+
+                console.log("fail");
+
+
+            })
+
+
+
+
+
+
+    })
+
+
+
+    $(document).on("click", "#submitbtn", function () {
+
+
+        var IDD = $("#IDD").val();
+        var Present_Complaint = $("#Present_Complaint").val();
+        var History_of_Presenting_Complaint = $("#History_of_Presenting_Complaint").val();
+        var Past_Psychiatric_History = $("#Past_Psychiatric_History").val();
+        var Current_Medication = $("#Current_Medication").val();
+        var Physical_History = $("#Physical_History").val();
+        var Family_History = $("#Family_History").val();
+        var schooling = $("#schooling").val();
+        var Maritial_Status = $("#Maritial_Status").val();
+        var Adolesence = $("#Adolesence").val();
+        var Alcohal = $("#Alcohal").val();
+        var Premorbid_personality = $("#Premorbid_personality").val();
+        var Mental_State_Examination = $("#Mental_State_Examination").val();
+        var Appearance_and_Behavior = $("#Appearance_and_Behavior").val();
+        var Speech = $("#Speech").val();
+        var Mood_and_Affect = $("#Mood_and_Affect").val();
+        var Sucidial_ideations = $("#Sucidial_ideations").val();
+        var Thoughts = $("#Thoughts").val();
+
+        var Delusions = $("#Delusions").val();
+
+        var hallucinations = $("#hallucinations").val();
+
+        var Insight = $("#Insight").val();
+
+        var Cognitions = $("#Cognitions").val();
+
+        var Provisional_Diagnosis = $("#Provisional_Diagnosis").val();
+
+
+        var differential_diagnosis = $("#differential_diagnosis").val();
+
+        $.ajax({
+
+            type: "POST",
+          url: apiurl+'api/UpdateInitialAnalysiz',
+            data: JSON.stringify({
+                ID: IDD,
+
+                Pid: patientid,
+                Present_Complaint: Present_Complaint,
+                History_of_Presenting_Complaint: History_of_Presenting_Complaint,
+                Past_Psychiatric_History: Past_Psychiatric_History,
+                Current_Medication: Current_Medication,
+                Physical_History: Physical_History,
+                Family_History: Family_History,
+                schooling: schooling,
+                Maritial_Status: Maritial_Status,
+                Adolesence: Adolesence,
+                AlcohalSubstance_abuse: Alcohal,
+                Premorbid_personality: Premorbid_personality,
+                Mental_State_Examination: Mental_State_Examination,
+                Appearance_and_Behavior: Appearance_and_Behavior,
+
+                Speech: Speech,
+
+                Mood_and_Affect: Mood_and_Affect,
+
+
+                Sucidial_ideations: Sucidial_ideations,
+
+                Thoughts: Thoughts,
+
+                Delusions: Delusions,
+
+                hallucinations: hallucinations,
+                Insight: Insight,
+                Cognitions: Cognitions,
+
+                Provisional_Diagnosis: Provisional_Diagnosis,
+                differential_diagnosis: differential_diagnosis,
+            }),
+            headers: {
+              'Content-Type': 'application/json',
+              'Access-Control-Allow-Origin': apiurl,
+                'Authorization': 'Bearer  @Request.Cookies["Token"].Value.ToString()'
+
+            }
+
+
+
+
+        }).done(function (res) {
+
+
+            if (res.status == 'success') {
+
+                alert('Updated');
+                window.location.reload();
+
+
+                //window.location.href = "/Patient/PatientAppointedList";
+
+
+            }
+            else {
+                alert(res.message);
+
+            }
+
+
+        })
+            .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+
+                if (XMLHttpRequest.status == 403) {
+                    window.location.href = '~/Account/Login'
+                }
+
+                if (XMLHttpRequest.status == 401) {
+                    window.location.href = '/Account/Login'
+                }
+
+                console.log("fail");
+
+
+            })
+
+
+
+
+
+
+    });
+    var cityID = "";
+    var PCity = "";
+
+    $(".PateintBasicInformation").click(function () {
+
+
+
+
+            $.ajax({
+
+                type: 'GET',
+              url: apiurl+'api/GetPatientByID',
+                data: {
+
+
+
+
+                    id: patientid
+                },
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Access-Control-Allow-Origin': apiurl,
+                    'Authorization': 'Bearer  @Request.Cookies["Token"].Value.ToString()'
+
+                }
+
+
+            }).done(function (res) {
+
+
+                var data = JSON.parse(res.object);
+
+
+
+
+                if (res.status == 'success') {
+                    $('#Initial_Analysiz2').empty();
+
+                    $('#myModal6').modal('show');
+
+
+                    var d = data[0].DateOfBirth;
+
+                    if (d != undefined && d != '') {
+
+                        d = d.split('T')[0];
+                    }
+                    else {
+                        d=''
+                    }
+
+
+
+                    PCity = data[0].c[0].pc[0].CityID;
+
+
+                    cityID = data[0].c[0].CityID;
+
+
+
+
+                    var editform = `<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <form>
+                <fieldset>
+  <input class="form-control" type="hidden" readonly="" name="username" id="PatientID"   value="`+ data[0].Patient_ID + `"  placeholder="Uasername" required  />
+
+
+                    <div class="form-group">
+                        <label for="username"><span class="req">* </span> Patient  name:  </label>
+                        <input class="form-control" type="text" name="username" id="username"   value="`+ data[0].Patient_Name + `"  placeholder="Uasername" required  onkeypress="return ignoreSpaces(event)"/>
+                        <div id="errLast"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="email"><span class="req">* </span> Patient Email Address: </label>
+                        <input class="form-control" required type="email" name="email" id="email"  value="`+ data[0].Patient_Email + `"   onchange="email_validate(this.value)" ; />
+                        <div class="status" id="status"></div>
+                    </div>
+
+
+
+
+                    <div class="form-group">
+                        <label for="phonenumber"><span class="req">* </span> Phone Number: </label>
+                        <input required type="text" name="phonenumber"    value="`+ data[0].Patient_Phone_Number + `" id="phone" class="form-control phone" maxlength="28" onkeyup="validatephone(this);" placeholder="Phone No:" />
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="Mobilenumber"><span class="req">* </span> Mobile Number: </label>
+                        <input required type="text" name="Mobilenumber"  value="`+ data[0].Patient_Mobile_Number + `"   id="Mobile" class="form-control phone" maxlength="28" onkeyup="validatephone(this);" placeholder="Mobile No:" />
+                    </div>
+
+
+
+                    <div class="form-group">
+                        <label for="Address"><span class="req">* </span> Patient  Address:  </label>
+                        <br />
+                        <textarea rows="4" cols="30" id="Address"  >`+ data[0].Patient_Address + `</textarea>
+
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="CNIC"><span class="req">* </span> CNIC: </label>
+                        <input class="form-control" required type="text" name="CNIC"  value="`+ data[0].CNIC + `" id="CNIC" />
+
+                    </div>
+
+
+
+
+                    <div class="form-group">
+                        <label for="DateOFBirth"><span class="req">* </span> Date OF Birth: </label>
+                        <input class="form-control" required type="date" name="DateOFBirth"  value="`+ d + `"   id="DateOFBirth" />
+
+                    </div>
+
+
+
+                    <div class="form-group">
+                        <label for="gender"><span class="req">* </span> Gender: </label>
+                        <select class="form-control" id="gender">
+                           <option value="`+ data[0].Patient_Gender + `">` + data[0].Patient_Gender +` </option>
+                                     `;
+
+
+
+                    if (data[0].Patient_Gender == 'Male') {
+                        editform += `  <option value="Female">Female </option>
+                            <option value="other">Other </option>  ` ;
+
+                    }
+
+                    else if (data[0].Patient_Gender == 'Female') {
+
+                        editform += ` <option value="Male">Male </option>
+
+                            <option value="other">Other </option>`;
+                    }
+                    else {
+
+                        editform     += ` <option value="Male">Male </option>
+
+                            <option value="other">Other </option>`;
+                    }
+
+
+                    editform += `
+                        </select>
+
+                    </div>
+
+
+
+                        <input type="hidden" class="" value="`+ data[0].Documents +`" id="ImageUploadnot" name="img">
+
+
+
+
+
+
+                    <div class="form-group">
+                        <label for="PalceOFBirth"><span class="req">* </span> Palce OF Birth: </label>
+
+                        <select name="PCId" id="PCId"  class="form-control">
+           <option value=" `+ data[0].c[0].pc[0].CityID + `"> ` + data[0].c[0].pc[0].City_Name+`</option>
+                        </select>
+
+                    </div>
+
+
+
+
+                    <div class="form-group">
+                        <label for="City"><span class="req">* </span> Patient  City </label>
+
+                        <select name="CId" id="CId" class="form-control">
+
+ <option value=" `+ data[0].c[0].CityID + `"> ` + data[0].c[0].City_Name +`</option>
+
+</select>
+
+                    </div>
+
+
+
+
+
+                  <div class="form-group">
+                    <label for="Address"><span class="req">* </span> Remarks:  </label>
+                    <br />
+                    <textarea rows="4" cols="40" id="Comment">`+ data[0].comment+`</textarea>
+
+                  </div>
+
+
+
+
+
+                    <div class="form-group">
+
+                        <button type="button" class="btn btn-success" id="EditPateint">Update</button>
+
+                    </div>
+
+
+
+
+
+                </fieldset>
+            </form><!-- ends register form -->
+
+        </div><!-- ends col-6 -->
+
+
+    </div>
+</div>
+
+
+`; $('#Initial_Analysiz2').append(editform);
+
+                    getallcities();
+
+                }
+                else {
+                    alert(res.message);
+
+                }
+
+
+            })
+            .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+
+                if (XMLHttpRequest.status == 403) {
+                    window.location.href = '~/Account/Login'
+                }
+
+                if (XMLHttpRequest.status == 401) {
+                    window.location.href = '/Account/Login'
+                }
+
+                console.log("fail");
+
+
+            })
+
+
+
+
+    })
+
+
+
+    function getallcities() {
+
+            $.ajax({
+
+                type: 'GET',
+              url: apiurl+'api/getallcities',
+
+                headers: {
+                    'Content-Type': 'application/json',
+                  'Access-Control-Allow-Origin': apiurl
+
+
+                }
+
+
+            }).done(function (res) {
+
+
+                var data = JSON.parse(res.object);
+
+                var html = '';
+                var place = '';
+
+
+                $.each(data, function (i, val) {
+
+
+                    var idd = data[i].CityID
+
+                    if (cityID != idd) {
+                        html += `<option value= ` + data[i].CityID + `>` + data[i].City_Name + `</option>`
+
+                    }
+
+                });
+
+
+
+                $.each(data, function (i, val) {
+
+                    var Pidd = data[i].CityID;
+
+
+                    if (PCity != Pidd) {
+                        place += `<option value= ` + data[i].CityID + `>` + data[i].City_Name + `</option>`
+
+                    }
+
+                });
+
+                $('#CId').append(html);
+                $('#PCId').append(place);
+
+
+            })
+                .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+                    console.log("fail");
+                })
+
+
+    }
+
+     function ignoreSpaces(event) {
+        var character = event ? event.which : window.event.keyCode;
+        if (character == 32) return false;
+    }
+
+    var pid = "";
+    var username = "";
+    var email = "";
+    var phone = "";
+    var mobile = "";
+    var address = "";
+    var cinic = "";
+    var dataofbirth = "";
+    var gender = "";
+     var doc             = "";
+    var city = "";
+    var place_of_Birth = "";
+    var Patient_Maritalstatus = "";
+  var Comment = "";
+
+
+
+
+    $(document).on("change", "#ImageUpload", function () {
+        fasterPreview(this, "Document");
+
+
+    });
+
+
+
+
+    function fasterPreview(uploader, component) {
+        if (uploader.files && uploader.files[0]) {
+            var fileName, fileExtension;
+            fileName = uploader.files[0].name;
+            fileExtension = fileName.replace(/^.*\./, '');
+
+            var FileSize = uploader.files[0].size / 1024 / 1024; // in MB
+            if (FileSize > 10) {
+                alert('File size exceeds 10 MB');
+                uploader.val('');
+                if (component == "Document")
+                    base64stringform = [];
+
+                return false;
+            }
+            var img = uploader.files[0];
+            var reader = new FileReader();
+            reader.onloadend = function () {
+                //base64String = /,(.+)/.exec(reader.result)[1];
+                //base64String.push(/,(.+)/.exec(reader.result)[1]);
+                if (component == "Document")
+                    base64stringform.push(/,(.+)/.exec(reader.result)[1]);
+
+            }
+            reader.readAsDataURL(img);
+        }
+    }
+
+    $(document).on("click", "#EditPateint", function () {
+
+
+        if ($('#username').val() == '') {
+            isAllOkay = false;
+
+            alert('username is  Mandatory!');
+            return;
+        }
+
+
+        if ($('#CId').val() == '') {
+            isAllOkay = false;
+            alert('City  is  Mandatory!');
+            return;
+        }
+
+
+
+
+        //if ($('#DateOFBirth').val() == '') {
+        //    isAllOkay = false;
+        //    alert('DateOFBirth is  Mandatory!');x
+        //    return;
+        //}
+
+
+
+
+        Editpatient();
+
+
+    })
+
+
+
+
+
+        function Editpatient() {
+        cleardatavariables();
+
+            pid = $("#PatientID").val();
+            username = $('#username').val();
+           email =      $('#email').val();
+            phone =     $('#phone').val();
+            mobile =    $('#Mobile').val();
+            address =    $('#Address').val();
+            cinic =      $('#CNIC').val();;
+            dataofbirth =  $('#DateOFBirth').val();
+            gender = $('#gender').val();
+            city =          $('#CId').val();
+            place_of_Birth = $('#PCId').val();
+          doc = $("#ImageUploadnot").val();
+          Comment = $("#Comment").val();
+
+            $.ajax({
+
+                type: 'POST',
+              url: apiurl+'api/PatientUpdate',
+                data: JSON.stringify({
+                    PatientID: pid,
+                    Patient_Name: username,
+                    Patient_Email: email,
+                    Patient_Phone_Number: phone,
+                    Patient_Mobile_Number: mobile,
+                    CNIC: cinic,
+                    DateOfBirth: dataofbirth,
+                    Patient_Gender: gender,
+                    Patient_Address: address,
+                    Place_Of_Birth: place_of_Birth,
+                    //ImageBase64: base64stringform,
+                    CityID: city,
+                    Documents: doc,
+                  Comment: Comment
+
+
+
+                }),
+                headers: {
+                    'Content-Type': 'application/json',
+                  'Access-Control-Allow-Origin': apiurl,
+                    'Authorization': 'Bearer  @Request.Cookies["Token"].Value.ToString()'
+
+                }
+
+
+            }).done(function (res) {
+
+
+                if (res.status == 'success') {
+
+                    alert('updated');
+                    base64stringform = [];
+                    //ClearFromFileds();
+                    //$("#actioncontainer").html("");
+
+                    window.location.reload();
+
+                }
+                else {
+                    alert(res.message);
+
+                }
+
+
+            })
+                .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+
+                    if (XMLHttpRequest.status==403) {
+                        window.location.href = '~/Account/Login'
+                    }
+
+                    if (XMLHttpRequest.status == 401) {
+                        window.location.href = '/Account/Login'
+                    }
+
+                    console.log("fail");
+
+
+                })
+
+
+
+
+
+
+
+    }
+
+
+
+    // validate email
+    function email_validate(email) {
+        var regMail = /^([_a-zA-Z0-9-]+)(\.[_a-zA-Z0-9-]+)*@@([a-zA-Z0-9-]+\.)+([a-zA-Z]{2,3})$/;
+
+        if (regMail.test(email) == false) {
+            document.getElementById("status").innerHTML = "<span class='warning'>Email address is not valid yet.</span>";
+        }
+        else {
+            document.getElementById("status").innerHTML = "<span class='valid'>Thanks, you have entered a valid Email address!</span>";
+        }
+    }
+
+
+
+    function checkPass() {
+        //Store the password field objects into variables ...
+        var pass1 = document.getElementById('pass1');
+        var pass2 = document.getElementById('pass2');
+        //Store the Confimation Message Object ...
+        var message = document.getElementById('confirmMessage');
+        //Set the colors we will be using ...
+        var goodColor = "#66cc66";
+        var badColor = "#ff6666";
+        //Compare the values in the password field
+        //and the confirmation field
+        if (pass1.value == pass2.value) {
+            //The passwords match.
+            //Set the color to the good color and inform
+            //the user that they have entered the correct password
+            pass2.style.backgroundColor = goodColor;
+            message.style.color = goodColor;
+            message.innerHTML = "Passwords Match"
+        } else {
+            //The passwords do not match.
+            //Set the color to the bad color and
+            //notify the user.
+            pass2.style.backgroundColor = badColor;
+            message.style.color = badColor;
+            message.innerHTML = "Passwords Do Not Match!"
+        }
+    }
+
+    function validatephone(phone) {
+        var maintainplus = '';
+        var numval = phone.value
+        if (numval.charAt(0) == '+') {
+            var maintainplus = '';
+        }
+        curphonevar = numval.replace(/[\\A-Za-z!"£$%^&\,*+_={};:'@@#~,.Š\/<>?|`¬\]\[]/g, '');
+        phone.value = maintainplus + curphonevar;
+        var maintainplus = '';
+        phone.focus;
+    }
+
+
+        function ClearFromFileds() {
+            $("#PatientID").val('');
+            $('#username').val('');
+            $('#email').val('');
+            $('#phone').val('');
+            $('#Mobile').val('');
+            $('#Address').val('');
+            $('#CNIC').val('');
+             $('#DateOFBirth').val('');
+            $('#gender').val('');
+
+            $('#CId').val('');
+            $('#PCId').val('');
+          $("#ImageUploadnot").val('')
+          $("#Comment").val('');
+        }
+
+        function cleardatavariables() {
+
+            pid = "";
+            username = "";
+             email = "";
+             phone = "";
+             mobile = "";
+             address = "";
+             cinic = "";
+            dataofbirth = "";
+             gender = "";
+             doc = "";
+             city = "";
+          place_of_Birth = "";
+          Comment = "";
+
+        }
+
+    $(document).on('click', "#cencelappintment", function (){
+
+        var btn = $('.has-spinner');
+        $(btn).buttonLoader('start');
+
+
+            $.ajax({
+
+                type: 'GET',
+              url: apiurl+'api/DeleteAppointment',
+                data: {
+
+
+
+
+                    id: appointmentId
+                },
+                headers: {
+                    'Content-Type': 'application/json',
+                  'Access-Control-Allow-Origin': apiurl,
+                    'Authorization': 'Bearer  @Request.Cookies["Token"].Value.ToString()'
+
+                }
+
+
+            }).done(function (res) {
+
+              if (res.status == 'success') {
+
+                    alert('cancelled');
+                    setTimeout(function () {
+                        $(btn).buttonLoader('stop');
+                    }, 3000);
+
+                if ('@Request.Cookies["Role"]'==null) {
+                  window.location.href = "/Account/Login";
+                }
+                else if ('@Request.Cookies["Role"].Value.ToString().Contains("Admin")' == 'True' ) {
+                  window.location.href = "/Appointment/Index";
+                }
+
+                else if ('@Request.Cookies["Role"].Value.ToString().Contains("Assistant")' == 'True') {
+                  window.location.href = "/Appointment/Index";
+                }
+                  else {
+                    window.location.href = "/Appointment/DoctorAppointments";
+                  }
+                }
+                else {
+                    alert(res.message);
+
+                }
+
+
+            })
+                .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+
+                    if (XMLHttpRequest.status==403) {
+                        window.location.href = '~/Account/Login'
+                    }
+
+                    if (XMLHttpRequest.status == 401) {
+                        window.location.href = '/Account/Login'
+                    }
+
+                    console.log("fail");
+
+
+                })
+
+
+
+    })
+
+
+    $("#PDocument").click(function () {
+
+
+
+        window.location.href = "/Patient/PateintDouments?id=" + patientid + "&ApppointmentID=" + appointmentId;
+    })
+
+
+
+
+    $(document).on("click", ".pateintdownloadfiles", function () {
+
+        var href = $(this).attr('data-link');
+        window.location.href = href;
+    })
+
+
+
+  $("#pushmenudash").click(function () {
+
+    var id = $(this).attr('data-id');
+
+
+    var a = $('#bodytocheckclass').hasClass('sidebar-collapse');
+
+    if (a == true) {
+
+      $('#bodytocheckclass').removeClass('sidebar-mini layout-fixed  sidebar-collapse');
+      $('#bodytocheckclass').addClass('sidebar-mini layout-fixed  ')
+    }
+
+    else {
+
+      $('#bodytocheckclass').removeClass('sidebar-mini layout-fixed  ');
+      $('#bodytocheckclass').addClass('sidebar-mini layout-fixed  sidebar-collapse ')
+    }
+
+  });
+
+
+
+
+
+</script>
+

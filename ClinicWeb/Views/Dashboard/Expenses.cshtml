@@ -1,0 +1,743 @@
+﻿
+@{
+    ViewBag.Title = "Expenses";
+}
+
+
+<div class="modal fade" id="expenses" role="dialog">
+    <div class="modal-dialog modal-lg">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Expenses</h5>
+
+            </div>
+            <div class="modal-body">
+                <form>
+                    <fieldset>
+                        <div class="form-group">
+                            <input class="form-control" type="hidden" readonly="" id="PkID" value="" />
+
+
+                            <div class="form-group">
+                                <label for="Title"><span class="req">* </span> Title  </label>
+                                <input class="form-control" type="text" name="Title" id="Title" value="" placeholder="Title" />
+
+                            </div>
+                            <div class="form-group">
+                                <label for="Amount"><span class="req">* </span> Amount  </label>
+                                <input class="form-control" required type="text" name="Amount" id="Amount" value="" placeholder="Amount" />
+
+                            </div>
+                            <div class="form-group">
+                                <label for="Date"><span class="req">* </span> Date  </label>
+                                <input class="form-control" required type="date" name="Amount" id="edate" value="" placeholder="Date" />
+
+                            </div>
+
+
+
+
+
+                            <div class="form-group">
+
+
+                                <button type="button" class="btn btn-success" id="Expensebtn">Add</button>
+
+                                <div id="EditExpensesdiv" style="display:none">
+                                    <input type="button" class="btn btn-success" id="EditExpensebtn" value="Update" />
+
+                                </div>
+
+                            </div>
+
+
+
+
+
+                        </div>
+
+
+
+
+
+                    </fieldset>
+                </form><!-- ends register form -->
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="button" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="row">
+
+
+
+
+
+
+
+        <div class="col-12 col-sm-6 col-md-6 ">
+
+            <div class="info-box mb-3">
+                <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-money-bill-alt"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text" style="font-size:25px">Expense</span>
+                    <span class="info-box-number" id="totolamount" style="font-size:20px">0</span>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+
+            <!-- /.info-box -->
+        </div>
+
+
+
+        <div class="col-12 col-sm-6 col-md-6">
+
+            <div class="info-box mb-3">
+                <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-money-bill-alt"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text" style="font-size:25px">Today Expense</span>
+                    <span class="info-box-number" id="totolamountToday" style="font-size:20px">0</span>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+
+            <!-- /.info-box -->
+        </div>
+
+
+    </div>
+</div>
+
+<div class="container-fluid mt-3 mb-3">
+    <div class="row ">
+
+        <form class="form-inline">
+            <div class="form-group mr-5">
+
+                <label class="mr-5 ml-5 text-secondary"> Start Date:</label>
+
+                <input type="text" name="name" class="form-control date" readonly="readonly" id="startdate" value="" placeholder="mm/dd/yyyy" autocomplete="off" />
+            </div>
+         
+            <div class="form-group mr-5">
+                <label class="mr-5 text-secondary"> End Date:</label>
+
+                <input type="text" class="form-control date" name="name" id="enddate" value="" readonly="readonly" placeholder="mm/dd/yyyy" autocomplete="off" />
+            </div>
+            <div class="form-group mr-3">
+                <button type="button" class="btn btn-success" id="Applyfilter">Apply filter</button>
+            </div>
+
+            <div class="form-group mr-1">
+                <button type="button" class="btn btn-danger" id="reset">Reset Record</button>
+            </div>
+        </form>
+
+
+
+
+
+    </div>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<button class="btn btn-success  ml-2 mt-3 mb-3" data-toggle='modal' id="expenesaddbutton" data-target='#expenses'>Add Expenses</button>
+
+<section class="content">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                    <div class="table-responsive">
+
+                        <table id="producttable" class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Title </th>
+
+                                    <th>Amount</th>
+                                    <th>Date</th>
+
+                                    <th>Actions</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+<script>
+
+    var apiurl = "@System.Configuration.ConfigurationManager.AppSettings["url"]";
+
+    $('.date').datepicker({
+
+      
+        format: "mm/dd/yyyy",
+
+
+    }
+    );
+
+    $("#startdate").datepicker({
+        format: 'mm-dd-yyyy',
+        autoclose: true,
+    }).on('changeDate', function (selected) {
+        var minDate = new Date(selected.date.valueOf());
+        $('#enddate').datepicker('setStartDate', minDate);
+    });
+
+    $("#enddate").datepicker({
+        format: 'mm-dd-yyyy',
+        autoclose: true,
+    }).on('changeDate', function (selected) {
+        var minDate = new Date(selected.date.valueOf());
+        $('#startdate').datepicker('setEndDate', minDate);
+    });
+
+
+              var Total = "";
+              $(document).ready(function () {
+                $("#startdate").datepicker({ format: 'YYYY-MM-DD' });
+
+                $("#enddate").datepicker({ format: 'YYYY-MM-DD'});
+
+    firstdata();
+
+
+            });
+
+
+
+
+              function firstdata() {
+                $("#producttable").DataTable({
+                  "bServerSide": true, //make server side processing to true
+                  "sAjaxSource": apiurl + "api/ExpensesList", //url of the Ajax source,i.e. web api method
+
+                  "sAjaxDataProp": "aaData", // data property of the returned ajax which contains table data
+                  "bProcessing": true,
+                  "bLengthChange": true,
+                  "sPaginationType": "full_numbers",//pagination type
+
+                  "aoColumns": [
+
+                    { "mData": "title" },
+                    { "mData": "amount" },
+
+                    { "mData": "date" },
+
+
+
+                    {
+                      "mData": "id", "bSearchable": false, "bSortable": false,
+                      "mRender": function (data, y, z) {
+
+                        Total = z.total
+
+                        if (Total == null || Total == "") {
+                          $("#totolamount").text("0");
+                          $("#totolamountToday").text("0");
+                        }
+                        else {
+                          $("#totolamount").text(Total);
+                          $("#totolamountToday").text(z.todayTotal);
+
+
+                        }
+
+
+
+
+
+                        //return '<a href="' + data +'"  data-toggle="tooltip" data-placement="top" download title="Download offie" class="PopUpBtn btn btn-round waves-effect waves"><i class="fa fa-file"></i></a>'
+                        return "<button type = 'button'   onclick='Edite(" + JSON.stringify(data) + ")' class='ml-2 btn btn-info btn-circle' data-toggle='modal' data-target='#expenses'><i class='fa fa-edit'></i> </button>  <button type ='button' class='ml-2 btn btn-danger btn-circle' onclick = 'Deletee(" + JSON.stringify(data) + ")' ><i class='fa fa-trash-alt'></i></button >"
+                      }
+                    },
+
+
+
+
+
+                  ]
+
+
+
+                });
+              }
+
+
+
+              $("#reset").click(function () {
+
+                window.location.reload();
+              });
+
+              $("#Applyfilter").click(function () {
+
+                var startdate = $("#startdate").val();
+                var endate = $("#enddate").val();
+
+                if (startdate=='') {
+
+                  alert("start date should be given");
+                  return false;
+
+                }
+
+                if (endate == '') {
+
+                  alert("End date should be given");
+                  return false;
+
+                }
+                $("#producttable").dataTable().fnDestroy();
+
+
+                $("#totolamount").text("0");
+                $("#producttable").DataTable({
+
+                  "bServerSide": true, //make server side processing to true
+                  "sAjaxSource": apiurl + "api/ExpensesListbydate?startdate=" + startdate + "&endate=" + endate + "", //url of the Ajax source,i.e. web api method
+
+                  "sAjaxDataProp": "aaData", // data property of the returned ajax which contains table data
+                  "bProcessing": true,
+                  "bLengthChange": true,
+                  "sPaginationType": "full_numbers",//pagination type
+
+                  "aoColumns": [
+
+                    { "mData": "title" },
+                    { "mData": "amount" },
+
+                    { "mData": "date" },
+
+
+
+                    {
+                      "mData": "id", "bSearchable": false, "bSortable": false,
+                      "mRender": function (data, y, z) {
+
+                        Total = z.todayTotal
+
+                        if (Total == null || Total == "") {
+                          $("#totolamount").text("0");
+                        }
+                        else {
+                          $("#totolamount").text(Total);
+
+
+                        }
+
+
+
+
+                        //return '<a href="' + data +'"  data-toggle="tooltip" data-placement="top" download title="Download offie" class="PopUpBtn btn btn-round waves-effect waves"><i class="fa fa-file"></i></a>'
+                        return "<button type = 'button'   onclick='Edite(" + JSON.stringify(data) + ")' class='ml-2 btn btn-info btn-circle' data-toggle='modal' data-target='#expenses'><i class='fa fa-edit'></i> </button>  <button type ='button' class='ml-2 btn btn-danger btn-circle' onclick = 'Deletee(" + JSON.stringify(data) + ")' ><i class='fa fa-trash-alt'></i></button >"
+                      }
+                    },
+
+
+
+
+
+                  ]
+
+
+
+                });
+              })
+
+
+
+
+    function validatephone(phone) {
+        var maintainplus = '';
+        var numval = phone.value
+        if (numval.charAt(0) == '+') {
+            var maintainplus = '';
+        }
+        curphonevar = numval.replace(/[\\A-Za-z!"£$%^&\,*+_={};:'@@#~,.Š\/<>?|`¬\]\[]/g, '');
+        phone.value = maintainplus + curphonevar;
+        var maintainplus = '';
+        phone.focus;
+    }
+
+
+
+              function Deletee(ID) {
+
+
+
+
+            $.ajax({
+
+              type: 'GET',
+
+              url: apiurl +'api/deleteexpensebyid',
+
+                data: {
+
+
+
+
+                    id: ID
+                },
+                headers: {
+                    'Content-Type': 'application/json',
+
+                  'Access-Control-Allow-Origin': apiurl,
+                    'Authorization': 'Bearer  @Request.Cookies["Token"].Value.ToString()'
+
+                }
+
+
+            }).done(function (res) {
+
+                if (res.status == 'success') {
+
+                    alert('deleted');
+
+
+                    window.location.reload();
+
+                }
+                else {
+                    alert(res.message);
+
+                }
+
+
+            })
+                .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+
+                    if (XMLHttpRequest.status==403) {
+                        window.location.href = '~/Account/Login'
+                    }
+
+                    if (XMLHttpRequest.status == 401) {
+                        window.location.href = '/Account/Login'
+                    }
+
+                    console.log("fail");
+
+
+                })
+
+
+
+
+
+        }
+
+
+
+              $("#expenesaddbutton").click(function () {
+
+    $("#Expensebtn").show();
+                $("#EditExpensesdiv").hide();
+    $("#PkID").val('');
+    $("#Title").val('');
+    $("#Amount").val('');
+
+
+
+
+  });
+
+  $("#Expensebtn").click(function () {
+    if ($('#Title').val() == '') {
+      isAllOkay = false;
+
+      alert('Title is  Mandatory!');
+      return;
+    }
+
+
+    if ($('#Amount').val() == '') {
+      isAllOkay = false;
+      alert('Amount  is  Mandatory!');
+      return;
+    }
+
+      
+
+            $.ajax({
+
+                type: 'POST',
+              url: apiurl +'api/AddExpenses',
+                data: JSON.stringify({
+                  Id: "",
+                  title: $('#Title').val(),
+                    Amount: $('#Amount').val(),
+                    date: $("#edate").val()
+
+
+
+
+                }),
+                headers: {
+                    'Content-Type': 'application/json',
+                  'Access-Control-Allow-Origin': apiurl,
+                    'Authorization': 'Bearer  @Request.Cookies["Token"].Value.ToString()'
+
+                }
+
+
+            }).done(function (res) {
+
+
+                if (res.status == 'success') {
+
+                  alert("added");
+
+                    window.location.reload();
+
+                }
+                else {
+                    alert(res.message);
+
+                }
+
+
+            })
+                .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+
+                    if (XMLHttpRequest.status==403) {
+                        window.location.href = '~/Account/Login'
+                    }
+
+                    if (XMLHttpRequest.status == 401) {
+                        window.location.href = '/Account/Login'
+                    }
+
+                    console.log("fail");
+
+
+                })
+
+
+
+
+
+
+
+  })
+
+
+              $("#EditExpensebtn").click(function () {
+    if ($('#Title').val() == '') {
+      isAllOkay = false;
+
+      alert('Title is  Mandatory!');
+      return;
+    }
+
+
+    if ($('#Amount').val() == '') {
+      isAllOkay = false;
+      alert('Amount  is  Mandatory!');
+      return;
+    }
+
+            $.ajax({
+
+                type: 'POST',
+              url: apiurl +'api/UpdateExpenses',
+                data: JSON.stringify({
+                  Id: $("#PkID").val(),
+                  title: $('#Title').val(),
+                  Amount: $('#Amount').val()  ,
+                    date: $("#edate").val()
+
+
+
+
+                }),
+                headers: {
+                    'Content-Type': 'application/json',
+                  'Access-Control-Allow-Origin': apiurl,
+                    'Authorization': 'Bearer  @Request.Cookies["Token"].Value.ToString()'
+
+                }
+
+
+            }).done(function (res) {
+
+
+                if (res.status == 'success') {
+
+                  alert("updated");
+
+                    window.location.reload();
+
+                }
+                else {
+                    alert(res.message);
+
+                }
+
+
+            })
+                .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+
+                    if (XMLHttpRequest.status==403) {
+                        window.location.href = '~/Account/Login'
+                    }
+
+                    if (XMLHttpRequest.status == 401) {
+                        window.location.href = '/Account/Login'
+                    }
+
+                    console.log("fail");
+
+
+                })
+
+
+
+
+
+
+
+  })
+
+
+
+
+
+              function Edite(id) {
+
+
+                $("#Expensebtn").hide();
+                $("#EditExpensesdiv").css('display', "block");
+
+
+
+    $.ajax({
+
+      type: 'GET',
+      url: apiurl +"api/getexpensebyid",
+      data: {
+        id: id
+      },
+      headers: {
+
+        'Access-Control-Allow-Origin': apiurl,
+        'Authorization': 'Bearer  @Request.Cookies["Token"].Value.ToString()'
+
+      }
+
+
+    }).done(function (res) {
+
+
+      var data = JSON.parse(res.object);
+
+
+
+      if (res.status == 'success') {
+
+
+
+        $("#PkID").val(data[0].pkid);
+        $("#Title").val(data[0].Title);
+          $("#Amount").val(data[0].Amount);
+
+
+          $("#edate").val(data[0].Date);
+
+
+
+      }
+    })
+      .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+
+        if (XMLHttpRequest.status == 403) {
+          window.location.href = '~/Account/Login'
+        }
+
+        if (XMLHttpRequest.status == 401) {
+          window.location.href = '/Account/Login'
+        }
+
+        console.log("fail");
+
+
+      })
+
+
+
+
+              }
+
+
+
+  $("#pushmenudash").click(function () {
+
+    var id = $(this).attr('data-id');
+
+
+
+    var a = $('#bodytocheckclass').hasClass('sidebar-collapse');
+
+    if (a == true) {
+
+      $('#bodytocheckclass').removeClass('sidebar-mini layout-fixed  sidebar-collapse');
+      $('#bodytocheckclass').addClass('sidebar-mini layout-fixed  ')
+    }
+
+    else {
+
+      $('#bodytocheckclass').removeClass('sidebar-mini layout-fixed  ');
+      $('#bodytocheckclass').addClass('sidebar-mini layout-fixed  sidebar-collapse ')
+    }
+
+  });
+
+
+
+
+</script>

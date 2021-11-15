@@ -1,0 +1,445 @@
+﻿
+@{
+    ViewBag.Title = "PatientIntialAssesmentDetails";
+}
+
+<h2>Patient Intial Assesment Details</h2>
+
+<div id="ViewAssessment">
+
+
+
+</div>
+
+
+<script>
+  var apiurl = "@System.Configuration.ConfigurationManager.AppSettings["url"]";
+
+
+    function getQueryVariable(variable) {
+
+        var query = window.location.search.substring(1);
+        var vars = query.split("?");
+        for (var i = 0; i < vars.length; i++) {
+            var pair = vars[i].split("=");
+            if (pair[0] == variable) {
+                return pair[1];
+            }
+        }
+    }
+
+
+
+    var pateintid = "";
+    $(document).ready(function () {
+
+        pateintid = getQueryVariable("id");
+
+        if (pateintid != "undefined" && pateintid != null) {
+
+
+            ViewAssement(pateintid);
+        }
+
+        else {
+
+
+            $("#ViewAssessment").append('<h1>No Initial Assessment Done</h1>');
+
+        }
+
+    });
+
+
+        function ViewAssement(id) {
+
+
+                $.ajax({
+                  type: 'GET',
+                  url: apiurl+'api/IsInitialAnalysized',
+
+
+                   data: {
+
+
+
+
+                       id: id
+                },
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Access-Control-Allow-Origin': apiurl,
+                    'Authorization': 'Bearer  @Request.Cookies["Token"].Value.ToString()'
+
+                }
+
+
+           }).done(function (res) {
+
+
+            if (res.status == 'success') {
+
+                var data = JSON.parse(res.object);
+
+
+
+
+
+
+                var html = `
+
+
+
+
+
+
+
+
+        <h2>Present Complaint</h2>
+
+<h2>`+ data[0].Present_Complaint +`</h2>
+
+
+
+        <h2>History of Presenting Complaint</h2>
+
+
+
+<h2>`+ data[0].History_of_Presenting_Complaint +`</h2>
+
+
+
+
+
+
+
+        <h2>Past Psychiatric History</h2>
+
+
+
+<h2>`+ data[0].Past_psychiatric_history +`</h2>
+
+
+
+
+
+
+
+
+
+
+
+        <h2>Current Medication</h2>
+
+
+
+<h2>`+ data[0].Current_Medication  +`</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+        <h2>Physical History</h2>
+
+
+
+<h2>`+ data[0].Physical_History +`</h2>
+
+
+
+
+
+
+
+
+
+        <h2>Family History</h2>
+
+
+
+<h2>`+ data[0].Family_History +`</h2>
+
+
+
+
+
+
+
+        <h2>Schooling</h2>
+
+
+
+<h2>`+ data[0].schooling +`</h2>
+
+
+
+
+
+
+
+
+        <h2>Maritial Status</h2>
+
+
+
+<h2>`+ data[0].Maritial_Status +`</h2>
+
+
+
+
+
+
+
+
+
+
+        <h2>Adolesence</h2>
+
+
+
+<h2>`+ data[0].Adolesence +`</h2>
+
+
+
+
+
+
+
+
+        <h2>Alcohal / Substance abuse</h2>
+
+
+
+<h2>`+ data[0].Alcohal_Substance_abuse+`</h2>
+
+
+
+
+
+
+
+
+
+
+
+        <h2>Premorbid personality</h2>
+
+
+
+<h2>`+ data[0].Premorbid_personality +`</h2>
+
+
+
+
+
+
+
+
+        <h2>Mental State Examination</h2>
+
+
+
+<h2>`+ data[0].Mental_State_Examination+`</h2>
+
+
+
+
+
+
+
+
+        <h2>Appearance and Behavior</h2>
+
+
+
+<h2>`+ data[0].Appearance_and_Behavior +`</h2>
+
+
+
+
+
+
+
+
+        <h2>Speech</h2>
+
+
+
+<h2>`+ data[0].Speech  +`</h2>
+
+
+
+
+
+
+
+
+        <h2>Mood and Affect</h2>
+
+
+
+<h2>`+ data[0].Mood_and_Affect +`</h2>
+
+
+
+
+
+
+        <h2>Sucidial ideations</h2>
+
+
+
+<h2>`+ data[0].Sucidial_ideations +`</h2>
+
+
+
+
+
+
+
+
+
+        <h2>Thoughts</h2>
+
+
+
+<h2>`+ data[0].Thoughts  +`</h2>
+
+
+
+
+
+
+
+
+
+
+        <h2>Delusions</h2>
+
+
+
+<h2>`+ data[0].Delusions +`</h2>
+
+
+
+
+
+
+
+
+        <h2>Hallucinations</h2>
+
+
+
+<h2>`+ data[0].hallucinations +`</h2>
+
+
+
+
+
+
+        <h2>Insight</h2>
+
+
+
+<h2>`+ data[0].Insight +`</h2>
+
+
+
+
+
+
+
+        <h2>Cognitions</h2>
+
+
+
+<h2>`+ data[0].Cognitions +`</h2>
+
+
+
+
+        <h2>Provisional Diagnosis</h2>
+
+
+
+<h2>`+ data[0].Provisional_Diagnosis +`</h2>
+
+
+
+
+
+
+        <h2>Differential Diagnosis</h2>
+
+
+
+<h2>`+ data[0].differential_diagnosis +`</h2>
+
+
+
+
+
+
+`;
+
+
+                $("#ViewAssessment").append(html);
+
+
+            }
+
+
+            else if (res.status=="no") {
+                $("#ViewAssessment").append('<h1>No Initial Assessment Done</h1>');
+            }
+
+
+            else {
+
+
+
+
+
+                alert(res.message);
+
+
+            }
+
+
+            })
+                .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+
+
+                    if (XMLHttpRequest.status==403) {
+                        window.location.href = '~/Account/Login'
+                    }
+
+                    if (XMLHttpRequest.status == 401) {
+                        window.location.href = '/Account/Login'
+                    }
+
+                    console.log("fail");
+
+
+                })
+
+
+
+
+
+        }
+
+
+</script>
+
+
+
+

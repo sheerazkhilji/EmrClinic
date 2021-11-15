@@ -1,0 +1,512 @@
+﻿
+@{
+    ViewBag.Title = "AllAppointments";
+}
+
+
+<div class="modal fade" id="linkModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Online link</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <input type="text" readonly id="link">
+
+
+                <button onclick="myFunction()" class="btn btn-secondary">Copy text</button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container-fluid">
+
+    <div class="row">
+
+        <div class="col-md-12">
+            <div class="row">
+
+                <div class="col-md-2">
+
+
+                    <button class="btn btn-primary m-2" onclick="goBack()">Go Back</button>
+
+
+                </div>
+
+                <div class="col-md-10">
+                    <h2 class="m-2 d-flex justify-content-center">ALL APPOINTMENTS</h2>
+                </div>
+
+            </div>
+
+
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<div class="container-fluid">
+    <section class="content">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="producttable" class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+
+                                        <th>Name</th>
+                                        <th>Doctor Name</th>
+                                        <th>Mobile No. </th>
+
+                                        <th>City</th>
+                                        <th>Appointment Type</th>
+
+                                        <th>Campus</th>
+                                        <th>Appointment Date</th>
+
+                                        <th>Start Time</th>
+
+                                        @*<th>End Time</th>*@
+
+                                        <th>Document</th>
+
+
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Column -->
+        </div>
+    </section>
+    <!-- ============================================================== -->
+    <!-- End PAge Content -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- Right sidebar -->
+    <!-- ============================================================== -->
+    <!-- .right-sidebar -->
+    <!-- ============================================================== -->
+    <!-- End Right sidebar -->
+    <!-- ============================================================== -->
+</div>
+
+
+<script>
+
+  var apiurl = "@System.Configuration.ConfigurationManager.AppSettings["url"]";
+     var useid =localStorage.getItem('userID');
+
+
+  function getQueryVariable(variable) {
+
+    //var query = window.location.href.slice(window.location.href.indexOf('?') + 1).replaceAll('%20', " ");
+    var query = window.location.search.substring(1);
+    var vars = query.split("?");
+    for (var i = 0; i < vars.length; i++) {
+      var pair = vars[i].split("=");
+      if (pair[0] == variable) {
+        return pair[1].replaceAll('%20', ' ');
+      }
+    }
+
+    return query;
+
+  }
+
+
+
+    $(document).ready(function () {
+
+
+      var a = getQueryVariable("id");
+
+      if (a == "undefined" || a == null || a == "") {
+
+        getallpatientappointment();
+      }
+      else {
+
+        getallpatientappointmentbydoctorid(a);
+
+      }
+
+
+
+        });
+
+
+  function getallpatientappointment() {
+    $("#producttable").DataTable({
+      "bServerSide": true, //make server side processing to true
+      "sAjaxSource": apiurl + "api/sp_ALLPatientAppointmentsList", //url of the Ajax source,i.e. web api method
+      "sAjaxDataProp": "aaData", // data property of the returned ajax which contains table data
+      "bProcessing": true,
+      "bLengthChange": true,
+      "sPaginationType": "full_numbers",//pagination type
+
+      "aoColumns": [
+
+        {
+          "mData": "pidandaid", "bSearchable": false, "bSortable": false,
+          "mRender": function (data) {
+
+            const [name, pid, aid] = data.split("$");
+
+              return "<a  href='/Appointment/AppointmentDetails?id=" + pid + "&ApppointmentID=" + aid + "' >" + name + "</a>";
+          }
+
+        },
+
+        //                    { "mData": "patient_Name" },
+        { "mData": "doctorName" },
+        { "mData": "patient_Mobile_Number" },
+        { "mData": "cityname" },
+
+          {
+              "mRender": function (x,y,z) {
+
+                  if (z.appType == 1) {
+                      return "<td>In Person</td>"
+                  }
+                  else {
+
+                      return "<button type = 'button'   onclick='online(" + JSON.stringify(z.link) + ")'  class='btn btn-primary'>link</button>";
+
+                  }
+
+
+                  //return '<a href="' + data +'"  data-toggle="tooltip" data-placement="top" download title="Download offie" class="PopUpBtn btn btn-round waves-effect waves"><i class="fa fa-file"></i></a>'
+                     }
+          },
+          { "mData": "campus" },
+
+          { "mData": "appointment_Data" },
+
+
+          { "mData": "startDate" },
+
+
+
+
+        {
+          "mData": "patient_ID", "bSearchable": false, "bSortable": false,
+          "mRender": function (data) {
+
+
+
+            //return '<a href="' + data +'"  data-toggle="tooltip" data-placement="top" download title="Download offie" class="PopUpBtn btn btn-round waves-effect waves"><i class="fa fa-file"></i></a>'
+            return "<button type = 'button'   onclick='Documentp(" + JSON.stringify(data) + ")' download title='Download offie' class='PopUpBtn btn btn - round waves - effect waves'><i class='fa fa-file'></i></button>";
+          }
+        },
+
+
+
+
+
+
+
+
+      ]
+    });
+  }
+  function getallpatientappointmentbydoctorid(id) {
+    $("#producttable").DataTable({
+      "bServerSide": true, //make server side processing to true
+      "sAjaxSource": apiurl + "api/AppointedPatientOfDoctor?id=" + id, //url of the Ajax source,i.e. web api method
+      "sAjaxDataProp": "aaData", // data property of the returned ajax which contains table data
+      "bProcessing": true,
+      "bLengthChange": true,
+      "sPaginationType": "full_numbers",//pagination type
+
+      "aoColumns": [
+
+        {
+          "mData": "pidandaid", "bSearchable": false, "bSortable": false,
+          "mRender": function (data) {
+
+            const [name, pid, aid] = data.split("$");
+
+            return "<a  href='/Patient/PatientFollowupAnalysis?id=" + pid + "&ApppointmentID=" + aid + "' >" + name + "</a>";
+          }
+
+        },
+
+        //                    { "mData": "patient_Name" },
+        { "mData": "doctorName" },
+        { "mData": "patient_Mobile_Number" },
+          { "mData": "cityname" },
+
+          {
+              "mRender": function (x, y, z) {
+
+                  if (z.appType == 1) {
+                      return "<td>In Person</td>"
+                  }
+                  else {
+
+                      return "<button type = 'button'   onclick='online(" + JSON.stringify(z.link) + ")'  class='btn btn-primary'>link</button>";
+
+                  }
+
+
+                  //return '<a href="' + data +'"  data-toggle="tooltip" data-placement="top" download title="Download offie" class="PopUpBtn btn btn-round waves-effect waves"><i class="fa fa-file"></i></a>'
+              }
+          },
+          { "mData": "campus" },
+
+        { "mData": "appointment_Data" },
+        { "mData": "startDate" },
+
+
+
+
+
+
+        {
+          "mData": "patient_ID", "bSearchable": false, "bSortable": false,
+          "mRender": function (data) {
+
+
+
+            //return '<a href="' + data +'"  data-toggle="tooltip" data-placement="top" download title="Download offie" class="PopUpBtn btn btn-round waves-effect waves"><i class="fa fa-file"></i></a>'
+            return "<button type = 'button'   onclick='Documentp(" + JSON.stringify(data) + ")' download title='Download offie' class='PopUpBtn btn btn - round waves - effect waves'><i class='fa fa-file'></i></button>";
+          }
+        },
+
+
+
+
+
+
+
+
+      ]
+    });
+  }
+
+
+
+    function initiala(ID) {
+
+
+        //make conndition here for edit the  PatientIntialAssesment
+
+        $.ajax({
+            type: 'GET',
+          url: apiurl+'api/IsInitialAnalysized',
+
+
+                   data: {
+
+
+
+
+                    id: ID
+                },
+                headers: {
+                    'Content-Type': 'application/json',
+                  'Access-Control-Allow-Origin': apiurl ,
+                    'Authorization': 'Bearer  @Request.Cookies["Token"].Value.ToString()'
+
+                }
+
+
+        }).done(function (res) {
+
+            if (res.status == 'success') {
+
+                   window.location.href = '@Url.Action("PatientEditAssesment", "Patient")?id=' + ID;
+
+
+            }
+
+            else if (res.status='no') {
+
+                window.location.href = '@Url.Action("PatientIntialAssesment", "Patient")?id=' + ID;
+
+            }
+            else {
+
+                alert(res.message);
+
+
+            }
+
+
+            })
+                .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+                    debugger;
+
+                    if (XMLHttpRequest.status==403) {
+                        window.location.href = '~/Account/Login'
+                    }
+
+                    if (XMLHttpRequest.status == 401) {
+                        window.location.href = '/Account/Login'
+                    }
+
+                    console.log("fail");
+
+
+                })
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+    function cancelappoint(ID) {
+
+
+
+
+            $.ajax({
+
+                type: 'GET',
+              url: apiurl +'api/DeleteAppointment',
+                data: {
+
+
+
+
+                    id: ID
+                },
+                headers: {
+                    'Content-Type': 'application/json',
+                  'Access-Control-Allow-Origin': apiurl ,
+                    'Authorization': 'Bearer  @Request.Cookies["Token"].Value.ToString()'
+
+                }
+
+
+            }).done(function (res) {
+
+                if (res.status == 'success') {
+
+                    alert('deleted');
+
+
+                    window.location.reload();
+
+                }
+                else {
+                    alert(res.message);
+
+                }
+
+
+            })
+                .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+
+
+                    if (XMLHttpRequest.status==403) {
+                        window.location.href = '~/Account/Login'
+                    }
+
+                    if (XMLHttpRequest.status == 401) {
+                        window.location.href = '/Account/Login'
+                    }
+
+                    console.log("fail");
+
+
+                })
+
+
+
+
+
+        }
+
+
+    function online(link) {
+        $("#link").val(link);
+        $("#linkModal").modal('show');
+   }
+            function myFunction() {
+  /* Get the text field */
+                var copyText = document.getElementById("link");
+
+  /* Select the text field */
+  copyText.select();
+  copyText.setSelectionRange(0, 99999); /* For mobile devices */
+
+  /* Copy the text inside the text field */
+  document.execCommand("copy");
+
+  /* Alert the copied text */
+  alert("Copied the link ");
+}
+
+  function Documentp(id) {
+
+
+    window.location.href = "/Patient/Douments?id=" + id;
+
+  }
+
+  function goBack() {
+    window.history.back();
+  }
+
+
+
+
+
+  $("#pushmenudash").click(function () {
+
+    var id = $(this).attr('data-id');
+
+
+    var a = $('#bodytocheckclass').hasClass('sidebar-collapse');
+
+    if (a == true) {
+
+      $('#bodytocheckclass').removeClass('sidebar-mini layout-fixed  sidebar-collapse');
+      $('#bodytocheckclass').addClass('sidebar-mini layout-fixed  ')
+    }
+
+    else {
+
+      $('#bodytocheckclass').removeClass('sidebar-mini layout-fixed  ');
+      $('#bodytocheckclass').addClass('sidebar-mini layout-fixed  sidebar-collapse ')
+    }
+
+  });
+
+
+</script>
+

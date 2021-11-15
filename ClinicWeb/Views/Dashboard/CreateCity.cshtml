@@ -1,0 +1,338 @@
+﻿
+@{
+    ViewBag.Title = "CreateCity";
+}
+
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <form>
+                <fieldset>
+
+
+                    <div class="form-group">
+                        <label for="username"><span class="req">* </span> City  name:  </label>
+                        <input class="form-control" type="text" name="username" id="CityID" placeholder="Uasername" />
+                        <div id="errLast"></div>
+                    </div>
+
+
+
+
+                    <div class="form-group">
+
+                        <button type="button" class="btn btn-success" id="CityCreate">Create City</button>
+                        <button class=" btn-secondary" type="button" id="cancelbtnc">Cancel</button>
+                    </div>
+
+
+
+
+
+                </fieldset>
+            </form><!-- ends register form -->
+
+        </div><!-- ends col-6 -->
+
+
+    </div>
+</div>
+
+
+
+
+
+
+
+
+<script>
+
+
+
+  var apiurl = "@System.Configuration.ConfigurationManager.AppSettings["url"]";
+
+
+    var username        = "";
+
+    $('#CityCreate').click(function () {
+
+
+            if ($('#CityID').val() == '') {
+                isAllOkay = false;
+
+                alert('City Name is  Mandatory!');
+                return;
+            }
+
+        CityCreate1();
+
+
+        })
+
+    $("#cancelbtnc").click(function () {
+        $("#actioncontainer").html("");
+
+    });
+
+
+
+    function CityCreate1() {
+        cleardatavariables();
+            username = $('#CityID').val();
+
+
+            $.ajax({
+
+              type: 'POST',
+              url: apiurl+'api/Createcities',
+                data: JSON.stringify({
+                    ID:"",
+                    Name: username,
+
+
+
+                   }),
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Access-Control-Allow-Origin': apiurl,
+                    'Authorization': 'Bearer  @Request.Cookies["Token"].Value.ToString()'
+
+                }
+
+
+            }).done(function (res) {
+
+                console.log(res);
+
+                if (res.status == 'success') {
+
+                    alert('Created');
+
+
+                    window.location.reload();
+
+                }
+                else {
+                    alert(res.message);
+
+                }
+
+
+            })
+                .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+                    debugger;
+
+                    if (XMLHttpRequest.status==403) {
+                        window.location.href = '~/Account/Login'
+                    }
+
+                    if (XMLHttpRequest.status == 401) {
+                        window.location.href = '/Account/Login'
+                    }
+
+                    console.log("fail");
+
+
+                })
+
+
+
+
+
+
+
+        }
+
+        function ClearFromFileds() {
+
+            $('#CityID').val('');
+
+        }
+
+        function cleardatavariables() {
+
+
+            username = "";
+
+
+        }
+
+
+
+</script>
+
+
+
+
+
+
+@{
+    ViewBag.Title = "CreateCity";
+}
+
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <form>
+                <fieldset>
+
+
+                    <div class="form-group">
+                        <label for="username"><span class="req">* </span> City  name:  </label>
+                        <input class="form-control" type="text" name="username" id="CityID" placeholder="Uasername" />
+                        <div id="errLast"></div>
+                    </div>
+
+
+
+
+                    <div class="form-group">
+
+                        <button type="button" class="btn btn-success" id="CityCreate">Create City</button>
+                        <button class=" btn-secondary" type="button" id="cancelbtnc">Cancel</button>
+                    </div>
+
+
+
+
+
+                </fieldset>
+            </form><!-- ends register form -->
+
+        </div><!-- ends col-6 -->
+
+
+    </div>
+</div>
+
+
+
+
+
+
+
+
+<script>
+
+
+
+  var apiurl = "@System.Configuration.ConfigurationManager.AppSettings["url"]";
+
+
+    var username        = "";
+
+    $('#CityCreate').click(function () {
+
+
+            if ($('#CityID').val() == '') {
+                isAllOkay = false;
+
+                alert('City Name is  Mandatory!');
+                return;
+            }
+
+        CityCreate1();
+
+
+        })
+
+    $("#cancelbtnc").click(function () {
+        $("#actioncontainer").html("");
+
+    });
+
+
+
+    function CityCreate1() {
+        cleardatavariables();
+            username = $('#CityID').val();
+
+
+            $.ajax({
+
+              type: 'POST',
+              url: apiurl+'api/Createcities',
+                data: JSON.stringify({
+                    ID:"",
+                    Name: username,
+
+
+
+                   }),
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Access-Control-Allow-Origin': apiurl,
+                    'Authorization': 'Bearer  @Request.Cookies["Token"].Value.ToString()'
+
+                }
+
+
+            }).done(function (res) {
+
+                console.log(res);
+
+                if (res.status == 'success') {
+
+                    alert('Created');
+
+
+                    window.location.reload();
+
+                }
+                else {
+                    alert(res.message);
+
+                }
+
+
+            })
+                .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+                    debugger;
+
+                    if (XMLHttpRequest.status==403) {
+                        window.location.href = '~/Account/Login'
+                    }
+
+                    if (XMLHttpRequest.status == 401) {
+                        window.location.href = '/Account/Login'
+                    }
+
+                    console.log("fail");
+
+
+                })
+
+
+
+
+
+
+
+        }
+
+        function ClearFromFileds() {
+
+            $('#CityID').val('');
+
+        }
+
+        function cleardatavariables() {
+
+
+            username = "";
+
+
+        }
+
+
+
+</script>
+
+
+
+
+

@@ -1,0 +1,650 @@
+﻿
+@{
+    ViewBag.Title = "DoctorAppointments";
+}
+
+<div id="imgeloder" style="margin-left:40%">
+
+    <img src="~/fonts/Spinner-1s-200px.gif" />
+</div>
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+
+            <div class="col-md-6 col-lg-3 col-sm-6" style="display:none">
+                <input type="text" class="input-group-text mt-2" id="selectPatient" placeholder="select the Pateint" />
+
+
+            </div>
+            <div class="col-md-6 col-lg-3 col-sm-6" style="display:none">
+                
+                <button type="button" class="btn btn-secondary" id="ReseAppointment">Reset</button>
+
+
+            </div>
+
+            <div class="col-md-6 col-lg-3 col-sm-6">
+                <a href="#" class="btn btn-primary  mt-2 ml-2" onclick="listofappointbydoctor()">List of Appointments</a>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="sticky-top mb-3">
+                    <div class="card">
+
+
+
+                        <!-- the events -->
+                        <div id="external-events">
+                            <div class="checkbox">
+
+                            </div>
+                        </div>
+
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+
+                </div>
+            </div>
+            <!-- /.col -->
+            <div class="col-md-12">
+                <div class="card card-primary">
+                    <div class="card-body p-0">
+                        <!-- THE CALENDAR -->
+                        <div id="calendar"></div>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div><!-- /.container-fluid -->
+</section>
+
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="sticky-top mb-3">
+                    <div class="card">
+
+
+
+                        <!-- the events -->
+                        <div id="external-events">
+                            <div class="checkbox">
+
+                            </div>
+                        </div>
+
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+
+                </div>
+            </div>
+            <!-- /.col -->
+            <div class="col-md-12">
+                <div class="card card-primary">
+                    <div class="card-body p-0">
+                        <!-- THE CALENDAR -->
+                        <div id="calendar"></div>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div><!-- /.container-fluid -->
+</section>
+<!-- /.content -->
+<!-- /.content-wrapper -->
+<!-- /.control-sidebar -->
+<!-- ./wrapper -->
+<!-- jQuery -->
+<!-- Bootstrap -->
+<script src="~/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- jQuery UI -->
+<script src="~/plugins/jquery-ui/jquery-ui.min.js"></script>
+<!-- AdminLTE App -->
+<script src="~/dist/js/adminlte.min.js"></script>
+<!-- fullCalendar 2.2.5 -->
+<script src="~/plugins/moment/moment.min.js"></script>
+<script src="~/plugins/fullcalendar/main.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="~/dist/js/demo.js"></script>
+<!-- Page specific script -->
+
+<script>
+  var apiurl = "@System.Configuration.ConfigurationManager.AppSettings["url"]";
+
+
+  $(function () {
+
+    /* initialize the external events
+     -----------------------------------------------------------------*/
+    //function ini_events(ele) {
+    //    ele.each(function () {
+
+    //        // create an Event Object (https://fullcalendar.io/docs/event-object)
+    //        // it doesn't need to have a start or end
+    //        var eventObject = {
+    //            title: $.trim($(this).text()) // use the element's text as the event title
+    //        }
+
+    //        // store the Event Object in the DOM element so we can get to it later
+    //        $(this).data('eventObject', eventObject)
+
+    //        // make the event draggable using jQuery UI
+    //        $(this).draggable({
+    //            zIndex: 1070,
+    //            revert: true, // will cause the event to go back to its
+    //            revertDuration: 0  //  original position after the drag
+    //        })
+
+    //    })
+    //}
+
+    //ini_events($('#external-events div.external-event'))
+
+    /* initialize the calendar
+     -----------------------------------------------------------------*/
+    //Date for the calendar events (dummy data)
+
+    // initialize the external events
+    // -----------------------------------------------------------------
+
+    //new Draggable(containerEl, {
+    //    itemSelector: '.external-event',
+    //    eventData: function (eventEl) {
+    //        return {
+    //            title: eventEl.innerText,
+    //            backgroundColor: window.getComputedStyle(eventEl, null).getPropertyValue('background-color'),
+    //            borderColor: window.getComputedStyle(eventEl, null).getPropertyValue('background-color'),
+    //            textColor: window.getComputedStyle(eventEl, null).getPropertyValue('color'),
+    //        };
+    //    }
+    //});
+
+  });
+
+
+    var id = localStorage.getItem("userID");
+
+      var serpatient = [];
+      function serachpateintbydoctor() {
+        $.ajax({
+
+          type: 'GET',
+
+          url: apiurl + 'api/getAppointmentbyDoctorID',
+          data: {
+
+            id: id
+          },
+
+          headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': apiurl
+
+
+          }
+
+
+        }).done(function (res) {
+
+
+          var data = JSON.parse(res.object);
+
+          $.each(data, function (i, value) {
+
+            serpatient.push({ 'id': data[i].u[0].p[0].Patient_ID, 'Name': data[i].u[0].p[0].Patient_Name });
+
+          });
+
+
+
+          $('#selectPatient').autocomplete({
+            source: function myfunction(request, response) {
+              response($.map(serpatient, function (item) {
+                return {
+                  id: item.id,
+                  value: item.Name,
+                }
+
+              }))
+            },
+            select: function (event, ui) {
+              $(this).val(ui.item.Name);
+
+
+              getallAppoinmentsofPateint(ui.item.id);
+
+            },
+            minLength: 0,
+            autoFocus: true
+          });
+
+
+
+
+
+        })
+          .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+            console.log("fail");
+          })
+
+      }
+
+
+
+        $(document).ready(function () {
+
+
+
+          getallAppoinments();
+          serachpateintbydoctor();
+
+        });
+
+        function getallAppoinments() {
+          var date = new Date()
+          var d = date.getDate(),
+            m = date.getMonth(),
+            y = date.getFullYear()
+
+          var Calendar = FullCalendar.Calendar;
+          var Draggable = FullCalendar.Draggable;
+
+          var containerEl = document.getElementById('external-events');
+          var checkbox = document.getElementById('drop-remove');
+          var calendarEl = document.getElementById('calendar');
+
+            var id = localStorage.getItem('userID');
+
+
+            $('#imgeloder').show();
+            $.ajax({
+                type: 'get',
+                url: apiurl + 'api/getAppointmentbyDoctorID?id=' + parseInt(id),
+
+                headers: {
+                    'Content-Type': 'application/json',
+                  'Access-Control-Allow-Origin': apiurl
+
+
+                }
+
+
+            })
+
+
+
+
+
+
+                .done(function (res) {
+
+
+                    if (res.status == "success") {
+
+
+
+                        var eventsArray = [];
+
+                        var data = $.parseJSON(res.object);
+
+
+                        $.each(data, function (i, val) {
+                            var h = data[i].Appointment_Data;
+                            var appointmentid = data[i].AppointID;
+                            var sd = data[i].StartDate;
+                            var s = h + "T" + sd;
+                            var e = h + "T" + data[i].EndDate
+
+                            var pateintID = data[i].u[0].p[0].Patient_ID
+
+
+                            eventsArray.push({
+                                title: data[i].u[0].p[0].Patient_Name,
+
+                                start: new Date(s),
+                                end: new Date(e),
+
+
+
+                                url: '/Appointment/AppointmentDetails?id='+pateintID+'&ApppointmentID='+appointmentid+'' ,
+                                backgroundColor: '#3c8dbc', //Primary (light-blue)
+                                borderColor: '#3c8dbc' //Primary (light-blue)
+
+                            })
+
+
+                            var calendar = new Calendar(calendarEl, {
+
+                                headerToolbar: {
+                                    left: 'prev,next today',
+                                    center: 'title',
+                                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                                },
+                                themeSystem: 'bootstrap',
+                                //Random default events
+
+                                events: eventsArray,
+
+
+
+                                editable: false,
+                                droppable: true, // this allows things to be dropped onto the calendar !!!
+                                drop: function (info) {
+                                    // is the "remove after drop" checkbox checked?
+                                    if (checkbox.checked) {
+                                        // if so, remove the element from the "Draggable Events" list
+                                        info.draggedEl.parentNode.removeChild(info.draggedEl);
+                                    }
+                                }
+                            });
+
+
+                            calendar.render();
+
+                            $('#imgeloder').hide();
+
+
+                        })
+
+                    }
+
+                    else {
+
+                        var calendar = new Calendar(calendarEl, {
+
+                            headerToolbar: {
+                                left: 'prev,next today',
+                                center: 'title',
+                                right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                            },
+                            themeSystem: 'bootstrap',
+                            //Random default events
+
+                            events: [
+                                {
+                                    title: 'No Appointment',
+                                    start: new Date(y, m, d, 10, 30),
+                                    allDay: false,
+                                    backgroundColor: '#0073b7', //Blue
+                                    borderColor: '#0073b7' //Blue
+                                }
+
+
+                            ],
+
+
+
+                            editable: false,
+                            droppable: true, // this allows things to be dropped onto the calendar !!!
+                            drop: function (info) {
+                                // is the "remove after drop" checkbox checked?
+                                if (checkbox.checked) {
+                                    // if so, remove the element from the "Draggable Events" list
+                                    info.draggedEl.parentNode.removeChild(info.draggedEl);
+                                }
+                            }
+                        });
+
+
+                        calendar.render();
+
+                        $('#imgeloder').hide();
+
+
+
+                    }
+
+                })
+                .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+                    console.log("fail");
+                })
+
+
+
+
+
+        }
+
+
+
+        // $('#calendar').fullCalendar()
+
+        ///* ADDING EVENTS */
+        //var currColor = '#3c8dbc' //Red by default
+        //// Color chooser button
+        //$('#color-chooser > li > a').click(function (e) {
+        //    e.preventDefault()
+        //    // Save color
+        //    currColor = $(this).css('color')
+        //    // Add color effect to button
+        //    $('#add-new-event').css({
+        //        'background-color': currColor,
+        //        'border-color': currColor
+        //    })
+        //})
+        //$('#add-new-event').click(function (e) {
+        //    e.preventDefault()
+        //    // Get value and make sure it is not null
+        //    var val = $('#new-event').val()
+        //    if (val.length == 0) {
+        //        return
+        //    }
+
+        //    // Create events
+        //    var event = $('<div />')
+        //    event.css({
+        //        'background-color': currColor,
+        //        'border-color': currColor,
+        //        'color': '#fff'
+        //    }).addClass('external-event')
+        //    event.text(val)
+        //    $('#external-events').prepend(event)
+
+        //    // Add draggable funtionality
+        //    ini_events(event)
+
+        //    // Remove event from text input
+        //    $('#new-event').val('')
+        //})
+
+
+  function getallAppoinmentsofPateint(id) {
+
+    var date = new Date()
+    var d = date.getDate(),
+      m = date.getMonth(),
+      y = date.getFullYear()
+
+    var Calendar = FullCalendar.Calendar;
+    var Draggable = FullCalendar.Draggable;
+
+    var containerEl = document.getElementById('external-events');
+    var checkbox = document.getElementById('drop-remove');
+    var calendarEl = document.getElementById('calendar');
+    $('#imgeloder').show();
+    $.ajax({
+      type: 'get',
+
+      url: apiurl + 'api/getAppointmentbyPateintID',
+      data: {
+
+        id: id
+      },
+
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': apiurl,
+
+
+      }
+
+
+    })
+
+
+
+      .done(function (res) {
+
+
+        if (res.status == "success") {
+
+
+
+          var eventsArray = [];
+
+          var data = $.parseJSON(res.object);
+
+
+
+          $.each(data, function (i, val) {
+            var h = data[i].Appointment_Data;
+            var appointmentid = data[i].AppointID;
+            var sd = data[i].StartDate;
+            var s = h + "T" + sd;
+            var e = h + "T" + data[i].EndDate
+
+            var pateintID = data[i].u[0].p[0].Patient_ID
+
+
+            eventsArray.push({
+              title: data[i].u[0].p[0].Patient_Name,
+
+              start: new Date(s),
+              end: new Date(e),
+
+
+
+                url: '/Appointment/AppointmentDetails?id=' + pateintID + '&ApppointmentID=' + appointmentid + '',
+              backgroundColor: '#3c8dbc', //Primary (light-blue)
+              borderColor: '#3c8dbc' //Primary (light-blue)
+
+            })
+
+
+            var calendar = new Calendar(calendarEl, {
+
+              headerToolbar: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'dayGridMonth,timeGridWeek,timeGridDay'
+              },
+              themeSystem: 'bootstrap',
+              //Random default events
+
+              events: eventsArray,
+
+
+
+              editable: false,
+              droppable: true, // this allows things to be dropped onto the calendar !!!
+              drop: function (info) {
+                // is the "remove after drop" checkbox checked?
+                if (checkbox.checked) {
+                  // if so, remove the element from the "Draggable Events" list
+                  info.draggedEl.parentNode.removeChild(info.draggedEl);
+                }
+              }
+            });
+
+
+            calendar.render();
+
+            $('#imgeloder').hide();
+
+
+          })
+
+        }
+
+        else {
+
+          var calendar = new Calendar(calendarEl, {
+
+            headerToolbar: {
+              left: 'prev,next today',
+              center: 'title',
+              right: 'dayGridMonth,timeGridWeek,timeGridDay'
+            },
+            themeSystem: 'bootstrap',
+            //Random default events
+
+            events: [
+              {
+                title: 'No Appointment',
+                start: new Date(y, m, d, 10, 30),
+                allDay: false,
+                backgroundColor: '#0073b7', //Blue
+                borderColor: '#0073b7' //Blue
+              }
+
+
+            ],
+
+
+
+            editable: false,
+            droppable: true, // this allows things to be dropped onto the calendar !!!
+            drop: function (info) {
+              // is the "remove after drop" checkbox checked?
+              if (checkbox.checked) {
+                // if so, remove the element from the "Draggable Events" list
+                info.draggedEl.parentNode.removeChild(info.draggedEl);
+              }
+            }
+          });
+
+
+          calendar.render();
+
+          $('#imgeloder').hide();
+
+
+
+        }
+
+      })
+      .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+        console.log("fail");
+      })
+
+
+
+
+
+  }
+
+
+    $("#ReseAppointment").click(function () {
+        getallAppoinments();
+
+    })
+
+
+  function listofappointbydoctor() {
+
+    window.location.href = "/Patient/AllAppointments?id=" + id;
+
+  }
+
+
+
+</script>

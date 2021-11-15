@@ -1,0 +1,87 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    // Layout = null;
+}
+
+
+
+
+
+<div>
+    <div class="row">
+
+
+        <div class="col-md-3  m-3 mt-5">
+            <div class="form-group">
+
+
+                <button id="newbtn" class="btn-success">Registration</button>
+
+            </div>
+        </div>
+
+
+
+    </div>
+</div>
+
+
+<div id="actioncontainer">
+
+</div>
+
+<div id="registration">
+
+    @{ Html.RenderAction("ListofPatient");}
+
+
+
+</div>
+
+
+
+
+
+<script>
+
+  var apiurl = "@System.Configuration.ConfigurationManager.AppSettings["url"]";
+    $(document).ready(function () {
+
+    });
+
+
+    function focusaction(focusdivid) {
+        $('html, body').animate({
+            scrollTop: $("#" + focusdivid).offset().top - 70
+        }, 1000);
+    }
+
+
+
+    $("#newbtn").click(function () {
+        $.ajax({
+            type: "Get",
+            url: '@(Url.Action("Registration", "Patient"))',
+
+        })
+            .done(function (response) {
+                $("#actioncontainer").html(response);
+                focusaction("actioncontainer");
+
+            })
+            .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+                alert("Fail");
+            })
+
+    });
+
+
+
+
+</script>
+
+
+
+
+

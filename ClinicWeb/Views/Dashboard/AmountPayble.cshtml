@@ -1,0 +1,576 @@
+﻿
+@{
+    ViewBag.Title = "AmountPayble";
+}
+
+<style>
+
+    .loader {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        height: 150px;
+        width: 150px;
+        overflow: hidden;
+        z-index: 9999;
+        opacity: 1;
+        transition: opacity 0.5s;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 16px solid #f3f3f3;
+        border-radius: 50%;
+        border-top: 16px solid #1c6279;
+        -webkit-animation: spin 2s linear infinite; /* Safari */
+        animation: spin 2s linear infinite;
+    }
+
+    /* Safari */
+    @@-webkit-keyframes spin {
+        0% {
+            -webkit-transform: rotate(0deg);
+        }
+
+        100% {
+            -webkit-transform: rotate(360deg);
+        }
+    }
+
+    @@keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+</style>
+
+<div class="loader"></div>
+
+<div class="row ml-3">
+
+    <div class="col-md-12">
+        <h5>Bill To</h5>
+        <h3 id="PName"></h3>
+
+        <h3 id="Mobile"></h3>
+
+
+    </div>
+
+
+</div>
+
+
+
+<div class="row m-5">
+
+
+    <div class="col-md-12">
+
+        <table class="table">
+
+            <tr>
+                <th> Discription </th>
+                <th>Balance Due</th>
+                <th>Amount</th>
+
+
+            </tr>
+
+            <tbody id="invoicetable">
+            </tbody>
+
+        </table>
+
+    </div>
+</div>
+
+
+<div class="row m-3">
+
+    <div class="col-md-12">
+
+
+        <div class="" style="position: absolute; left: 85%  ">
+
+            <h3>Total Amount</h3>
+            <h3 id="totalamount"></h3>
+
+            <div class="row">
+                <div class="col-md-6">
+
+                    <button class="btn btn-secondary" type="button" id="Genrateinvoice">Invoice</button>
+
+                </div>
+
+                <div class="col-md-6">
+
+                    <button class="btn btn-danger" type="button" id="Cancel">Cancel</button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+<div class="row ml-3">
+
+    <form id="form" >
+
+        <div class="form-group">
+
+
+            <div class="col-md-12" style="display:none">
+
+                <div class="form-check">
+                    <input type="radio" name="type" class="form-check-input" id="CompletePay"  value="1">
+                    <label class="form-check-label" for="CompletePay">Complete Pay</label>
+                </div>
+            </div>
+
+
+
+            <div class="col-md-12">
+
+                <div class="form-check">
+                    <input type="radio" name="type" checked class="form-check-input" id="Due" value="2">
+                    <label class="form-check-label" for="Due">Balance Due</label>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+
+                <div class="form-check">
+                    <input type="radio" name="type" class="form-check-input" id="EnAmount" value="3">
+                    <label class="form-check-label" for="EnAmount">Amount</label>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+
+            <div class="col-md-12">
+
+
+                <div class="form-group linkclass" style="display:none">
+                    <label for="link"><span class="req"> </span>Amount : </label>
+                    <input type="text" class="form-control" onkeyup="validatephone(this);" id="amountentered" value="" placeholder="enter the Amount">
+
+
+                </div>
+            </div>
+
+        </div>
+    </form>
+
+    <div class="row">
+
+
+    </div>
+
+
+
+</div>
+<script src="~/jsPDF-1.3.2/dist/jspdf.min.js"></script>
+<script>
+
+    var Appointmentid;
+    var Pateintid;
+    var totalamount;
+
+
+
+  var apiurl = "@System.Configuration.ConfigurationManager.AppSettings["url"]";
+
+    $(document).ready(function () {
+
+
+        $("#form").submit(function (e) {
+            e.preventDefault();
+        });
+        var query = window.location.search.substring(1);
+        var aa = query.split('&');
+
+        var Aidd = aa[0].split('=');
+
+        var Pidd = aa[1].split('=');
+
+
+        Appointmentid = Aidd[1];
+        Pateintid = Pidd[1];
+
+
+        getinfo(Appointmentid, Pateintid)
+
+    
+    })
+
+
+    $(".form-check-input").click(function () {
+
+
+
+        var v = $(this).val();
+
+        if (v == 3) {
+
+            $(".linkclass").show();
+        }
+        else {
+
+            $(".linkclass").hide();
+        }
+
+    });
+
+
+    function getinfo(appointmentid, pateintid) {
+
+
+        $('.loader').show()
+        $.ajax({
+
+            type: 'GET',
+
+            url: apiurl + 'api/Invoice/GetInvoiceInfo?appointid=' + appointmentid + "&pateintid=" + pateintid,
+
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': apiurl
+
+
+            }
+
+
+        }).done(function (res) {
+            $('.loader').hide()
+
+
+
+            $("#PName").append(res.object.patient_Name);
+            $("#Mobile").append(res.object.patient_Mobile_Number);
+
+
+
+            $("#invoicetable").append(`<tr><td>` + res.object.discription + `</td><td>Rs ` + res.object.due + `</td><td>Rs ` + res.object.amount +`</td></tr>`);
+
+
+            totalamount = res.object.due + res.object.amount;
+            $("#totalamount").append("Rs " + totalamount);
+
+
+
+        })
+            .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+                console.log("fail");
+            })
+
+
+
+
+    }
+    function validatephone(phone) {
+        var maintainplus = '';
+        var numval = phone.value
+        if (numval.charAt(0) == '+') {
+            var maintainplus = '';
+        }
+        curphonevar = numval.replace(/[\\A-Za-z!"£$%^&\,*+_={};:'@@#~,.Š\/<>?|`¬\]\[]/g, '');
+        phone.value = maintainplus + curphonevar;
+        var maintainplus = '';
+        phone.focus;
+    }
+
+
+    $("#Cancel").click(function () {
+
+
+        window.location.href = "/Dashboard/Dashboard";
+
+
+    });
+
+
+
+
+
+    $("#Genrateinvoice").click(function () {
+
+
+        var ammountway = parseInt($('input[type="radio"][name="type"]:checked').val());
+
+        if (ammountway == 3) {
+            if ($("#amountentered").val() == "") {
+
+                swal({
+                    title: "Amount is Required",
+
+                    icon: "warning",
+                });
+                return;
+
+            }
+
+
+        }
+
+        var data = {
+            PatientID: Pateintid,
+            AppointmentID: Appointmentid,
+            Amount: $("#amountentered").val(),
+            AmountWay: ammountway
+
+        }
+
+        $('.loader').show()
+        $.ajax({
+
+            type: 'POST',
+
+            url: apiurl +'api/Invoice/AddInvoice',
+
+            data: JSON.stringify(data),
+
+
+
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': apiurl
+
+
+            }
+
+
+        }).done(function (res) {
+            $('.loader').hide()
+            var nowDate = new Date();
+            var nowDay = ((nowDate.getDate().toString().length) == 1) ? '0' + (nowDate.getDate()) : (nowDate.getDate());
+            var nowMonth = ((nowDate.getMonth().toString().length) == 1) ? '0' + (nowDate.getMonth() + 1) : (nowDate.getMonth() + 1);
+            var nowYear = nowDate.getFullYear();
+            var formatDate = nowYear + "-" + nowMonth + "-" + nowDay;
+
+            if (res.status == 'Invoice') {
+
+                var amount = res.object.due + res.object.appointmentAmount;
+
+              
+                var doc = new jsPDF();
+                var specialElementHandlers = {
+                    '#editor': function (element, renderer) {
+                        return true;
+                    }
+                }; var img = new Image();
+                img.src = "/Content/Synapse-Logo.png";
+
+
+                doc.setFontSize(14);
+                doc.text(50, 8, 'Synapse, Pakistan Neuroscience');
+                doc.setFontSize(16);
+                doc.text(50, 14, "Institute");
+
+
+                doc.setFontSize(10);
+                doc.text(50, 20, '4th Floor GPC, 13th Rojhan Street');
+                doc.setFontSize(10);
+                doc.text(50, 25, "Clifton Block 5, Karachi");
+
+
+                doc.setFontSize(10);
+                doc.text(50, 32, ' 03041118000 ');
+
+
+                doc.setFontSize(10);
+                doc.text(50, 38, "contact@synapse.org.pk");
+
+
+                doc.setFontSize(11);
+
+
+
+                doc.text(182, 4, 'INVOICE');
+
+
+                doc.setFontSize(11);
+
+
+
+                doc.text(182, 10, "Inv" + res.object.inviceID);
+
+
+
+                doc.setFontSize(11);
+
+
+
+                doc.text(182, 18, "Date");
+
+                doc.setFontSize(11);
+
+
+
+                doc.text(182, 25, formatDate);
+
+
+                doc.setFontSize(11);
+
+
+
+                doc.text(182, 33, "Balance Due");
+
+                doc.setFontSize(11);
+
+
+
+                doc.text(182, 37, "Rs " + JSON.stringify(res.object.due));
+
+
+
+
+
+                doc.setDrawColor(255, 0, 0);
+                doc.line(10, 52, 200, 52);
+
+                
+
+
+                doc.setFontSize(10);
+                doc.text(10, 57, 'MR No');
+
+
+                doc.setFontSize(14);
+                doc.text(10, 65, res.object.mR_No);
+
+
+                doc.setFontSize(10);
+                doc.text(10, 75, 'Bill To ');
+
+
+                doc.setFontSize(14);
+                doc.text(10, 85, res.object.patient_Name);
+
+
+     
+
+
+                doc.setFontSize(12);
+
+                doc.text(10, 95, res.object.patient_Mobile_Number);
+              
+
+                doc.setFontSize(12);
+              
+                doc.text(10, 105, res.object.patient_Email);
+
+
+
+                doc.setDrawColor(255, 0, 0);
+                doc.line(10, 110, 200, 110);
+
+
+
+                doc.setFontSize(10);
+
+                doc.text(10, 115, 'DESCRIPTION');
+
+                doc.setFontSize(10);
+
+                doc.text(182, 115, 'Amount');
+
+
+                doc.setDrawColor(255, 0, 0);
+                doc.line(10, 120, 200, 120);
+
+
+                doc.setFontSize(10);
+
+                doc.text(10, 125, res.object.discription);
+
+
+
+                doc.setFontSize(10);
+
+                doc.text(182, 125, JSON.stringify(amount));
+
+
+
+                doc.setDrawColor(255, 0, 0);
+                doc.line(10, 130, 200, 130);
+
+
+                doc.setFontSize(11);
+
+                doc.text(150, 135, "Total Paid");
+
+
+
+                doc.setFontSize(11);
+
+                doc.text(182, 135,"Rs "+JSON.stringify(res.object.totalPaid));
+
+
+                doc.setDrawColor(255, 0, 0);
+                doc.line(10, 140, 200, 140);
+
+
+
+
+                doc.setFontSize(11);
+
+                doc.text(150, 145, "Balance Due");
+
+
+
+
+                doc.setFontSize(11);
+
+                doc.text(182, 145,"Rs "+ JSON.stringify(res.object.due));
+
+
+
+                img.onload = function () {
+                    doc.addImage(img, 'PNG', 10, 2, 30, 30);
+                    doc.save(res.object.mR_No+'.pdf');
+                };
+
+                setTimeout(function () {
+                    window.location.href = "/Dashboard/Dashboard";
+                }, 2000);
+               
+
+
+            } else {
+
+
+
+
+                window.location.href = "/Dashboard/Dashboard";
+
+
+            }
+
+
+
+
+
+
+        })
+            .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+                console.log("fail");
+            })
+
+
+
+
+
+    })
+
+
+
+</script>

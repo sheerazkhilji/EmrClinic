@@ -1,0 +1,676 @@
+﻿@{
+    ViewBag.Title = "Patients";
+}
+
+
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0 text-dark">Patient(s)</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">Patients</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+
+
+
+
+
+<!--Modal: modalVM-->
+<div class="modal fade" id="modalVM" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="false"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+
+        <!--Content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" style="font-style: italic; font-weight:600;font-family:'Times New Roman'">Pateint Registration</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <!--Body-->
+            <div class="modal-body mb-0 p-0">
+
+
+                <div class="row">
+                    <div class="col-md-12 p-5">
+                        <form>
+                            <fieldset>
+
+                                <input class="form-control" type="hidden" readonly="" id="PatientID" />
+
+                                <div class="form-group">
+                                    <label for="username"><span class="req">* </span> Patient  name:  </label>
+                                    <input class="form-control" type="text" name="username" id="username" placeholder="Username" required />
+                                    <div id="errLast"></div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="email"><span class="req"></span> Patient Email Address: </label>
+                                    <input class="form-control" required type="email" name="email" id="email" onchange="email_validate(this.value)" ; />
+                                    <div class="status" id="status"></div>
+                                </div>
+
+
+
+
+                                <div class="form-group">
+                                    <label for="phonenumber"><span class="req"></span> Phone Number: </label>
+                                    <input required type="text" name="phonenumber" id="phone" class="form-control phone" maxlength="28" onkeyup="validatephone(this);" placeholder="Phone No:" />
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label for="Mobilenumber"><span class="req">* </span> Mobile Number: </label>
+                                    <input required type="text" name="Mobilenumber" id="Mobile" class="form-control phone" maxlength="28" onkeyup="validatephone(this);" placeholder="Mobile No:" />
+                                </div>
+
+
+
+                                <div class="form-group">
+                                    <label for="Address"><span class="req"> </span> Patient  Address:  </label>
+                                    <br />
+                                    <textarea rows="4" cols="40" id="Address"></textarea>
+
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label for="CNIC"><span class="req"> </span> CNIC: </label>
+                                    <input class="form-control" required type="text" name="CNIC" id="CNIC" />
+
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="DateOFBirth"><span class="req">* </span> Date OF Birth: </label>
+                                    <input class="form-control" required type="date" name="DateOFBirth" id="DateOFBirth" />
+
+                                </div>
+
+
+
+                                <div class="form-group">
+                                    <label for="gender"><span class="req">* </span> Gender: </label>
+                                    <select class="form-control" id="gender">
+                                        <option value="-1" selected>Please Select the Gender </option>
+                                        <option value="Male">Male </option>
+                                        <option value="Female">Female </option>
+                                        <option value="other">Other </option>
+
+                                    </select>
+
+                                </div>
+
+
+
+                                <div class="form-group">
+                                    <label for="PalceOFBirth"><span class="req"> </span> Palce OF Birth: </label>
+
+                                    <select name="PCId" id="PCId" class="form-control">
+                                    </select>
+
+                                </div>
+
+
+
+
+                                <div class="form-group">
+                                    <label for="City"><span class="req"> </span> Patient  City </label>
+
+                                    <select name="CId" id="CId" class="form-control">
+                                    </select>
+
+                                </div>
+
+
+
+
+
+
+
+
+
+                                <div class="form-group">
+                                    <label for="Address"><span class="req"> </span> Referral:  </label>
+                                    <br />
+                                    <textarea rows="4" cols="40" id="Comment"></textarea>
+
+                                </div>
+
+
+
+
+                                <div class="form-group">
+
+                                    <input type="button" class="btn btn-success has-spinner" id="Register" value="Register" />
+
+                                    <div id="EditPateintshow" style="display:none">
+                                        <input type="button" class="btn btn-success" id="EditPateint" value="Update" />
+
+                                    </div>
+
+
+
+                                </div>
+
+
+
+
+
+                            </fieldset>
+                        </form><!-- ends register form -->
+
+                    </div><!-- ends col-6 -->
+
+
+                </div>
+
+
+            </div>
+
+            <!--Footer-->
+            <div class="modal-footer">
+                <button type="button" class=" btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+    <!--/.Content-->
+
+</div>
+
+<!--Modal: modalVM-->
+
+
+
+
+<section class="content">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title"><button id="newbtn" class="btn-success" data-toggle='modal' data-target='#modalVM'>Registration</button></h3>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                    @{ Html.RenderAction("ListofPatient");}
+
+
+                </div>
+                <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+            <!-- /.card -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</section>
+
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script>
+
+
+
+  var apiurl = "@System.Configuration.ConfigurationManager.AppSettings["url"]";
+
+
+    $("#newbtn").click(function () {
+      ClearFromFileds();
+      $("#Register").show();
+      $("#EditPateintshow").hide();
+        $('#CId').empty();
+        $('#PCId').empty();
+      //for cities
+    $.ajax({
+
+      type: 'GET',
+      url: apiurl+'api/getallcities',
+
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': apiurl
+
+
+      }
+
+
+    }).done(function (res) {
+
+
+      var data = JSON.parse(res.object);
+
+      var html = '';
+
+
+      $.each(data, function (i, val) {
+        html += `<option value= ` + data[i].CityID + `>` + data[i].City_Name + `</option>`
+
+      });
+
+      $('#CId').append(html);
+      $('#PCId').append(html);
+
+
+    })
+      .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+        console.log("fail");
+      })
+
+
+
+
+    });
+
+
+
+    function email_validate(email) {
+      var regMail = /^([_a-zA-Z0-9-]+)(\.[_a-zA-Z0-9-]+)*@@([a-zA-Z0-9-]+\.)+([a-zA-Z]{2,3})$/;
+
+      if (regMail.test(email) == false) {
+        document.getElementById("status").innerHTML = "<span class='warning'>Email address is not valid yet.</span>";
+      }
+      else {
+        document.getElementById("status").innerHTML = "<span class='valid'>Thanks, you have entered a valid Email address!</span>";
+      }
+    }
+
+
+
+
+    function validatephone(phone) {
+      var maintainplus = '';
+      var numval = phone.value
+      if (numval.charAt(0) == '+') {
+        var maintainplus = '';
+      }
+      curphonevar = numval.replace(/[\\A-Za-z!"£$%^&\,*+_={};:'@@#~,.Š\/<>?|`¬\]\[]/g, '');
+      phone.value = maintainplus + curphonevar;
+      var maintainplus = '';
+      phone.focus;
+    }
+
+    function ignoreSpaces(event) {
+      var character = event ? event.which : window.event.keyCode;
+      if (character == 32) return false;
+    }
+
+
+
+        var username        = "";
+        var email           = "";
+        var phone           = "";
+        var mobile          = "";
+        var address         = "";
+        var cinic           = "";
+        var dataofbirth     = "";
+        var gender          = "";
+       // var doc             = "";
+        var city            = "";
+        var place_of_Birth = "";
+        var age = "";
+        var Patient_Maritalstatus = "";
+  var Edu = "";
+  var Comment = "";
+
+
+
+        var base64stringform =[];
+
+
+
+        $("#ImageUpload").change(function () {
+            fasterPreview(this, "Document");
+
+
+        });
+
+
+
+
+    function fasterPreview(uploader, component) {
+
+            if (uploader.files && uploader.files[0]) {
+                var fileName, fileExtension;
+                fileName = uploader.files[0].name;
+                fileExtension = fileName.replace(/^.*\./, '');
+
+                var FileSize = uploader.files[0].size / 1024 / 1024; // in MB
+                if (FileSize > 10) {
+                    alert('File size exceeds 10 MB');
+                    uploader.val('');
+                    if (component == "Document")
+                        base64stringform = [];
+
+                    return false;
+                }
+                var img = uploader.files[0];
+                var reader = new FileReader();
+                reader.onloadend = function () {
+                    var mybase64String = /,(.+)/.exec(reader.result)[1];
+                    //base64String.push(/,(.+)/.exec(reader.result)[1]);
+                    if (component == "Document")
+
+
+                        if (base64stringform.includes(mybase64String) != true) {
+
+
+                            base64stringform.push(mybase64String);
+                        }
+
+                }
+                reader.readAsDataURL(img);
+
+        }
+
+
+
+        }
+
+
+
+
+
+    $('#Register').click(function () {
+
+            if ($('#username').val() == '') {
+                isAllOkay = false;
+
+                swal({
+                    title: "Pateint Name  is Required",
+
+                    icon: "warning",
+                });
+                return;
+            }
+
+
+            //if ($('#email').val() == '') {
+            //    isAllOkay = false;
+            //    alert('email number is  Mandatory!');
+            //    return;
+            //}
+
+
+
+            //if ($('#phone').val() == '') {
+            //    isAllOkay = false;
+            //    alert('Phone number is  Mandatory!');
+            //    return;
+            //}
+
+
+            if ($('#DateOFBirth').val() == '') {
+                isAllOkay = false;
+               
+
+                swal({
+                    title: "DateOFBirth is  Mandatory!",
+
+                    icon: "warning",
+                });
+
+
+                return;
+            }
+
+
+            if ($('#Mobile').val() == '') {
+                isAllOkay = false;
+                swal({
+                    title: "Pateint Mobile Number is Required",
+
+                    icon: "warning",
+                });
+                return;
+            }
+
+
+            //if ($('#Address').val() == '') {
+            //    isAllOkay = false;
+            //    alert('Address number is  Mandatory!');
+            //    return;
+            //}
+
+
+
+            //if ($('#Education').val() == '') {
+            //    isAllOkay = false;
+            //    alert('Education  is  Mandatory!');
+            //    return;
+            //}
+
+        if ($('#gender').val() == -1 || $('#gender').val() == undefined) {
+
+                isAllOkay = false;
+           
+
+
+            swal({
+                title: "please select the gender",
+
+                icon: "warning",
+            });
+                return;
+            }
+
+
+
+
+
+            //if ($('#PCId').val() == '') {
+            //    isAllOkay = false;
+            //    alert(' Palce  of is  Mandatory!');
+            //    return;
+            //}
+
+
+
+            //if ($('#CNIC').val() == '') {
+            //    isAllOkay = false;
+            //    alert('CNIC  is  Mandatory!');
+            //    return;
+            //}
+
+
+
+            if ($('#CId').val() == '') {
+                isAllOkay = false;
+                alert('City  is  Mandatory!');
+                return;
+            }
+
+
+            //if ($('#p_age').val() == '') {
+            //    isAllOkay = false;
+            //    alert('Age  is  Mandatory!');
+            //    return;
+            //}
+
+
+            //if ($('#Maritalstatus').val() == '') {
+            //    isAllOkay = false;
+            //    alert('Marital Status  is  Mandatory!');
+            //    return;
+            //}
+
+            register();
+
+
+        })
+
+
+
+        function register() {
+
+
+
+
+
+           // var btn = $('.has-spinner');
+            //$(btn).buttonLoader('start');
+
+
+            username = $('#username').val();
+           email =      $('#email').val();
+            phone =     $('#phone').val();
+            mobile =    $('#Mobile').val();
+            address =    $('#Address').val();
+            cinic =      $('#CNIC').val();;
+            dataofbirth =  $('#DateOFBirth').val();
+            gender =       $('#gender').val();
+
+            city =          $('#CId').val();
+            place_of_Birth = $('#PCId').val();
+          age = $('#p_age').val();
+          Comment = $("#Comment").val();
+
+            $("#imgeloderPatient").show();
+
+
+
+            $.ajax({
+
+              type: 'POST',
+              url: apiurl+'api/PatientRegistration',
+                data: JSON.stringify({
+
+                    Patient_Name: username,
+                    Patient_Email: email,
+                    Patient_Phone_Number: phone,
+                    Patient_Mobile_Number: mobile,
+                    CNIC: cinic,
+                    DateOfBirth: dataofbirth,
+                    Patient_Gender: gender,
+                    Patient_Address: address,
+                    Place_Of_Birth: place_of_Birth,
+                    ImageBase64: base64stringform,
+                  CityID: city,
+                  Comment: Comment
+                }),
+                headers: {
+                  'Content-Type': 'application/json',
+
+                  'Access-Control-Allow-Origin': apiurl,
+                    'Authorization': 'Bearer  @Request.Cookies["Token"].Value.ToString()'
+
+                }
+
+
+            }).done(function (res) {
+
+                if (res.status == 'success') {
+
+                 
+
+                    if (res.object == 'Pateint already exists') {
+
+                        $("#imgeloderPatient").hide();
+                        swal({
+                            title: "Pateint already exists with this mobile number",
+
+                            icon: "warning",
+                        });
+                        setTimeout(function () {
+                            $(btn).buttonLoader('stop');
+                        }, 3000);
+
+                        return;
+                    }
+                    else {
+
+                    $("#imgeloderPatient").hide();
+                    alert('registered');
+                    base64stringform = [];
+                    //ClearFromFileds();
+                    //$("#actioncontainer").html("");
+                    setTimeout(function () {
+                        $(btn).buttonLoader('stop');
+                    }, 3000);
+                    window.location.reload();
+                    }
+                }
+                else {
+                    alert(res.message);
+
+                }
+
+
+            })
+                .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+
+
+                    if (XMLHttpRequest.status==403) {
+                        window.location.href = '~/Account/Login'
+                    }
+
+                    if (XMLHttpRequest.status == 401) {
+                        window.location.href = '/Account/Login'
+                    }
+
+                    console.log("fail");
+
+
+                })
+
+
+
+
+
+
+
+        }
+
+        function ClearFromFileds() {
+
+            $('#username').val('');
+            $('#email').val('');
+            $('#phone').val('');
+            $('#Mobile').val('');
+            $('#Address').val('');
+            $('#CNIC').val('');
+             $('#DateOFBirth').val('');
+            $('#gender').val('');
+
+            $('#CId').val('');
+            $('#PCId').val('');
+          $('#p_age').val('');
+
+            $('#Maritalstatus').val('');
+          $('#Education').val('');
+          $("#Comment").val('');
+
+        }
+
+        function cleardatavariables() {
+
+
+            username = "";
+             email = "";
+             phone = "";
+             mobile = "";
+             address = "";
+             cinic = "";
+            dataofbirth = "";
+             gender = "";
+             doc = "";
+             city = "";
+            place_of_Birth = "";
+            age = "";
+
+            Patient_Maritalstatus = "";
+            Edu = "";
+          Comment = "";
+        }
+
+
+
+</script>

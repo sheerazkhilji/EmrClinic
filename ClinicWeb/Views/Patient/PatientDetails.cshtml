@@ -1,0 +1,193 @@
+﻿
+@{
+    ViewBag.Title = "PatientDetails";
+}
+
+<h2>Patient Details</h2>
+
+
+
+
+
+
+
+<div id="PatientDetails">
+
+
+</div>
+
+
+
+
+
+
+
+<script>
+
+  var apiurl = "@System.Configuration.ConfigurationManager.AppSettings["url"]";
+
+    $(document).ready(function () {
+        var query = window.location.search.substring(1);
+        var aa = query.split('&');
+
+
+        var id = aa[0].split('=')
+        var AppointDate = aa[1].split('=');
+
+
+
+        if (id[1] != "undefined" && id[1] != null) {
+
+            getPateintDetails(id[1], AppointDate[1]);
+        }
+    });
+
+
+    function getPateintDetails(id,date) {
+
+
+
+
+
+            $.ajax({
+
+              type: 'get',
+              url: apiurl+'api/getAppointmentbyPateintID',
+                data: {
+
+
+                    id: id,
+                    date: date
+
+                },
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Access-Control-Allow-Origin': apiurl
+
+
+                }
+
+
+            }).done(function (res) {
+
+
+                 if (res.status == "success") {
+
+                     var data = JSON.parse(res.object);
+
+
+                     var html = `
+
+                               <h3>Patient Name</h3>
+
+                              <h2> `+ data[0].u[0].p[0].Patient_Name +`</h2>
+
+
+
+                        <h3>Appointment Date</h3>
+
+                          <h2> `+ data[0].Appointment_Data +`</h2>
+
+                               <h3>Start Time</h3>
+
+                              <h2> `+ data[0].StartDate +`</h2>
+
+<button class="btn btn-danger" onclick="CancelAppointment(`+ data[0].AppointID+`)">Cancel Appointment</button>
+
+
+
+
+`;
+
+                     $("#PatientDetails").append(html);
+
+
+                }
+                else {
+                    alert(res.message);
+
+                }
+
+
+            })
+                .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+                    console.log("fail");
+                })
+
+
+
+
+
+    }
+
+
+    function CancelAppointment(ID) {
+
+
+
+
+            $.ajax({
+
+              type: 'GET',
+              url: apiurl+'api/DeleteAppointment',
+                data: {
+
+
+
+
+                    id: ID
+                },
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Access-Control-Allow-Origin': apiurl,
+                    'Authorization': 'Bearer @Request.Cookies["Token"].Value.ToString()'
+
+                }
+
+
+            }).done(function (res) {
+
+                if (res.status == 'success') {
+
+                    alert('Cancel');
+
+
+                    window.location.href = "/Appointment/Index";
+
+                }
+                else {
+                    alert(res.message);
+
+                }
+
+
+            })
+                .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+
+
+                    if (XMLHttpRequest.status==403) {
+                        window.location.href = '~/Account/Login'
+                    }
+
+                    if (XMLHttpRequest.status == 401) {
+                        window.location.href = '/Account/Login'
+                    }
+
+                    console.log("fail");
+
+
+                })
+
+
+
+
+
+        }
+
+
+
+
+
+</script>
+
+

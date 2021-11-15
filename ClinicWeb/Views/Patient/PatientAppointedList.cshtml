@@ -1,0 +1,50 @@
+﻿
+@{
+    ViewBag.Title = "PatientAppointedList";
+}
+
+
+
+
+<div id="GetAppointedPateintsbyDoctorIDInitail">
+
+</div>
+
+<div id="GetAppointedPateintsbyDoctorID">
+
+    @{ Html.RenderAction("GetAppointedPateintsbyDoctorID");}
+
+
+
+</div>
+
+
+
+
+
+<script>
+
+  var apiurl = "@System.Configuration.ConfigurationManager.AppSettings["url"]";
+    $(document).ready(function () {
+
+    });
+
+
+    function focusaction(focusdivid) {
+        $('html, body').animate({
+            scrollTop: $("#" + focusdivid).offset().top - 70
+        }, 1000);
+    }
+
+
+
+
+
+</script>
+
+
+
+
+
+
+
