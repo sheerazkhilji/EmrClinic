@@ -448,21 +448,27 @@
                         </select>
 
                     </div>
-
-
-
-
                     <div class="form-group">
-                        <label for="EDate"><span class="req">* </span>  Appointment Dates </label>
-                        <input type="text" class="form-control date" id="AppointDate" value="" autocomplete="false" placeholder="select the dates" />
+                        <label for="Doctor"><span class="req">* </span> Doctor Name: </label>
+                        <select class="form-control  doctorslots" id="Doctor">
+                        </select>
 
                     </div>
 
-                    <div class="form-group">
-                        <label for="SDate"><span class="req">* </span>  Start Time </label>
-                        <input type="time" min="00:00" max="23:59" class="form-control" id="sdate" value="" />
 
-                    </div>
+
+
+                    @*<div class="form-group">
+            <label for="EDate"><span class="req">* </span>  Appointment Dates </label>
+            <input type="text" class="form-control date" id="AppointDate" value="" autocomplete="false" placeholder="select the dates" />
+
+        </div>*@
+
+                    @*<div class="form-group">
+            <label for="SDate"><span class="req">* </span>  Start Time </label>
+            <input type="time" min="00:00" max="23:59" class="form-control" id="sdate" value="" />
+
+        </div>*@
 
 
                     @*<div class="form-group">
@@ -470,23 +476,23 @@
           <input type="time" class="form-control" id="edate" value="" />
 
         </div>*@
-                <div class="form-group">
+                    @*<div class="form-group">
 
-                    <label for="EDate"><span class="req">* </span>  Time Duration </label>
-                    <br />
-                    <label class="radio-inline">
-                        <input type="radio" name="optradio" id="20mins" checked="checked"> 20 mins
-                    </label>
-                    <label class="radio-inline">
-                        <input type="radio" name="optradio" id="30mins"> 30 mins
-                    </label>
-                    <label class="radio-inline">
-                        <input type="radio" name="optradio" id="45mins"> 45 mins
-                    </label>
-                    <label class="radio-inline">
-                        <input type="radio" name="optradio" id="1hour"> 1 hour
-                    </label>
-                </div>
+            <label for="EDate"><span class="req">* </span>  Time Duration </label>
+            <br />
+            <label class="radio-inline">
+                <input type="radio" name="optradio" id="20mins" checked="checked"> 20 mins
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="optradio" id="30mins"> 30 mins
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="optradio" id="45mins"> 45 mins
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="optradio" id="1hour"> 1 hour
+            </label>
+        </div>*@
 
 
 
@@ -499,12 +505,16 @@
                     </div>
 
 
-                    <div class="form-group">
-                        <label for="Doctor"><span class="req">* </span> Doctor Name: </label>
-                        <select class="form-control" id="Doctor">
+
+                    <div class="form-group" >
+                        <label for="Slots"><span class="req">* </span> Slots: </label>
+                        <select class="form-control  Slots selectpicker" data-live-search="true" data-max-options="1" title="Select Slot" id="Slots" style="width: 100%">
+                         
                         </select>
 
                     </div>
+
+
 
 
 
@@ -997,7 +1007,70 @@
 
     }
 
+      $(document).on('change', '.doctorslots', function () {
 
+          var doctorId = parseInt($(this).val());
+
+
+          $.ajax({
+              type: 'get',
+
+              url: apiurl + 'api/DoctorSchedule/GetSlotByDoctorId?doctorId=' + doctorId,
+
+              headers: {
+                  'Content-Type': 'application/json',
+                  'Access-Control-Allow-Origin': apiurl,
+
+
+              }
+
+              
+
+
+
+          })
+
+
+
+
+
+
+              .done(function (res) {
+
+
+                  if (res.status == "success") {
+
+                      debugger;
+
+                      if (res.object.length > 0) {
+                          var options = JSON.parse(res.object);
+
+                          for (var i = 0; i < options.length; i++) {
+                              $("#Slots").append('<option value=' + options[i].DoctorScheduleId + '>' + (options[i].Days + ' - ' + options[i].StartTime + ' - ' + options[i].EndTime) + '</option>')
+
+                          }
+
+                          $("#Slots").selectpicker('refresh');
+
+                      }
+                      else {
+
+                          $("#Slots").empty();
+                          $("#Slots").val("").selectpicker("refresh");
+
+                      }
+
+                  }
+
+              
+
+              })
+              .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+                  console.log("fail");
+              })
+
+
+      })
 
 
 
@@ -1989,18 +2062,18 @@
             return;
         }
 
-        if ($("#sdate").val() == '') {
-            isAllOkay = false;
+        //if ($("#sdate").val() == '') {
+        //    isAllOkay = false;
 
-            alert('Start Date is  Mandatory!');
-            return;
-        }
-        if ($("#AppointDate").val() == '') {
-            isAllOkay = false;
+        //    alert('Start Date is  Mandatory!');
+        //    return;
+        //}
+        //if ($("#AppointDate").val() == '') {
+        //    isAllOkay = false;
 
-            alert('Appointment Date is  Mandatory!');
-            return;
-        }
+        //    alert('Appointment Date is  Mandatory!');
+        //    return;
+        //}
         //if ($("#edate").val() == '') {
         //    isAllOkay = false;
 
@@ -2026,7 +2099,14 @@
 
 
 
+        if ($("#Slots").val()=='') {
+            isAllOkay = false;
 
+            alert('Slot is  Mandatory!');
+            return;
+
+
+        } 
 
 
 
@@ -2169,8 +2249,8 @@
         $(btn).buttonLoader('start');
 
         pid = $("#Patient").val();
-        appointdate = $("#AppointDate").val();
-      sdate = $("#sdate").val(); var theAdd = new Date();
+     //   appointdate = $("#AppointDate").val();
+      //sdate = $("#sdate").val(); var theAdd = new Date();
 
 
         if (pid == "") {
@@ -2185,42 +2265,42 @@
             return;
 
         }
-        var theAdd = new Date(1900, 0, 1, sdate.split(":")[0], sdate.split(":")[1]);
+       // var theAdd = new Date(1900, 0, 1, sdate.split(":")[0], sdate.split(":")[1]);
         debugger;
 
-        if ($("#20mins").prop("checked")) {
-         theAdd.setMinutes(theAdd.getMinutes() + 20);
-        var time = theAdd.getHours() + ":" + theAdd.getMinutes();
+      //  if ($("#20mins").prop("checked")) {
+      //   theAdd.setMinutes(theAdd.getMinutes() + 20);
+      //  var time = theAdd.getHours() + ":" + theAdd.getMinutes();
 
-        edate = time;
-        }
-      else if ($("#30mins").prop("checked")) {
-            theAdd.setMinutes(theAdd.getMinutes() + 30);
-            var time = theAdd.getHours() + ":" + theAdd.getMinutes();
+      //  edate = time;
+      //  }
+      //else if ($("#30mins").prop("checked")) {
+      //      theAdd.setMinutes(theAdd.getMinutes() + 30);
+      //      var time = theAdd.getHours() + ":" + theAdd.getMinutes();
 
-            edate = time;
-        }
+      //      edate = time;
+      //  }
 
-       else if ($("#45mins").prop("checked")) {
-            theAdd.setMinutes(theAdd.getMinutes() + 45);
-            var time = theAdd.getHours() + ":" + theAdd.getMinutes();
+      // else if ($("#45mins").prop("checked")) {
+      //      theAdd.setMinutes(theAdd.getMinutes() + 45);
+      //      var time = theAdd.getHours() + ":" + theAdd.getMinutes();
 
-            edate = time;
-        }
+      //      edate = time;
+      //  }
 
-        else if ($("#1hour").prop("checked")) {
-            theAdd.setMinutes(theAdd.getHours() + 1);
-            var time = theAdd.getHours() + ":" + theAdd.getMinutes();
+      //  else if ($("#1hour").prop("checked")) {
+      //      theAdd.setMinutes(theAdd.getHours() + 1);
+      //      var time = theAdd.getHours() + ":" + theAdd.getMinutes();
 
-            edate = time;
-        }
+      //      edate = time;
+      //  }
 
       
-      else {
+      //else {
 
-        alert("time is mandatory")
-        return
-      }
+      //  alert("time is mandatory")
+      //  return
+      //}
 
         did = $("#Doctor").val();
         pytp = $("#PaymentType").val();
@@ -2241,9 +2321,9 @@
 
                 PatientId: pid,
 
-                Appointment_Data: appointdate,
-                sDate: sdate,
-                eDate: edate,
+             //   Appointment_Data: appointdate,
+               // sDate: sdate,
+                //eDate: edate,
                 DoctorID: did,
                 PaymentType: pytp,
 

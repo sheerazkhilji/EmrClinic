@@ -35,6 +35,9 @@ namespace ClinicAPI.Models.Request
 
         public int  campusid { get; set; }
 
+
+        public int  DoctorSlotid { get; set; }
+
     }
 	public class WebAppointment: Appointment
 	{

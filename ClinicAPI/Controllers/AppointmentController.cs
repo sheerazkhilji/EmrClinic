@@ -106,6 +106,7 @@ namespace ClinicAPI.Controllers
 
 			NameValue.Add("@link", appointment.link.ToString());
 
+			NameValue.Add("@DoctorSlotid", appointment.DoctorSlotid.ToString());
 
 			NameValue.Add("@action", "insert");
 			OperationLayer = new DataOperationLayer(ConnectionString);
