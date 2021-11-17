@@ -103,7 +103,7 @@
     </div>
 </div>
 
-
+@{Html.RenderPartial("_AddUpdateFormDetails"); }
 
 
 
@@ -163,9 +163,16 @@
         </li>
         <li>
             <button class="btn btn-secondary Initial_Analysiz">View Initial Analysis</button>
-
-
         </li>
+
+
+        <li>
+            <button id="openFomrDetailModal" class="btn btn-secondary form-actions">Patient Detail</button>
+        </li>
+
+
+
+
 
     </ul>
     <div id="tabs-1">
@@ -718,6 +725,9 @@
 
 
     </div>
+    <div id="tab-4" style="display:none">
+
+    </div>
 </div>
 
 
@@ -892,8 +902,12 @@
         $('.loader').hide()
    $("#tabs").tabs();
 
-
-
+        $("#openFomrDetailModal").click(function () {
+            $("#myModal8").modal('show');
+        });
+        $("#closeFomrDetailModal").click(function () {
+            $("#myModal8").modal('hide');
+        });
 
         var query = window.location.search.substring(1);
         var aa = query.split('&');
@@ -3015,6 +3029,7 @@
     });
     var cityID = "";
     var PCity = "";
+    
 
     $(".PateintBasicInformation").click(function () {
 

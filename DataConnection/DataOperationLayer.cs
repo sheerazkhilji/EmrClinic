@@ -71,28 +71,32 @@ namespace DataConnection
 		{
 			SqlConnection connection = CreateConnection();
 			SqlCommand command = new SqlCommand();
-			command.Connection = connection;
-
-			command.CommandType = CommandType.StoredProcedure;
-			command.CommandText = sp_name;
-
-
-
-
-			foreach (string key in nv)
-			{
-				command.Parameters.AddWithValue(key, nv[key]);
+			try {
+				command.Connection = connection;
+				command.Connection.Open();
+				command.CommandType = CommandType.StoredProcedure;
+				command.CommandText = sp_name;
+			  
+				foreach (string key in nv)
+				{
+					command.Parameters.AddWithValue(key, nv[key]);
 
 
+				}
+
+				SqlDataAdapter dataAdapter = new SqlDataAdapter();
+				dataAdapter.SelectCommand = command;
+				DataTable dt = new DataTable();
+				dataAdapter.Fill(dt);
+
+
+				return dt;
 			}
-
-			SqlDataAdapter dataAdapter = new SqlDataAdapter();
-			dataAdapter.SelectCommand = command;
-			DataTable dt = new DataTable();
-			dataAdapter.Fill(dt);
-
-
-			return dt;
+			catch (Exception ex) { 
+				return  new DataTable(); 
+			}
+			finally { command.Connection.Close(); }
+			
 		}
 
 		public DataSet Statusget(string sp_name, NameValueCollection nv)

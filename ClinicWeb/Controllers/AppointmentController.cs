@@ -52,6 +52,10 @@ namespace ClinicWeb.Controllers
 			}
 			return RedirectToAction("Login", "Account");
 		}
+		public ActionResult AddUpdateFormDetails() {
+
+			return View("_AddUpdateFormDetails");
+		}
 
 	}
 }

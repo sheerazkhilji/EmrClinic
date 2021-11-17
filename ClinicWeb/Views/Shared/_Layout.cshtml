@@ -250,9 +250,21 @@
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Complete Appointments</p>
                                 </a>
+
+
+                                <a href="~/Appointment/Index" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Customer Appointments</p>
+                                </a>
+
+
+
                             </li>
                         </ul>
-                    </li>}
+                    </li>
+                                                          
+                    
+                             }
 
                         @if ((Request.Cookies["Role"].Value.ToString().Contains("Admin") || Request.Cookies["Role"].Value.ToString().Contains("Assistant")))
                         {

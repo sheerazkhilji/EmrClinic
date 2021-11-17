@@ -2266,6 +2266,7 @@
     <Content Include="Views\Dashboard\Referral.cshtml" />
     <Content Include="Views\Dashboard\CompletedAppointmentsByDoctor.cshtml" />
     <Content Include="Views\Dashboard\DoctorAppointmentShedule.cshtml" />
+    <Content Include="Views\Appointment\_AddUpdateFormDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
