@@ -7,7 +7,9 @@ namespace ClinicAPI.Models.Request
 {
     public class Appointment
     {
-		public string PatientId { get; set; }
+        public int Appointid { get; set; }
+
+        public string PatientId { get; set; }
 
 		public string Appointment_Data { get; set; }
 
@@ -34,6 +36,9 @@ namespace ClinicAPI.Models.Request
         public string link { get; set; }
 
         public int  campusid { get; set; }
+
+
+        public int  DoctorSlotid { get; set; }
 
     }
 	public class WebAppointment: Appointment
@@ -76,4 +81,24 @@ namespace ClinicAPI.Models.Request
 		public string FollowupDateTime { get; set; }
 
 	}
+
+
+
+	public class AppointmentResponse
+    {
+
+        public string Patient_Email { get; set; }
+        public string Patient_Name { get; set; }
+        public string DoctorName { get; set; }
+        public string link { get; set; }
+
+        public string Appointment_Data { get; set; }
+
+
+        public string StartTime { get; set; }
+        public string EndTime { get; set; }
+
+    }
+
+
 }

@@ -111,5 +111,48 @@ namespace ClinicAPI.Controllers
 			}
 			return list;
 		}
+
+
+
+
+		[Route("api/DoctorSchedule/GetSlotByDoctorId")]
+		[HttpGet]
+		public Response GetSlotByDoctorId(int doctorId)
+		{
+			NameValueCollection NameValue = new NameValueCollection();
+			Response response = new Response();
+			OperationLayer = new DataOperationLayer(ConnectionString);
+
+			NameValue.Clear();
+			string json = "";
+
+
+				NameValue.Add("@doctorId", doctorId.ToString());
+				json = OperationLayer.callStoredProcedure("GetSlotByDoctorId", NameValue);
+
+
+
+			if (json == "no")
+			{
+				response.status = "fail";
+				response.message = "not inserted";
+				return response;
+			}
+			response.status = "success";
+			
+			response.Object = json;
+			return response;
+		}
+
+
+
+
+
+
+
+
+
+
+
 	}
 }
