@@ -88,42 +88,98 @@ namespace ClinicAPI.Controllers
 		}
 
 		[HttpPost]
-		[Route("api/CreateAppoint")]
+		[Route("api/Appointment/CreateAppoint")]
 		public Response CreateAppointAsyn([FromBody] Appointment appointment)
 		{
-			NameValue.Add("@Patient_ID ", appointment.PatientId);
-			NameValue.Add("@Appointment_Data", appointment.Appointment_Data);
-			NameValue.Add("@StartDate", appointment.sDate);
-			NameValue.Add("@EndDate", appointment.eDate);
-			NameValue.Add("@DoctorID", appointment.DoctorID);
+            if (appointment.Appointid>0)
+            {
+				NameValue.Add("@PateintId", appointment.PatientId);
+				
+				NameValue.Add("@AppointId", appointment.Appointid.ToString());
+
+				NameValue.Add("@DoctorId", appointment.DoctorID);
+				NameValue.Add("@DoctorSlot", appointment.DoctorSlotid.ToString());
+				NameValue.Add("@PaymentType", appointment.PaymentType);
+				NameValue.Add("@Amount", appointment.Amount);
+				NameValue.Add("@AppointmentType", appointment.AppType.ToString());
+
+
+
+				NameValue.Add("@link", appointment.link.ToString());
+
+
+				OperationLayer = new DataOperationLayer(ConnectionString);
+				var dataset = OperationLayer.Statusget("usp_UpdateAppointment", NameValue);
+
+
+				AppointmentResponse appointmentResponse = new AppointmentResponse()
+				{
+					Patient_Email = dataset.Tables[0].Rows[0][0].ToString(),
+					Patient_Name = dataset.Tables[0].Rows[0][1].ToString(),
+					DoctorName = dataset.Tables[0].Rows[0][2].ToString(),
+					link = dataset.Tables[0].Rows[0][3].ToString(),
+					Appointment_Data = dataset.Tables[0].Rows[0][4].ToString(),
+					StartTime = dataset.Tables[0].Rows[0][5].ToString(),
+					EndTime = dataset.Tables[0].Rows[0][6].ToString(),
+
+
+
+
+				};
+
+
+				res.status = "success";
+				res.message = "Appointment Updated";
+
+
+
+			}
+			else { 
+
+
+			NameValue.Add("@PateintId", appointment.PatientId);
+		
+			NameValue.Add("@DoctorId", appointment.DoctorID);
+			NameValue.Add("@DoctorSlot", appointment.DoctorSlotid.ToString());
 			NameValue.Add("@PaymentType", appointment.PaymentType);
 			NameValue.Add("@Amount", appointment.Amount);
-			NameValue.Add("@AppointmentStatus", appointment.AppointmentStatus);
+			NameValue.Add("@AppointmentType", appointment.AppType.ToString());
 
-			NameValue.Add("@AppType", appointment.AppType.ToString());
-			
-				NameValue.Add("@cumpusid", appointment.campusid.ToString());
+
 
 			NameValue.Add("@link", appointment.link.ToString());
 
-			NameValue.Add("@DoctorSlotid", appointment.DoctorSlotid.ToString());
-
-			NameValue.Add("@action", "insert");
+		
 			OperationLayer = new DataOperationLayer(ConnectionString);
-			string json = OperationLayer.callStoredProcedure("sp_Appointment", NameValue);
-            if (json== "Appointment Already exists ")
-            {
-				res.status = "Appointment Already exists";
-				res.Object = json;
+		var dataset = OperationLayer.Statusget("usp_CreateAppointment", NameValue);
+
+
+			AppointmentResponse appointmentResponse = new AppointmentResponse()
+			{
+				Patient_Email= dataset.Tables[0].Rows[0][0].ToString(),
+				Patient_Name= dataset.Tables[0].Rows[0][1].ToString(),
+			      DoctorName= dataset.Tables[0].Rows[0][2].ToString(),
+			link= dataset.Tables[0].Rows[0][3].ToString(),
+				Appointment_Data= dataset.Tables[0].Rows[0][4].ToString(),
+				StartTime= dataset.Tables[0].Rows[0][5].ToString(),
+		EndTime= dataset.Tables[0].Rows[0][6].ToString(),
+
+
+
+
+			};
+
+
+			res.status = "success";
+			res.message = "Appointment Created";
+
+
 
 			}
-            else
-            {
-				res.status = "success";
-				res.Object = json;
 
 
-			}
+
+
 			return res;
 		}
 
@@ -219,6 +275,31 @@ namespace ClinicAPI.Controllers
 			
 			return res;
 		}
+
+
+
+		[HttpGet]
+		[Route("api/Appointment/GetDoctorsAndSlots")]
+		public Response GetAppointbyId(string id)
+		{
+			NameValue.Add("@Id ", id);
+	
+			OperationLayer = new DataOperationLayer(ConnectionString);
+			string json = OperationLayer.callStoredProcedure("usp_GetDoctorsAndSlots", NameValue);
+			if (json == null || json == "")
+			{
+				res.status = "fail";
+			}
+			else
+			{
+				res.status = "success";
+				res.Object = json;
+			}
+			return res;
+		}
+
+
+
 
 		[HttpGet]
 		[Route("api/getAppointmentbyPateintID")]
