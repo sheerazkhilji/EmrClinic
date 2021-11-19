@@ -103,9 +103,739 @@
     </div>
 </div>
 
-@{Html.RenderPartial("_AddUpdateFormDetails"); }
+
+<div class="modal fade" id="myModal8" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="false"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+
+        <!--Content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" style="font-style: italic; font-weight:600;font-family:'Times New Roman'">Pateint Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <!--Body-->
+            <div class="modal-body mb-0 p-0">
 
 
+                <div class="row">
+                    <div class="col-md-12 p-5">
+                        <form id="detailForm">
+                       
+
+                            <h2 class="HeadingModal">Basic Information</h2>
+
+
+
+
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="username"> Child Name  </label>
+                                        <input class="form-control" type="text" value="" name="childname" id="childname" placeholder="Child name" required />
+                                        <div id="errLast"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="username"> Date Of Birth </label>
+                                        <input class="form-control" type="date" value="" name="dateofbirth" id="dateofbirth" placeholder=" Date Of Birth" required />
+                                        <div id="errLast"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="username">Parent/Guardian:</label>
+                                        <input class="form-control" type="text" value="" name="guardian" id="guardian" placeholder="" required />
+                                        <div id="errLast"></div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="username">Billing Address</label>
+                                        <input class="form-control" type="text" name="billingaddress" id="billingaddress" placeholder="Billing Address" required />
+                                        <div id="errLast"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="username"> City </label>
+                                  
+                                        <select class="form-control"   name="city " id="city" placeholder="City" required >
+
+
+                                        </select>
+                                        
+                                        <div id="errLast"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="username"> State </label>
+                                        <input class="form-control" value="" type="text" name="state " id="state" placeholder="State" required />
+                                        <div id="errLast"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="username"> Zip </label>
+                                        <input class="form-control" value="" type="text" name="zip " id="zip" placeholder="Zip" required />
+                                        <div id="errLast"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="Mobilenumber"> Home Phone </label>
+                                        <input required type="text" name="homephone" id="homephone" class="form-control phone"
+                                               maxlength="28" onkeyup="validatephone(this);" placeholder="Home Phone" />
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="Mobilenumber"> Cell Phone </label>
+                                        <input required type="text" name="cellphone" id="cellphone" class="form-control phone"
+                                               maxlength="28" onkeyup="validatephone(this);" placeholder="Cell Phone" />
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div class="row">
+
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="username"> Child Live With Both Parents? </label>
+                                        <input class="form-control" type="text" name="parent" id="parent" placeholder="" required />
+                                        <div id="errLast"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="username">If no with whom child live </label>
+                                        <input class="form-control" type="text" name="chil" id="child" placeholder="" required />
+                                        <div id="errLast"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="username">Primary language spoken at home </label>
+                                        <input class="form-control" type="text" name="language" id="language" placeholder="Primary language" required />
+                                        <div id="errLast"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="username">Secondary Language</label>
+                                        <input class="form-control" type="text" name="Slanguage" id="Slanguage" placeholder="Secondary Language" required />
+                                        <div id="errLast"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="username">Pediatrician</label>
+                                        <input class="form-control" type="text" name="pediatrician" id="pediatrician" placeholder="pediatrician" required />
+                                        <div id="errLast"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="Mobilenumber">Pediatrician Phone </label>
+                                        <input required type="text" name="pedphone" id="pedphone" class="form-control phone"
+                                               maxlength="28" onkeyup="validatephone(this);" placeholder="Pediatrician Phone" />
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="username">Referring Physician</label>
+                                        <input class="form-control" type="text" name="referringphysician" id="rf" placeholder="referring physician" required />
+                                        <div id="errLast"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="username">How do you here about us</label>
+                                        <input class="form-control" type="text" name="howdoyouhereaboutus" id="how" placeholder="How do you here about us" required />
+                                        <div id="errLast"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="username">Previous speech therapy evaluation(list)</label>
+                                        <input class="form-control  jqte-test" type="text" name="previoustherapy" id="therapy" placeholder="previous speech therapy evaluation" required />
+
+                                        <div id="errLast"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="username">Other therapies to date (list)</label>
+                                        <input class="form-control" type="text" name="previoustherapy" id="othertherapy" placeholder="Other therapies to date" required />
+                                        <div id="errLast"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class="form-group">
+                                        <label for="Address">Describe present problem </label>
+                                        <br />
+                                        <textarea rows="3" cols="64" id="describeproblem"></textarea>
+                                        <div id="errLast"></div>
+                                    </div>
+                                </div>
+                              
+                            </div>
+
+
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="username">When</label>
+                                        <input class="form-control" type="text"readonly="readonly" name="when" id="when" placeholder="when" />
+                                        <div id="errLast"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="username">Who noted Present problem</label>
+                                        <input class="form-control" type="text" name="whonoted" id="whonoted" placeholder="who noted the present problem" />
+                                        <div id="errLast"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="username">What was child reaction</label>
+                                        <input class="form-control" type="text" name="reaction" id="reaction" placeholder="what was child reaction" />
+                                        <div id="errLast"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="username">How does the family react to the problem</label>
+                                        <input class="form-control" type="text" name="familyreaction" id="familyreaction" placeholder="Family Reaction" />
+                                        <div id="errLast"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="username">Has there been any significant change in last six months</label>
+                                        <input class="form-control" type="text" name="anychange" id="anychange" placeholder="any change last six month" />
+                                        <div id="errLast"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="username">If So, What</label>
+                                        <input class="form-control" type="text" name="what" id="what" placeholder="" />
+                                        <div id="errLast"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <h2 class="HeadingModal">Current General Health</h2>
+
+
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="username">Has  your child had any earaches infection Yes/No</label>
+                                        <input class="form-control" type="text" name="earaches" id="earaches" placeholder="Any earaches or infection" />
+                                        <div id="errLast"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="username">Eustachian Tubes</label>
+                                        <input class="form-control" type="text" name="tube" id="tube" placeholder="" />
+                                        <div id="errLast"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="username">If chronic, please explain the frequency</label>
+                                        <input class="form-control" type="text" name="frequency" id="frequency" placeholder="" />
+                                        <div id="errLast"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="username">Allergies? yes or no</label>
+                                        <input class="form-control" type="text" name="allergies" id="allergies" placeholder="" />
+                                        <div id="errLast"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="username">If Yes, Describe</label>
+                                        <input class="form-control" type="text" name="Describe" id="IfYesDescribe" placeholder="" />
+                                        <div id="errLast"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="username">Any other serious or recurrent illnesses</label>
+                                        <input class="form-control" type="text" name="ilnness" id="ilnness" placeholder="" />
+                                        <div id="errLast"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="username"> Any Operation Yes/No</label>
+                                        <input class="form-control" type="text" name="operation" id="operation" placeholder="Any Operation" />
+                                        <div id="errLast"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="username">If Yes, Please Describe</label>
+                                        <input class="form-control" type="text" name="anyoperation" id="anyoperation" placeholder="please describe" />
+                                        <div id="errLast"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="username">Any accidents/ falls involving trauma to head</label>
+                                        <input class="form-control" type="text" name="trauma" id="trauma" placeholder="Any accidents" />
+                                        <div id="errLast"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="username"> Any Medications? If yes, please list along with dosage & per day</label>
+                                        <input class="form-control" type="text" name="medication" id="medication" placeholder="Any medications" />
+                                        <div id="errLast"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="username">Vision Problems Yes/No </label>
+                                        <input class="form-control" type="text" name="vision problem" id="vision" placeholder="vision problem" />
+                                        <div id="errLast"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="username">If yes, please describe</label>
+                                        <input class="form-control " type="text" name="Ifyesvisionproblem" id="visionproblem" placeholder="Please describe" />
+                                        <div id="errLast"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="username"> Hearing difficulties Yes/No</label>
+                                        <input class="form-control" type="text" name="hearingdifficulties" id="hearing" placeholder="" />
+                                        <div id="errLast"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="username">If yes, please describe </label>
+                                        <input class="form-control" type="text" name="hearingproblem" id="hearingproblem" placeholder="" />
+                                        <div id="errLast"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="username">Dental Problem</label>
+                                        <input class="form-control" type="text" name="dentalproblem" id="dental" placeholder="" />
+                                        <div id="errLast"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="username">If yes, Please Explain</label>
+                                        <input class="form-control" type="text" name="dentalproblem" id="dentalproblem" placeholder="" />
+                                        <div id="errLast"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="form-group">
+                                        <label for="Address"> Other Medical History not Listed above </label>
+                                        <br />
+                                        <textarea rows="2" cols="40" id="anymedicalhistory"></textarea>
+                                        <div id="errLast"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
+
+                            <h2 class="HeadingModal">Developmental History</h2>
+
+
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="username">Age when child sat up alone</label>
+                                        <input class="form-control" type="text" name="satup" id="satup" placeholder="" />
+                                        <div id="errLast"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="username">Crawled</label>
+                                        <input class="form-control" type="text" name="crawled" id="crawled" placeholder="" />
+                                        <div id="errLast"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="username">Walked</label>
+                                        <input class="form-control" type="text" name="walk" id="walk" placeholder="" />
+                                        <div id="errLast"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="username">Toitel Trained</label>
+                                        <input class="form-control" type="text" name="toilet" id="toilet" placeholder="" />
+                                        <div id="errLast"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="username">Dressed Independently</label>
+                                        <input class="form-control" type="text" name="dressed" id="dressed" placeholder="" />
+                                        <div id="errLast"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="username">Tied Shoes</label>
+                                        <input class="form-control" type="text" name="tiedshoes" id="tiedshoes" placeholder="" />
+                                        <div id="errLast"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="username">Is the child left or right handed</label>
+                                        <input class="form-control" type="text" name="childhand" id="childhand" placeholder="" />
+                                        <div id="errLast"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="username">Attention span-for self-directed activities</label>
+                                        <input class="form-control" type="text" name="activities" id="activities" placeholder="" />
+                                        <div id="errLast"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="username">Adult-Directed</label>
+                                        <input class="form-control" type="text" name="adult" id="adult" placeholder="" />
+                                        <div id="errLast"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="username">Bed Time</label>
+                                        <input class="form-control" type="text" name="bedtime" id="bedtime" placeholder="" />
+                                        <div id="errLast"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="username">Does your child sleep well</label>
+                                        <input class="form-control" type="text" name="sleepwell" id="sleepwell" placeholder="" />
+                                        <div id="errLast"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="username">Does your child respond typically to light, sound, people</label>
+                                        <input class="form-control" type="text" name="respond" id="respond" placeholder="" />
+                                        <div id="errLast"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="username">Does your child play with others</label>
+                                        <input class="form-control" type="text" name="play" id="play" placeholder="" />
+                                        <div id="errLast"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="username">Who</label>
+                                        <input class="form-control" type="text" name="playwithwhom" id="playwithwhom" placeholder="" />
+                                        <div id="errLast"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="username">Cry Appropriately</label>
+                                        <input class="form-control" type="text" name="cry" id="cry" placeholder="" />
+                                        <div id="errLast"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
+
+
+
+                            <h2 class="HeadingModal">SCHOOL HISTORY</h2>
+
+
+
+
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="username">Child's Current School</label>
+                                        <input class="form-control" type="text" name="childschool" id="childschool" placeholder="" />
+                                        <div id="errLast"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="username">Grade</label>
+                                        <input class="form-control" type="text" name="grade" id="grade" placeholder="" />
+                                        <div id="errLast"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="username">Child Performance Educationally</label>
+                                        <input class="form-control" type="text" name="education" id="education" placeholder="" />
+                                        <div id="errLast"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="username">Receiving special services at school</label>
+                                        <input class="form-control" type="text" name="childschool" id="childschoolr" placeholder="" />
+                                        <div id="errLast"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="username">If, yes please describe the serivces</label>
+                                        <input class="form-control" type="text" name="specialservices" id="specialservices" placeholder="" />
+                                        <div id="errLast"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="username">Does your child currently have an IFSP or IEP</label>
+                                        <input class="form-control" type="text" name="education" id="educationIEP" placeholder="" />
+                                        <div id="errLast"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="username">How teacher's describe his/her performance</label>
+                                        <input class="form-control" type="text" name="teacher" id="teacher" placeholder="" />
+                                        <div id="errLast"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="username">Has the teacher expressed any concern</label>
+                                        <input class="form-control" type="text" name="techerconcern" id="techerconcern" placeholder="" />
+                                        <div id="errLast"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="username">If yes, So Explain</label>
+                                        <input class="form-control" type="text" name="concernexplain" id="concernexplain" placeholder="" />
+                                        <div id="errLast"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
+
+
+
+                            <h2 class="HeadingModal">Family Medical History</h2>
+
+
+
+
+
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class="form-group">
+                                        <label for="Address">What do you hope to have happen as a result of this evaluation? </label>
+                                        <br />
+                                        <textarea rows="3" cols="60" id="describeproblemf"></textarea>
+                                        <div id="errLast"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="form-group">
+                                        <label for="Address">Anything else would you like us to know?</label>
+                                        <br />
+                                        <textarea rows="3" cols="60" id="describeproblemany"></textarea>
+                                        <div id="errLast"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
+                            @*//workd*@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                            <div class="form-group">
+
+                                <input type="button" class="btn btn-success has-spinner" id="savespeach" value="save" />
+
+
+
+                            </div>
+
+
+
+
+
+
+                        </form><!-- ends register form -->
+
+                    </div><!-- ends col-6 -->
+
+
+                </div>
+
+
+            </div>
+
+            <!--Footer-->
+            <div class="modal-footer">
+                <button type="button" class=" btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+    <!--/.Content-->
+
+</div>
 
 
 <div class="modal fade" id="myModal6" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="false"
@@ -952,7 +1682,7 @@
 
         $("#DoumentsTable").DataTable({
             "bServerSide": true, //make server side processing to true
-            "sAjaxSource": apiurl + "api/GetALLDocuments?id=" + pid,
+            "sAjaxSource": apiurl + "api/GetALLDocuments?id=" + pid + "&userid=" + localStorage.getItem("userID"),
             "sAjaxDataProp": "aaData", // data property of the returned ajax which contains table data
             "bProcessing": true,
             "bLengthChange": true,
@@ -3029,7 +3759,7 @@
     });
     var cityID = "";
     var PCity = "";
-    
+
 
     $(".PateintBasicInformation").click(function () {
 
@@ -3975,6 +4705,412 @@
 
 
     }
+
+
+    $("#openFomrDetailModal").click(function () {
+
+             $.ajax({
+
+                 type: 'GET',
+                 url: apiurl + 'api/PatientRegistration/getSpeechTherapyByPatientId?id='+patientid,
+               
+                headers: {
+                    'Content-Type': 'application/json',
+                  'Access-Control-Allow-Origin': apiurl,
+                    'Authorization': 'Bearer  @Request.Cookies["Token"].Value.ToString()'
+
+                }
+
+
+            }).done(function (res) {
+
+
+                if (res.status == 'success') {
+
+                    debugger;
+                    for (var i = 0; i < res.object.cities.length; i++) {
+
+                        $("#city").append('<option value=' + res.object.cities[i].id + '>' + res.object.cities[i].name + '</option>')
+
+                    }
+                    $("#city").selectpicker('refresh')
+                    $("#city").val(parseInt(res.object.patient.cityID)).selectpicker();
+                    $("#childname").val(res.object.patient.patient_Name)
+                    $("#dateofbirth").val(res.object.patient.dateOfBirth)
+                    $("#homephone").val(res.object.patient.patient_Phone_Number)
+                    $("#cellphone").val(res.object.patient.patient_Mobile_Number)
+                    $("#guardian").val(res.object.speechtherapy.parentGuardian)
+                    $("#billingaddress").val(res.object.speechtherapy.billingAddress)
+                    $("#state").val(res.object.speechtherapy.state)
+                    $("#zip").val(res.object.speechtherapy.zip)
+                    $("#parent").val(res.object.speechtherapy.childLiveWithBothParents)
+                    $("#child").val(res.object.speechtherapy.ifNowithWhomChildLive)
+
+                    $("#language").val(res.object.speechtherapy.primaryLanguage)
+                    $("#Slanguage").val(res.object.speechtherapy.secondaryLanguage)
+                    $("#pediatrician").val(res.object.speechtherapy.pediatrician)
+                    $("#pedphone").val(res.object.speechtherapy.pediatricianPhone)
+                    $("#rf").val(res.object.speechtherapy.referringPhysician)
+                    $("#howdoyouhereaboutus").val(res.object.speechtherapy.howdoyouhereaboutus)
+
+                    var IhtmlEntities19 = res.object.speechtherapy.previousSpeechTherapyEvaluation;
+
+                    if (IhtmlEntities19 != '') {
+
+                        var IhtmlEntities19 = $.parseHTML(IhtmlEntities19)[0]['wholeText'];
+
+                        $("#therapy").jqteVal(IhtmlEntities19);
+                    }
+
+
+                    $("#othertherapy").val(res.object.speechtherapy.otherTherapiesToDate)
+
+                    
+                    $("#describeproblem").val(res.object.speechtherapy.presentproblem)
+                   // $("#when").val(res.object.speechtherapy.when)
+                    $("#whonoted").val(res.object.speechtherapy.notedPresentProblem)
+
+                    $("#reaction").val(res.object.speechtherapy.childReaction)
+
+                    $("#familyreaction").val(res.object.speechtherapy.familyReaction)
+                    $("#anychange").val(res.object.speechtherapy.significantChangesInLastSixMonths)
+                    $("#what").val(res.object.speechtherapy.significantIfSoWhat)
+
+                    $("#earaches").val(res.object.speechtherapy.childInfection)
+
+                    $("#tube").val(res.object.speechtherapy.eustachianTubes)
+                    $("#frequency").val(res.object.speechtherapy.chronic)
+                    $("#allergies").val(res.object.speechtherapy.allergies)
+
+                    $("#IfYesDescribe").val(res.object.speechtherapy.allergiesDescribe)
+                    $("#ilnness").val(res.object.speechtherapy.seriousOrRecurrentIllnesses)
+                    $("#operation").val(res.object.speechtherapy.AnyOperation)
+
+                    $("#anyoperation").val(res.object.speechtherapy.operationDescribe)
+
+                    $("#trauma").val(res.object.speechtherapy.traumaToHead)
+                    $("#medication").val(res.object.speechtherapy.anyMedications)
+                    $("#vision").val(res.object.speechtherapy.visionProblems)
+
+                    $("#Ifyesvisionproblem").val(res.object.speechtherapy.visionProblemsDescribe)
+                    
+                    $("#hearing").val(res.object.speechtherapy.hearingDifficulties)
+                    
+                    $("#hearingproblem").val(res.object.speechtherapy.hearingDifficultiesDescribe)
+                    
+                    $("#dental").val(res.object.speechtherapy.dentalProblem)
+                    $("#dentalproblem").val(res.object.speechtherapy.dentalProblemDescribe)
+                    $("#anymedicalhistory").val(res.object.speechtherapy.otherMedicalHistory)
+
+                    $("#AgeWhenChildSatUpAlone").val(res.object.speechtherapy.ageWhenChildSatUpAlone)
+
+                    
+                    $("#crawled").val(res.object.speechtherapy.crawled)
+                    
+                    $("#walk").val(res.object.speechtherapy.walked)
+
+                    $("#toilet").val(res.object.speechtherapy.toitelTrained)
+                    $("#dressed").val(res.object.speechtherapy.dressedIndependently)
+                    $("#tiedshoes").val(res.object.speechtherapy.tiedShoes)
+                    $("#childhand").val(res.object.speechtherapy.leftOrRightHanded)
+                    $("#activities").val(res.object.speechtherapy.selfdiRectedActivities)
+                    
+                    $("#adult").val(res.object.speechtherapy.adultDirected)
+                    
+                    $("#bedtime").val(res.object.speechtherapy.bedTime)
+                    
+                    $("#sleepwell").val(res.object.speechtherapy.childSleepWell)
+                    
+                    $("#respond").val(res.object.speechtherapy.respondTypicallyToLightSoundPeople)
+
+                    
+                    $("#play").val(res.object.speechtherapy.childPlayWithOthers)
+
+                    $("#playwithwhom").val(res.object.speechtherapy.who)
+                    $("#cry").val(res.object.speechtherapy.cryAppropriately)
+                    $("#childschool").val(res.object.speechtherapy.childsCurrentSchool)
+                    $("#grade").val(res.object.speechtherapy.grade)
+
+                    $("#education").val(res.object.speechtherapy.childPerformanceEducationally)
+                    
+                    $("#childschoolr").val(res.object.speechtherapy.receivingSpecialServicesAtSchool)
+
+                    $("#specialservices").val(res.object.speechtherapy.ifYesPleaseDescribeTheSerivces)
+
+                    $("#educationIEP").val(res.object.speechtherapy.iFSPOrIEP)
+
+                    $("#teacher").val(res.object.speechtherapy.iFSPOrIEP)
+                    $("#techerconcern").val(res.object.speechtherapy.teacherDescribePerformance)
+                    $("#concernexplain").val(res.object.speechtherapy.teacherExpressedAnyConcern)
+
+                    $("#concernexplain").val(res.object.speechtherapy.teacherExpressedAnyConcernExplain)
+                    
+                    $("#describeproblemf").val(res.object.speechtherapy.resultOfThisEvaluation)
+                    
+                    $("#describeproblemany").val(res.object.speechtherapy.anythingelse)
+
+
+
+                }
+                else {
+                    alert(res.message);
+
+                }
+
+
+            })
+                .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+
+                    if (XMLHttpRequest.status==403) {
+                        window.location.href = '~/Account/Login'
+                    }
+
+                    if (XMLHttpRequest.status == 401) {
+                        window.location.href = '/Account/Login'
+                    }
+
+                    console.log("fail");
+
+
+                })
+
+
+
+
+    });
+
+
+    $("#savespeach").click(function () {
+         var PatientId = parseInt(patientid);
+        var PatientName = $("#childname").val();
+
+        var City = $("#city").val();
+        var Dateofbirth = $("#dateofbirth").val();
+        var ParentGuardian = $("#guardian").val();
+        var BillingAddress = $("#billingaddress").val();
+        var State = $("#state").val();
+        var Zip = $("#zip").val();
+        var HomePhone = $("#homephone").val();
+        var CellPhone = $("#cellphone").val();
+        var ChildLiveWithBothParents = $("#parent").val();
+        var IfNowithWhomChildLive = $("#child").val();
+        var PrimaryLanguage = $("#language").val();
+        var SecondaryLanguage = $("#Slanguage").val();
+        var Pediatrician = $("#pediatrician").val();
+        var PediatricianPhone = $("#pedphone").val();
+        var ReferringPhysician = $("#rf").val();
+        var HowDoYouHereAboutUs = $("#how").val();
+        var PreviousSpeechTherapyEvaluation = $("#therapy").val();
+
+        var OtherTherapiesToDate = $("#othertherapy").val();
+        var Presentproblem = $("#describeproblem").val();
+        var NotedPresentProblem = $("#whonoted").val();
+        var CreatedDate = $("#when").val();
+        var ChildReaction = $("#reaction").val();
+        var FamilyReaction = $("#familyreaction").val();
+        var significantChangesInLastSixMonths = $("#anychange").val();
+        var significantIfSoWhat = $("#what").val();
+        var ChildInfection = $("#earaches").val();
+        var EustachianTubes = $("#tube").val();
+        var Chronic = $("#frequency").val();
+        var Allergies = $("#allergies").val();
+        var AllergiesDescribe = $("#IfYesDescribe").val();
+        var SeriousOrRecurrentIllnesses = $("#ilnness").val();
+        var AnyOperation = $("#operation").val();
+        var OperationDescribe = $("#anyoperation").val();
+        var TraumaToHead = $("#trauma").val();
+        var AnyMedications = $("#medication").val();
+        var VisionProblems = $("#vision").val();
+        var VisionProblemsDescribe = $("#visionproblem").val();
+        var HearingDifficulties = $("#hearing").val();
+        var HearingDifficultiesDescribe = $("#hearingproblem").val();
+        var DentalProblem = $("#dental").val();
+        var DentalProblemDescribe = $("#dentalproblem").val();
+        var OtherMedicalHistory = $("#anymedicalhistory").val();
+        var AgeWhenChildSatUpAlone = $("#satup").val();
+
+        var Crawled = $("#crawled").val();
+        var Walked = $("#walk").val();
+        var ToitelTrained = $("#toilet").val();
+        var DressedIndependently = $("#dressed").val();
+        var TiedShoes = $("#tiedshoes").val();
+        var LeftOrRightHanded = $("#childhand").val();
+        var SelfdiRectedActivities = $("#activities").val();
+        var AdultDirected = $("#adult").val();
+        var BedTime = $("#bedtime").val();
+        var ChildSleepWell = $("#sleepwell").val();
+
+        var RespondTypicallyToLightSoundPeople = $("#respond").val();
+
+        var ChildPlayWithOthers = $("#play").val();
+
+        var Who = $("#playwithwhom").val();
+        var CryAppropriately = $("#cry").val();
+        var ChildsCurrentSchool = $("#childschool").val();
+        var Grade = $("#grade").val();
+
+        var ChildPerformanceEducationally = $("#education").val();
+        var ReceivingSpecialServicesAtSchool = $("#childschoolr").val();
+        var IfYesPleaseDescribeTheSerivces = $("#specialservices").val();
+        var IFSPOrIEP = $("#educationIEP").val();
+        var TeacherDescribePerformance = $("#teacher").val();
+        var TeacherExpressedAnyConcern = $("#techerconcern").val();
+        var TeacherExpressedAnyConcernExplain = $("#concernexplain").val();
+        var resultOfThisEvaluation = $("#describeproblemf").val();
+        var Anythingelse = $("#describeproblemany").val();
+
+
+
+
+            $.ajax({
+
+                type: 'POST',
+                url: apiurl +'api/PatientRegistration/AddUpdateSpeechTherapyByPatientId',
+                data: JSON.stringify({
+                    PatientId:PatientId,
+                    PatientName:PatientName,
+
+                    City: City,
+                    Dateofbirth: Dateofbirth,
+                    ParentGuardian: ParentGuardian,
+                    BillingAddress: BillingAddress,
+                    State: State,
+                    Zip: Zip,
+                    HomePhone: HomePhone,
+                    CellPhone: CellPhone,
+                    ChildLiveWithBothParents: ChildLiveWithBothParents,
+                    IfNowithWhomChildLive: IfNowithWhomChildLive,
+                    PrimaryLanguage:PrimaryLanguage,
+                    SecondaryLanguage: SecondaryLanguage,
+                    Pediatrician: Pediatrician,
+                    PediatricianPhone: PediatricianPhone,
+                    ReferringPhysician: ReferringPhysician,
+                    HowDoYouHereAboutUs: HowDoYouHereAboutUs,
+                    PreviousSpeechTherapyEvaluation: PreviousSpeechTherapyEvaluation,
+
+                    OtherTherapiesToDate: OtherTherapiesToDate,
+                    Presentproblem: Presentproblem,
+                    NotedPresentProblem: NotedPresentProblem,
+                    CreatedDate: CreatedDate,
+                    ChildReaction: ChildReaction,
+                    FamilyReaction: FamilyReaction,
+                    significantChangesInLastSixMonths: significantChangesInLastSixMonths,
+                    significantIfSoWhat: significantIfSoWhat,
+                    ChildInfection: ChildInfection,
+                    EustachianTubes: EustachianTubes,
+                    Chronic: Chronic,
+                    Allergies: Allergies,
+                    AllergiesDescribe: AllergiesDescribe,
+                    SeriousOrRecurrentIllnesses: SeriousOrRecurrentIllnesses,
+                    AnyOperation: AnyOperation,
+                    OperationDescribe: OperationDescribe,
+                    TraumaToHead: TraumaToHead,
+                    AnyMedications: AnyMedications,
+                    VisionProblems: VisionProblems,
+                    VisionProblemsDescribe: VisionProblemsDescribe,
+                    HearingDifficulties: HearingDifficulties,
+                    HearingDifficultiesDescribe: HearingDifficultiesDescribe,
+                    DentalProblem: DentalProblem,
+                    DentalProblemDescribe: DentalProblemDescribe,
+                    OtherMedicalHistory: OtherMedicalHistory,
+                    AgeWhenChildSatUpAlone: AgeWhenChildSatUpAlone,
+
+                    Crawled: Crawled,
+                        Walked: Walked,
+                    ToitelTrained: ToitelTrained,
+                    DressedIndependently: DressedIndependently,
+                    TiedShoes: TiedShoes,
+                    LeftOrRightHanded: LeftOrRightHanded,
+                    SelfdiRectedActivities: SelfdiRectedActivities,
+                    AdultDirected: AdultDirected,
+                    BedTime: BedTime,
+                    ChildSleepWell: ChildSleepWell,
+
+                    RespondTypicallyToLightSoundPeople: RespondTypicallyToLightSoundPeople,
+
+                    ChildPlayWithOthers: ChildPlayWithOthers,
+
+                    Who: Who,
+                    CryAppropriately: CryAppropriately,
+                    ChildsCurrentSchool: ChildsCurrentSchool,
+                    Grade: Grade,
+
+                    ChildPerformanceEducationally: ChildPerformanceEducationally,
+                    ReceivingSpecialServicesAtSchool: ReceivingSpecialServicesAtSchool,
+                    IfYesPleaseDescribeTheSerivces: IfYesPleaseDescribeTheSerivces,
+                    IFSPOrIEP: IFSPOrIEP,
+                    TeacherDescribePerformance: TeacherDescribePerformance,
+                    TeacherExpressedAnyConcern: TeacherExpressedAnyConcern,
+                    TeacherExpressedAnyConcernExplain: TeacherExpressedAnyConcernExplain,
+                    resultOfThisEvaluation: resultOfThisEvaluation,
+                    Anythingelse: Anythingelse,
+
+
+
+                }),
+                headers: {
+                    'Content-Type': 'application/json',
+                  'Access-Control-Allow-Origin': apiurl,
+                    'Authorization': 'Bearer  @Request.Cookies["Token"].Value.ToString()'
+
+                }
+
+
+            }).done(function (res) {
+
+
+                if (res.status == 'success') {
+
+
+
+                    swal({
+                        title: "Saved",
+
+                        icon: "success",
+                    });
+
+
+                    $("#myModal8").modal('hide');
+
+
+
+                }
+                else {
+                    alert(res.message);
+
+                }
+
+
+            })
+                .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+
+                    if (XMLHttpRequest.status==403) {
+                        window.location.href = '~/Account/Login'
+                    }
+
+                    if (XMLHttpRequest.status == 401) {
+                        window.location.href = '/Account/Login'
+                    }
+
+                    console.log("fail");
+
+
+                })
+
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     $("#prescriptionSavebtn").click(function () {

@@ -258,6 +258,7 @@
     <Compile Include="Models\Request\Referral.cs" />
     <Compile Include="Models\Request\RegistrationModel.cs" />
     <Compile Include="Models\Request\ReportTimeandIDs.cs" />
+    <Compile Include="Models\Request\SpeechTherapy.cs" />
     <Compile Include="Models\Response.cs" />
     <Compile Include="Models\SysDataTablePager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

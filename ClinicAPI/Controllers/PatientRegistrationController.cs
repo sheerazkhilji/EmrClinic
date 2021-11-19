@@ -882,9 +882,11 @@ namespace ClinicAPI.Controllers
 			}
 			return res;
 		}
-
+		
+		
+		[HttpGet]
 		[Route("api/GetALLDocuments")]
-		public SysDataTablePager<Douments> GetALLDocuments(string id)
+		public SysDataTablePager<Douments> GetALLDocuments(string id,string userid)
 		{
 			NameValueCollection nvc = HttpUtility.ParseQueryString(base.Request.RequestUri.Query);
 			string sEcho = nvc["sEcho"].ToString();
@@ -895,6 +897,10 @@ namespace ClinicAPI.Controllers
 			string sortOrder = nvc["sSortDir_0"].ToString();
 			NameValue.Add("@PateintID", id);
 			NameValue.Add("@serach", sSearch);
+			NameValue.Add("@USerID", userid);
+
+
+
 			OperationLayer = new DataOperationLayer(ConnectionString);
 			DataTable dataSet = OperationLayer.List("sp_getalldocumentsServer", NameValue);
 			List<Douments> patientModels = new List<Douments>();
@@ -978,6 +984,344 @@ namespace ClinicAPI.Controllers
 			}
 			return list;
 		}
+
+
+
+
+		[HttpGet]
+		[Route("api/PatientRegistration/getSpeechTherapyByPatientId")]
+		public Response getSpeechTherapyByPatientId(string id)
+		{
+			NameValue.Add("@PatientId", id.ToString());
+
+			OperationLayer = new DataOperationLayer(ConnectionString);
+			var data = OperationLayer.Statusget("sp_getSpeechTherapyByPatientId", NameValue);
+			List<City> cities = new List<City>();
+
+            for (int i = 0; i < data.Tables[0].Rows.Count; i++)
+			{
+				cities.Add(new City()
+				{
+					ID=data.Tables[0].Rows[i][0].ToString(),
+					Name= data.Tables[0].Rows[i][1].ToString(),
+
+
+
+				});
+
+
+
+			}
+
+			PatientRegistration patient = new PatientRegistration()
+			{
+				PatientID= data.Tables[1].Rows[0][0].ToString(),
+				Patient_Name= data.Tables[1].Rows[0][1].ToString(),
+				Patient_Phone_Number= data.Tables[1].Rows[0][3].ToString(),
+				Patient_Mobile_Number= data.Tables[1].Rows[0][4].ToString(),
+				CityID= data.Tables[1].Rows[0][9].ToString(),
+				DateOfBirth=data.Tables[1].Rows[0][13].ToString()
+
+			};
+			SpeechTherapy st;
+
+
+			if (data.Tables[2].Rows.Count>0)
+			{
+				st = new SpeechTherapy()
+				{
+					StId = Convert.ToInt32(data.Tables[2].Rows[0][0]),
+					ParentGuardian = data.Tables[2].Rows[0][2].ToString(),
+					BillingAddress = data.Tables[2].Rows[0][3].ToString(),
+					State = data.Tables[2].Rows[0][4].ToString(),
+					Zip = data.Tables[2].Rows[0][5].ToString(),
+
+					ChildLiveWithBothParents = data.Tables[2].Rows[0][6].ToString(),
+					IfNowithWhomChildLive = data.Tables[2].Rows[0][7].ToString(),
+					PrimaryLanguage = data.Tables[2].Rows[0][8].ToString(),
+					SecondaryLanguage = data.Tables[2].Rows[0][9].ToString(),
+					Pediatrician = data.Tables[2].Rows[0][10].ToString(),
+					PediatricianPhone = data.Tables[2].Rows[0][11].ToString(),
+					ReferringPhysician = data.Tables[2].Rows[0][12].ToString(),
+					HowDoYouHereAboutUs = data.Tables[2].Rows[0][13].ToString(),
+					PreviousSpeechTherapyEvaluation = data.Tables[2].Rows[0][14].ToString(),
+					OtherTherapiesToDate = data.Tables[2].Rows[0][15].ToString(),
+					Presentproblem = data.Tables[2].Rows[0][16].ToString(),
+					NotedPresentProblem = data.Tables[2].Rows[0][17].ToString(),
+					ChildReaction = data.Tables[2].Rows[0][18].ToString(),
+					FamilyReaction = data.Tables[2].Rows[0][19].ToString(),
+					significantChangesInLastSixMonths = data.Tables[2].Rows[0][20].ToString(),
+					significantIfSoWhat = data.Tables[2].Rows[0][21].ToString(),
+					ChildInfection = data.Tables[2].Rows[0][22].ToString(),
+					EustachianTubes = data.Tables[2].Rows[0][23].ToString(),
+					Chronic = data.Tables[2].Rows[0][24].ToString(),
+					Allergies = data.Tables[2].Rows[0][25].ToString(),
+					AllergiesDescribe = data.Tables[2].Rows[0][26].ToString(),
+					SeriousOrRecurrentIllnesses = data.Tables[2].Rows[0][27].ToString(),
+					AnyOperation = data.Tables[2].Rows[0][28].ToString(),
+					OperationDescribe = data.Tables[2].Rows[0][30].ToString(),
+					TraumaToHead = data.Tables[2].Rows[0][31].ToString(),
+					AnyMedications = data.Tables[2].Rows[0][32].ToString(),
+					VisionProblems = data.Tables[2].Rows[0][33].ToString(),
+					VisionProblemsDescribe = data.Tables[2].Rows[0][34].ToString(),
+					HearingDifficulties = data.Tables[2].Rows[0][35].ToString(),
+					HearingDifficultiesDescribe = data.Tables[2].Rows[0][36].ToString(),
+					DentalProblem = data.Tables[2].Rows[0][37].ToString(),
+					DentalProblemDescribe = data.Tables[2].Rows[0][38].ToString(),
+					OtherMedicalHistory = data.Tables[2].Rows[0][39].ToString(),
+					AgeWhenChildSatUpAlone = data.Tables[2].Rows[0][40].ToString(),
+					Crawled = data.Tables[2].Rows[0][41].ToString(),
+					Walked = data.Tables[2].Rows[0][42].ToString(),
+					ToitelTrained = data.Tables[2].Rows[0][43].ToString(),
+					DressedIndependently = data.Tables[2].Rows[0][44].ToString(),
+					TiedShoes = data.Tables[2].Rows[0][45].ToString(),
+					LeftOrRightHanded = data.Tables[2].Rows[0][46].ToString(),
+					SelfdiRectedActivities = data.Tables[2].Rows[0][47].ToString(),
+					AdultDirected = data.Tables[2].Rows[0][48].ToString(),
+					BedTime = data.Tables[2].Rows[0][49].ToString(),
+					ChildSleepWell = data.Tables[2].Rows[0][50].ToString(),
+					RespondTypicallyToLightSoundPeople = data.Tables[2].Rows[0][51].ToString(),
+					ChildPlayWithOthers = data.Tables[2].Rows[0][52].ToString(),
+					Who = data.Tables[2].Rows[0][53].ToString(),
+					CryAppropriately = data.Tables[2].Rows[0][54].ToString(),
+					ChildsCurrentSchool = data.Tables[2].Rows[0][55].ToString(),
+					Grade = data.Tables[2].Rows[0][56].ToString(),
+					ChildPerformanceEducationally = data.Tables[2].Rows[0][57].ToString(),
+					ReceivingSpecialServicesAtSchool = data.Tables[2].Rows[0][58].ToString(),
+					IfYesPleaseDescribeTheSerivces = data.Tables[2].Rows[0][59].ToString(),
+					IFSPOrIEP = data.Tables[2].Rows[0][60].ToString(),
+					TeacherDescribePerformance = data.Tables[2].Rows[0][61].ToString(),
+					TeacherExpressedAnyConcern = data.Tables[2].Rows[0][62].ToString(),
+					TeacherExpressedAnyConcernExplain = data.Tables[2].Rows[0][63].ToString(),
+					resultOfThisEvaluation = data.Tables[2].Rows[0][64].ToString(),
+					Anythingelse = data.Tables[2].Rows[0][65].ToString(),
+					
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+				};
+
+
+
+			}
+
+
+            else{
+
+				st = new SpeechTherapy()
+				{
+					StId = 0,
+					ParentGuardian = "",
+					BillingAddress = "",
+					State = "",
+					Zip = "",
+
+					ChildLiveWithBothParents = "",
+					IfNowithWhomChildLive = "",
+					PrimaryLanguage = "",
+					SecondaryLanguage = "",
+					Pediatrician = "",
+					PediatricianPhone = "",
+					ReferringPhysician = "",
+					HowDoYouHereAboutUs = "",
+					PreviousSpeechTherapyEvaluation = "",
+					OtherTherapiesToDate = "",
+					Presentproblem = "",
+					NotedPresentProblem = "",
+					ChildReaction = "",
+					FamilyReaction = "",
+					significantChangesInLastSixMonths = "",
+					significantIfSoWhat = "",
+					ChildInfection = "",
+					EustachianTubes = "",
+					Chronic = "",
+					Allergies = "",
+					AllergiesDescribe = "",
+					SeriousOrRecurrentIllnesses = "",
+					AnyOperation = "",
+					OperationDescribe = "",
+					TraumaToHead = "",
+					AnyMedications = "",
+					VisionProblems = "",
+					VisionProblemsDescribe = "",
+					HearingDifficulties = "",
+					HearingDifficultiesDescribe = "",
+					DentalProblem = "",
+					DentalProblemDescribe = "",
+					OtherMedicalHistory = "",
+					AgeWhenChildSatUpAlone = "",
+					Crawled = "",
+					Walked = "",
+					ToitelTrained = "",
+					DressedIndependently = "",
+					TiedShoes = "",
+					LeftOrRightHanded = "",
+					SelfdiRectedActivities = "",
+					AdultDirected = "",
+					BedTime = "",
+					ChildSleepWell = "",
+					RespondTypicallyToLightSoundPeople = "",
+					ChildPlayWithOthers = "",
+					Who = "",
+					CryAppropriately = "",
+					ChildsCurrentSchool = "",
+					Grade = "",
+					ChildPerformanceEducationally = "",
+					ReceivingSpecialServicesAtSchool = "",
+					IfYesPleaseDescribeTheSerivces = "",
+					IFSPOrIEP = "",
+					TeacherDescribePerformance = "",
+					TeacherExpressedAnyConcern = "",
+					TeacherExpressedAnyConcernExplain = "",
+					CreatedDate = "",
+					Anythingelse = "",
+					resultOfThisEvaluation = ""
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+				};
+			}
+
+
+
+
+			res.status = "success";
+                res.Object = new
+				{
+
+					cities = cities,
+					patient = patient,
+					speechtherapy = st
+
+
+				};
+           
+            return res;
+		}
+
+
+
+
+
+		[HttpPost]
+		[Route("api/PatientRegistration/AddUpdateSpeechTherapyByPatientId")]
+		public Response AddUpdateSpeechTherapyByPatientId([FromBody] SpeechTherapy st)
+		{
+
+
+			NameValue.Add("@PatientId",st.PatientId.ToString());
+	NameValue.Add("@PatientName",st.PatientName);
+			NameValue.Add("@CityId",st.City);
+			NameValue.Add("@Patient_Phone_Number",st.HomePhone);
+			NameValue.Add("@PatientMobileNumber",st.CellPhone);
+			NameValue.Add("@DateOfBirth",st.Dateofbirth);
+			NameValue.Add("@ParentGuardian",st.ParentGuardian);
+			NameValue.Add("@BillingAddress",st.BillingAddress);
+			NameValue.Add("@PState",st.State);
+			NameValue.Add("@Zip",st.Zip);
+			NameValue.Add("@ChildLiveWithBothParents",st.ChildLiveWithBothParents);
+			NameValue.Add("@IfNowithWhomChildLive",st.IfNowithWhomChildLive);
+			NameValue.Add("@PrimaryLanguage",st.PrimaryLanguage);
+			NameValue.Add("@SecondaryLanguage", st.SecondaryLanguage);
+			NameValue.Add("@Pediatrician",st.Pediatrician);
+			NameValue.Add("@PediatricianPhone",st.PediatricianPhone);
+			NameValue.Add("@ReferringPhysician",st.ReferringPhysician);
+			NameValue.Add("@HowDoYouHereAboutUs",st.HowDoYouHereAboutUs);
+			NameValue.Add("@PreviousSpeechTherapyEvaluation", WebUtility.HtmlEncode(st.PreviousSpeechTherapyEvaluation));
+			NameValue.Add("@OtherTherapiesToDate",st.OtherTherapiesToDate);
+			NameValue.Add("@Presentproblem",st.Presentproblem);
+			NameValue.Add("@NotedPresentProblem",st.NotedPresentProblem);
+			NameValue.Add("@ChildReaction",st.ChildReaction);
+			NameValue.Add("@FamilyReaction",st.FamilyReaction);
+			NameValue.Add("@significantChangesInLastSixMonths",st.significantChangesInLastSixMonths);
+			NameValue.Add("@significantIfSoWhat",st.significantIfSoWhat);
+			NameValue.Add("@ChildInfection",st.ChildInfection);
+			NameValue.Add("@EustachianTubes",st.EustachianTubes);
+			NameValue.Add("@Chronic",st.Chronic);
+			NameValue.Add("@Allergies",st.Allergies);
+			NameValue.Add("@AllergiesDescribe",st.AllergiesDescribe);
+			NameValue.Add("@SeriousOrRecurrentIllnesses",st.SeriousOrRecurrentIllnesses);
+			NameValue.Add("@AnyOperation",st.AnyOperation);
+			NameValue.Add("@OperationDescribe",st.OperationDescribe);
+			NameValue.Add("@TraumaToHead",st.TraumaToHead);
+			NameValue.Add("@AnyMedications",st.AnyMedications);
+			NameValue.Add("@VisionProblems",st.VisionProblems);
+			NameValue.Add("@VisionProblemsDescribe",st.VisionProblemsDescribe);
+			NameValue.Add("@HearingDifficulties",st.HearingDifficulties);
+			NameValue.Add("@HearingDifficultiesDescribe",st.HearingDifficultiesDescribe);
+			NameValue.Add("@DentalProblem",st.DentalProblem);
+			NameValue.Add("@DentalProblemDescribe",st.DentalProblemDescribe);
+			NameValue.Add("@OtherMedicalHistory",st.OtherMedicalHistory);
+			NameValue.Add("@AgeWhenChildSatUpAlone",st.AgeWhenChildSatUpAlone);
+			NameValue.Add("@Crawled",st.Crawled);
+			NameValue.Add("@Walked",st.Walked);
+			NameValue.Add("@ToitelTrained",st.ToitelTrained);
+			NameValue.Add("@DressedIndependently",st.DressedIndependently);
+			NameValue.Add("@TiedShoes",st.TiedShoes);
+			NameValue.Add("@LeftOrRightHanded",st.LeftOrRightHanded);
+			NameValue.Add("@SelfdiRectedActivities",st.SelfdiRectedActivities);
+			NameValue.Add("@AdultDirected",st.AdultDirected);
+			NameValue.Add("@BedTime",st.BedTime);
+			NameValue.Add("@ChildSleepWell",st.ChildSleepWell);
+			NameValue.Add("@RespondTypicallyToLightSoundPeople",st.RespondTypicallyToLightSoundPeople);
+			NameValue.Add("@ChildPlayWithOthers",st.ChildPlayWithOthers);
+			NameValue.Add("@Who",st.Who);
+			NameValue.Add("@CryAppropriately",st.CryAppropriately);
+			NameValue.Add("@ChildsCurrentSchool",st.ChildsCurrentSchool);
+			NameValue.Add("@Grade",st.Grade);
+			NameValue.Add("@ChildPerformanceEducationally",st.ChildPerformanceEducationally);
+			NameValue.Add("@ReceivingSpecialServicesAtSchool",st.ReceivingSpecialServicesAtSchool);
+			NameValue.Add("@IfYesPleaseDescribeTheSerivces",st.IfYesPleaseDescribeTheSerivces);
+			NameValue.Add("@IFSPOrIEP",st.IFSPOrIEP);
+			NameValue.Add("@TeacherDescribePerformance",st.TeacherDescribePerformance);
+			NameValue.Add("@TeacherExpressedAnyConcern",st.TeacherExpressedAnyConcern);
+			NameValue.Add("@TeacherExpressedAnyConcernExplain",st.TeacherExpressedAnyConcernExplain);
+			NameValue.Add("@resultOfThisEvaluation",st.resultOfThisEvaluation);
+			NameValue.Add("@Anythingelse",st.Anythingelse);
+
+			OperationLayer = new DataOperationLayer(ConnectionString);
+
+
+			var data = OperationLayer.callStoredProcedure("sp_AddUpdateSpeechTherapy", NameValue);
+		
+
+
+
+
+
+			res.status = "success";
+			
+
+			return res;
+		}
+
+
+
+
 
 
 
