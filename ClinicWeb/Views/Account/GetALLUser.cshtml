@@ -68,7 +68,13 @@
                                     </div>
                                     <div class="col-6 doctorSpeciality" style="display:none">
                                         <label for="Doctor"> Speciality </label>
-                                        <input type="text" id="Speciality" value="" />
+                                     
+
+                                        <select class="selectpicker"  data-live-search="true" data-actions-box="true" title="select the  Speciality"  id="Speciality" >
+
+
+                                        </select>
+
                                     </div>
                                 </div>
 
@@ -207,7 +213,7 @@
                                     <th>Phone Number </th>
 
                                     <th>City</th>
-
+                                    <th>Roles</th>
                                     <th>Actions</th>
 
                                 </tr>
@@ -234,12 +240,91 @@
 
 
 <script>
-   
+
+
+
+
+
+
+    $("#Addnewuser").click(function () {
+
+
+            $.ajax({
+
+                type: 'GET',
+                url: apiurl +'api/User/GetAllDoctorSpecialty',
+              
+                headers: {
+                    'Content-Type': 'application/json',
+                  'Access-Control-Allow-Origin': apiurl,
+                    'Authorization': 'Bearer  @Request.Cookies["Token"].Value.ToString()'
+
+                }
+
+
+            }).done(function (res) {
+
+                console.log(res);
+                $("#Speciality").empty()
+                if (res.status == 'success') {
+                    debugger;
+                    for (var i = 0; i < res.object.doctorspecialities.length; i++) {
+
+                        $("#Speciality").append('<option value=' + res.object.doctorspecialities[i].dsId+'>' + res.object.doctorspecialities[i].specialityName+'</option>')
+
+
+                    }
+                    $("#Speciality").selectpicker('refresh');
+
+                }
+               
+
+            })
+                .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+
+
+                    if (XMLHttpRequest.status==403) {
+                        window.location.href = '~/Account/Login'
+                    }
+
+                    if (XMLHttpRequest.status == 401) {
+                        window.location.href = '/Account/Login'
+                    }
+
+                    console.log("fail");
+
+
+                })
+
+
+
+
+
+    })
+
+
+
+
+
+
     $('#Doctor2').on('click', function ()
     {
         if ($('#Doctor2').is(':checked')){
             $('.doctorSpeciality').css({ "display": "block" })
-            
+
+        }
+        else {
+            $('.doctorSpeciality').css({ "display": "none" })
+        }
+
+    })
+
+    $(document).on('click', '#Doctor', function ()
+    {
+        debugger;
+        if ($('#Doctor').is(':checked')){
+            $('.doctorSpeciality').css({ "display": "block" })
+
         }
         else {
             $('.doctorSpeciality').css({ "display": "none" })
@@ -275,12 +360,22 @@
                         "mRender": function (data,fullData,FullXtraData) {
                             debugger
                             if (FullXtraData.speciality != "") {
-
+                                if (FullXtraData.roleName.includes('Doctor')) {
                                 return '<p>' + FullXtraData.userName + '<br/> <small>(' + FullXtraData.speciality + ')</small></p>'
-                            } else {
+                                }
+                                else {
 
 
-                                return '<p>'+ FullXtraData.userName +'</p>'
+                                    return '<p>' + FullXtraData.userName + '</p>'
+
+
+                                }
+                                } else {
+
+                               
+                                    return '<p>' + FullXtraData.userName + '</p>'
+                               
+                               
                             }
                         }
                     },
@@ -289,6 +384,7 @@
 
                     { "mData": "phoneNumber" },
                     { "mData": "cityname" },
+                    { "mData": "roleName" },
 
 
 
@@ -301,7 +397,7 @@
 
                         return "<button type = 'button'   onclick='EditUser(" + JSON.stringify(id) + ")' data-toggle='modal' data-target='#modalUserEdit' class='ml-2 btn btn-info btn-circle'><i class='fa fa-edit'></i></button>"
                                + "<button type='button' class=' ml-2 btn btn-danger btn-circle'   onclick='Deletep(" + JSON.stringify(id) + ")'> <i class='fa fa-trash-alt'></i></button > ";
-                         
+
                     }
                 }
 
@@ -462,9 +558,11 @@
             }).done(function (res) {
 
 
+                debugger;
+                var s = res.object.split('&--&')
 
-                var data = JSON.parse(res.object);
-
+                var data = JSON.parse(s[1]);
+                var data2 = JSON.parse(s[0]);
 
 
                 if (res.status == 'success') {
@@ -520,7 +618,19 @@
 </select>
 
                     </div>
+       <div class="row">
+                              
+                                    <div class="col-6 doctorSpeciality" style="display:none">
+                                        <label for="Doctor"> Speciality </label>
 
+
+                                        <select class="selectpicker"  data-live-search="true" data-actions-box="true" title="select the  Speciality"  id="Specialityedit" >
+
+
+                                        </select>
+
+                                    </div>
+                                </div>
 
 
            <div class=" form-group rolediv">
@@ -611,13 +721,14 @@
 
                         if (roleids.includes(3)) {
 
-                            rolescheck += '<input type="checkbox" id="Doctor" name="Doctor " value="3" checked> Doctor <br>';  }
+                            rolescheck += '<input type="checkbox" id="Doctor" name="Doctor " value="3" checked> Doctor <br>';
+                            $('.doctorSpeciality').css({ "display": "block" })}
                         else {
                             rolescheck += '<input type="checkbox" id="Doctor" name="Doctor " value="3" > Doctor <br>';
                         }
 
 
-                        }
+                    4    }
 
 
 
@@ -625,6 +736,16 @@
 
 
                     $('.rolediv').append(rolescheck);
+
+                    for (var i = 0; i < data2.length; i++) {
+
+                     
+
+                        $("#Specialityedit").append('<option value=' + data2[i].DSId + '>' + data2[i].SpecialtyName + '</option>')
+
+                    }
+                    $("#Specialityedit").selectpicker('refresh')
+                    $("#Specialityedit").val(data[0].Speciality).selectpicker('refresh')
 
 
                   getallcitiesedit();
@@ -729,7 +850,7 @@
 
 
         var isAllOkay = true;
-
+        
         if ($('#userName').val() == '') {
             isAllOkay = false;
             alert("User name is required")
@@ -761,6 +882,16 @@
             return;
         }
 
+        if ($('#Doctor').is(':checked')) {
+
+            if ($("#Specialityedit").val() == '' || $("#Specialityedit").val() == undefined) {
+                isAllOkay = false;
+                alert('speciality  is required');
+                return;
+            }
+
+
+        }
         Edit();
 
 
@@ -807,6 +938,9 @@
                  roles.push(3)
              }
 
+      
+             Speciality = $('#Specialityedit').val();
+          
 
 
 
@@ -820,7 +954,7 @@
                     Email:email,
 
                     PhoneNumber:phone,
-
+                    Speciality: Speciality,
                     Cid:cityid,
                     rolesids:roles,
                     roleisactive: roleisactive
@@ -935,7 +1069,7 @@
 
 
             if ($('#Doctor2').is(':checked')) {
-               
+
                 type = 'Doctor';
             }
             else {
@@ -992,6 +1126,18 @@
                 alert('Phone No:  is required');
                 return;
             }
+
+            if ($('#Doctor2').is(':checked')) {
+
+                if ($("#Speciality").val() == '' || $("#Speciality").val() == undefined) {
+                    isAllOkay = false;
+                    alert('speciality  is required');
+                    return;
+                }
+
+               
+            }
+
 
             Submit();
 
@@ -1088,8 +1234,8 @@
     $('#pass12').val('');
     $('#pass22').val('');
     $('#CId2').val('');
-    $('#phone2').val('');
-    $('#Speciality').val('');
+      $('#phone2').val('');
+      $('#Speciality').val('').selectpicker('refresh');
 
     base64StringForm = "";
   }

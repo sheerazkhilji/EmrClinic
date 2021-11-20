@@ -19,5 +19,9 @@ namespace ClinicAPI.Models.Request
         {
             get; set;
         }
+
+
+        public string UserId { get; set; }
+        public string Isprivate { get; set; }
     }
 }

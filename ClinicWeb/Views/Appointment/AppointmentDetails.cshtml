@@ -77,7 +77,7 @@
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" style="font-style: italic; font-weight:600;font-family:'Times New Roman'">Initial Assesment</h5>
+                <h5 class="modal-title" style="font-style: italic; font-weight:600;font-family:'Times New Roman'">Pyschiatry</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -111,7 +111,7 @@
         <!--Content-->
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" style="font-style: italic; font-weight:600;font-family:'Times New Roman'">Pateint Details</h5>
+                <h5 class="modal-title" style="font-style: italic; font-weight:600;font-family:'Times New Roman'"> Child Psychiatry</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -892,12 +892,12 @@
             <button class="btn btn-secondary PateintBasicInformation">Basic Info</button>
         </li>
         <li>
-            <button class="btn btn-secondary Initial_Analysiz">View Initial Analysis</button>
+            <button class="btn btn-secondary Initial_Analysiz">View Pyschiatry </button>
         </li>
 
 
         <li>
-            <button id="openFomrDetailModal" class="btn btn-secondary form-actions">Patient Detail</button>
+            <button id="openFomrDetailModal" class="btn btn-secondary form-actions"> Child Psychiatry</button>
         </li>
 
 
@@ -1349,9 +1349,12 @@
 
                                         <div class="form-group  ">
                                             <label for="ImageUpload">Upload Douments</label><br>
-                                            <input type="file" class="" id="ImageUpload" name="img" multiple>
+                                            <input type="file" class="" id="ImageUpload" name="img">
                                         </div>
-
+                                        <div class="form-group ">
+                                            <label for="docisprivate">Is Private</label> 
+                                            <input type="checkbox"   id="docisprivate" >
+                                        </div>
                                         <input type="hidden" class="" value="" id="ImageUploadnot" name="img">
 
 
@@ -1371,7 +1374,7 @@
 
                                             <input type="button" class="btn btn-success has-spinner" id="AddD" value="Add" />
 
-                                            <div id="Editdocument" style="display:none">
+                                            <div id="Editdocument" >
                                                 <input type="button" class="btn btn-success" id="updatedoc" value="Update" />
 
                                             </div>
@@ -1698,7 +1701,7 @@
                     "mData": "file", "bSearchable": false, "bSortable": false,
                     "mRender": function (data) {
 
-                        var id = data;
+                        var id = 'http://software.synapse.org.pk/webapi/'+data;
 
                         return "<a  href = " + id + "     class='ml-2 btn btn-info btn-circle'><i class='fa fa-file'></i></a>";
 
@@ -1734,14 +1737,19 @@
         ClearFromFiledsDoc();
         cleardatavariablesDoc();
 
+     
+        $('#updatedoc').css({ "display": "none" })
+        $('#AddD').css({ "display": "block" })
+
+
     })
 
     function Editp(ID) {
         ClearFromFiledsDoc();
 
 
-      $("#AddD").hide();
-      $("#Editdocument").css('display', "block");
+        $('#updatedoc').css({ "display": "block" })
+        $('#AddD').css({ "display": "none" })
 
             $.ajax({
 
@@ -1773,6 +1781,15 @@
                 $("#DocumentName").val(data[0].FileName);
                 $('#ImageUploadnot').val(data[0].file_path);
                 $('#docid').val(data[0].pkID);
+                  if (data[0].isPrivate == 1) {
+                      $("#docisprivate").prop('checked', true)
+                  }
+                  else {
+
+
+                      $("#docisprivate").prop('checked', false);
+
+                  }
 
 
 
@@ -1820,8 +1837,24 @@
 
 
         filename = $('#DocumentName').val();
-
-
+        if (filename=='') {
+            swal({
+                title: "Error",
+                text: "File Name is Required!",
+                icon: "error",
+                dangerMode: true,
+            })
+            return;
+        }
+        if (base64stringform=='') {
+            swal({
+                title: "Error",
+                text: "File is Required!",
+                icon: "error",
+                dangerMode: true,
+            })
+            return;
+        }
             $.ajax({
 
               type: 'POST',
@@ -1833,7 +1866,8 @@
                     Name: filename,
                     PID: pid,
                     file: base64stringform,
-
+                    UserId: localStorage.getItem("userID"),
+                    Isprivate: $("#docisprivate").prop('checked') == true?"1":"0"
 
                 }),
                 headers: {
@@ -1932,11 +1966,16 @@
 
 
     $(document).on("click", "#updatedoc",function () {
-
+     
         if ($('#DocumentName').val() == '') {
             isAllOkay = false;
 
-            alert('Document Name is  Mandatory!');
+            swal({
+                title: "Error",
+                text: "File Name is Required!",
+                icon: "error",
+                dangerMode: true,
+            })
             return;
         }
 
@@ -1970,7 +2009,9 @@
                     Name:filename,
 
                     file:base64stringform,
-                    Doc:doc
+                    Doc: doc,
+                    UserId: localStorage.getItem("userID"),
+                    Isprivate: $("#docisprivate").prop('checked') == true ? "1" : "0"
 
 
                 }),
@@ -4733,12 +4774,13 @@
                         $("#city").append('<option value=' + res.object.cities[i].id + '>' + res.object.cities[i].name + '</option>')
 
                     }
+                    var patientdata = JSON.parse(res.object.patient);
                     $("#city").selectpicker('refresh')
-                    $("#city").val(parseInt(res.object.patient.cityID)).selectpicker();
-                    $("#childname").val(res.object.patient.patient_Name)
-                    $("#dateofbirth").val(res.object.patient.dateOfBirth)
-                    $("#homephone").val(res.object.patient.patient_Phone_Number)
-                    $("#cellphone").val(res.object.patient.patient_Mobile_Number)
+                    $("#city").val(parseInt(patientdata[0].CityID)).selectpicker();
+                    $("#childname").val(patientdata[0].Patient_Name)
+                    $("#dateofbirth").val(patientdata[0].DateOfBirth)
+                    $("#homephone").val(patientdata[0].Patient_Phone_Number)
+                    $("#cellphone").val(patientdata[0].Patient_Mobile_Number)
                     $("#guardian").val(res.object.speechtherapy.parentGuardian)
                     $("#billingaddress").val(res.object.speechtherapy.billingAddress)
                     $("#state").val(res.object.speechtherapy.state)

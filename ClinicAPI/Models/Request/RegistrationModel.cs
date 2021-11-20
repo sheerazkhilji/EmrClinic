@@ -26,6 +26,9 @@ namespace ClinicAPI.Models.Request
 		public string Cid { get; set; }
         public string Speciality { get; set; }
 
+
+		public  string RoleName { get; set; }
+
         public string[] rolesids { get; set; }
 
 		public string[] roleisactive { get; set; }

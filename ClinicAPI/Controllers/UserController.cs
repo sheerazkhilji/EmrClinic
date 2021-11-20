@@ -157,9 +157,10 @@ namespace ClinicAPI.Controllers
 					Email = dr["UserEmail"].ToString(),
 					PhoneNumber = dr["PhoneNo"].ToString(),
 					Cid = dr["CityID"].ToString(),
-					Speciality = dr ["Speciality"].ToString(),
-					cityname = dr["City_Name"].ToString()
-					
+					Speciality = dr ["SpecialtyName"].ToString(),
+					cityname = dr["City_Name"].ToString(),
+					RoleName= dr["Roles"].ToString(),
+
 				});
 				Customers = SortFunction(iSortCol, sortOrder, registrationModels).Skip(iDisplayStart).Take(iDisplayLength).ToList();
 			}
@@ -268,6 +269,50 @@ namespace ClinicAPI.Controllers
 			}
 			return res;
 		}
+
+
+
+
+
+		[Route("api/User/GetAllDoctorSpecialty")]
+		[HttpGet]
+		public Response GetAllDoctorSpecialty()
+		{
+			OperationLayer = new DataOperationLayer(ConnectionString);
+		
+	var data = OperationLayer.Statusget("sp_GetAllDoctorSpecialty", NameValue);
+
+			List<speciality> specialities = new List<speciality>(); 
+
+            for (int i = 0; i < data.Tables[0].Rows.Count; i++)
+            {
+				specialities.Add(new speciality()
+				{
+
+					DSId= Convert.ToInt32(data.Tables[0].Rows[i][0]),
+					specialityName= data.Tables[0].Rows[i][1].ToString()
+
+				});
+
+
+            }
+
+
+
+
+			res.status = "success";
+		//	res.message = "deleted";
+			res.Object = new
+			{
+				doctorspecialities= specialities
+			}
+				
+				;
+			return res;
+		}
+
+
+
 
 	}
 }

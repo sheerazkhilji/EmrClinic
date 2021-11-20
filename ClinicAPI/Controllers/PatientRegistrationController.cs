@@ -774,6 +774,8 @@ namespace ClinicAPI.Controllers
 			NameValue.Add("@file", file);
 			NameValue.Add("@filename", douments.Name);
 			NameValue.Add("@Action", "insert");
+			NameValue.Add("@isPrivate",douments.Isprivate);
+			NameValue.Add("@UserID", douments.UserId);
 			OperationLayer = new DataOperationLayer(ConnectionString);
 			string json = OperationLayer.callStoredProcedure("sp_documents", NameValue);
 			if (json == null || json == "")
@@ -823,6 +825,8 @@ namespace ClinicAPI.Controllers
 			}
 			NameValue.Add("@filename", douments.Name);
 			NameValue.Add("@Action", "update");
+			NameValue.Add("@isPrivate", douments.Isprivate);
+			NameValue.Add("@UserID", douments.UserId);
 			OperationLayer = new DataOperationLayer(ConnectionString);
 			string json = OperationLayer.callStoredProcedure("sp_documents", NameValue);
 			if (json == null || json == "")
@@ -1013,16 +1017,8 @@ namespace ClinicAPI.Controllers
 
 			}
 
-			PatientRegistration patient = new PatientRegistration()
-			{
-				PatientID= data.Tables[1].Rows[0][0].ToString(),
-				Patient_Name= data.Tables[1].Rows[0][1].ToString(),
-				Patient_Phone_Number= data.Tables[1].Rows[0][3].ToString(),
-				Patient_Mobile_Number= data.Tables[1].Rows[0][4].ToString(),
-				CityID= data.Tables[1].Rows[0][9].ToString(),
-				DateOfBirth=data.Tables[1].Rows[0][13].ToString()
+			string patient = data.Tables[1].Rows[0][0].ToString();
 
-			};
 			SpeechTherapy st;
 
 
