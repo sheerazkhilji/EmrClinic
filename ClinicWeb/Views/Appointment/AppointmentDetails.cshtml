@@ -1633,6 +1633,7 @@
     var appointmentId = "";
     $(document).ready(function () {
         $('.loader').hide()
+      
    $("#tabs").tabs();
 
         $("#openFomrDetailModal").click(function () {
@@ -1668,7 +1669,13 @@
         prescriptionTablePage(patientid);
         $(".jqte-test").jqte();
         serachpateint();
+        if (appointmentId == '') {
+            $("#prescriptionModalbutton").css({ display: "none" });
 
+
+            $("#prescriptionSavebtn").css({ display: "none" });
+           
+        }
 
 
         });
@@ -1700,8 +1707,8 @@
                 {
                     "mData": "file", "bSearchable": false, "bSortable": false,
                     "mRender": function (data) {
-
-                        var id = 'http://software.synapse.org.pk/webapi/'+data;
+                        debugger;
+                        var id = data;
 
                         return "<a  href = " + id + "     class='ml-2 btn btn-info btn-circle'><i class='fa fa-file'></i></a>";
 
@@ -2733,7 +2740,7 @@
 
 
     <div class="form-group">
-        <label>Physical History</label>
+        <label>Medical and Surgical History</label>
 
         <textarea class="form-control jqte-test1" name="Physical_History " id="Physical_History"   rows="3"> </textarea>
 
@@ -2742,7 +2749,7 @@
 
 
     <div class="form-group">
-        <label>Family History</label>
+        <label>Family Structure  and Family Dynamics</label>
 
         <textarea class="form-control jqte-test1" name="Family_History" id="Family_History"    rows="3"></textarea>
 
@@ -2752,7 +2759,7 @@
 
 
     <div class="form-group">
-        <label>Education</label>
+        <label>Education History</label>
         <input type="text" class="form-control jqte-test1" name="schooling" placeholder="schooling" value=""  id="schooling">
     </div>
 
@@ -2782,7 +2789,7 @@
     </div>
 
     <div class="form-group">
-        <label>Occupation</label>
+        <label>Occupation History</label>
         <input type="text" class="form-control jqte-test1" value="" name="occupation" placeholder="occupation" id="occupation">
     </div>
 
@@ -2790,7 +2797,7 @@
 
 
     <div class="form-group">
-        <label>Alcohal / Substance abuse</label>
+        <label>Alcohal / Substance use</label>
         <input type="text" class="form-control jqte-test1" name="AlcohalSubstance_abuse"  value="" placeholder="Alcohal / Substance abuse" id="Alcohal">
     </div>
 
@@ -2805,8 +2812,8 @@
 
 
 
-    <div class="form-group">
-        <label>Mental State Examination</label>
+    <div class="form-group" >
+        <label>Marital Status</label>
         <input type="text" class="form-control jqte-test1" name="Mental_State_Examination"  value="" placeholder="Mental State Examination" id="Mental_State_Examination">
     </div>
 
@@ -3309,7 +3316,7 @@
 
 
     <div class="form-group">
-        <label>Physical History</label>
+        <label>Medical and Surgical History</label>
 
         <textarea class="form-control jqte-test1" name="Physical_History" id="Physical_History" rows="3"></textarea>
 
@@ -3318,7 +3325,7 @@
 
 
     <div class="form-group">
-        <label>Family History</label>
+        <label>Family Structure  and Family Dynamics</label>
 
         <textarea class="form-control jqte-test1" name="Family_History" id="Family_History" rows="3"></textarea>
 
@@ -3328,7 +3335,7 @@
 
 
     <div class="form-group">
-        <label>Education</label>
+        <label>Education History</label>
         <input type="text" class="form-control jqte-test1" name="schooling" placeholder="schooling" id="schooling">
     </div>
 
@@ -3339,7 +3346,7 @@
 
         <select   class="form-control" id="Maritial_Status">
 
-            <option class="form-control" value="Single">Single</option>
+            <option class="form-control" value="Single">Single</option>  
             <option class="form-control" value="Married">Married</option>
             <option class="form-control" value="Divorced">Divorced</option>
 
@@ -3363,14 +3370,14 @@
 
 
     <div class="form-group">
-        <label>Occupation</label>
+        <label>Occupation History</label>
         <input type="text" class="form-control jqte-test1" value="" name="occupation" placeholder="occupation" id="occupation">
     </div>
 
 
 
     <div class="form-group">
-        <label>Alcohal / Substance abuse</label>
+        <label>Alcohal / Substance use</label>
         <input type="text" class="form-control jqte-test1" name="AlcohalSubstance_abuse" placeholder="Alcohal / Substance abuse" id="Alcohal">
     </div>
 
@@ -3386,7 +3393,7 @@
 
 
     <div class="form-group">
-        <label>Mental State Examination</label>
+        <label>Marital History</label>
         <input type="text" class="form-control jqte-test1" name="Mental_State_Examination" placeholder="Mental State Examination" id="Mental_State_Examination">
     </div>
 
@@ -4530,14 +4537,16 @@
                     //"mData": "presid", "bSearchable": false, "bSortable": false,
                     "mRender": function (x, y, z) {
                         debugger;
+
+
                         if (z.patient_Email != null && z.patient_Email !="") {
-                            return "<button class='btn btn-success' data-toggle='modal' data-target='#prescriptionModal' onclick='Editprescription(" + JSON.stringify(z.presid) + ")'>Edit</button>  <button class='btn btn-success' data-toggle='modal'  onclick='deleteprescription(" + JSON.stringify(z.presid) + ")'>Delete</button>    <button class='btn btn-success'    onclick='Print(" + JSON.stringify(z.presid) + ")'>Print</button>  <button class='btn btn-success' onclick='sendmail(" + JSON.stringify(z.presid) + ")'>Mail</button> "
+                            return "<button class='btn btn-success prescriptionedit' data-toggle='modal' data-target='#prescriptionModal'   onclick='Editprescription(" + JSON.stringify(z.presid) + ")'>Edit</button>  <button class='btn btn-success' data-toggle='modal'  onclick='deleteprescription(" + JSON.stringify(z.presid) + ")'>Delete</button>    <button class='btn btn-success'    onclick='Print(" + JSON.stringify(z.presid) + ")'>Print</button>  <button class='btn btn-success' onclick='sendmail(" + JSON.stringify(z.presid) + ")'>Mail</button> "
 
                         }
                         else {
 
 
-                            return "<button class='btn btn-success' data-toggle='modal' data-target='#prescriptionModal' onclick='Editprescription(" + JSON.stringify(z.presid) + ")'>Edit</button>  <button class='btn btn-success' data-toggle='modal'  onclick='deleteprescription(" + JSON.stringify(z.presid) + ")'>Delete</button>    <button class='btn btn-success'    onclick='Print(" + JSON.stringify(z.presid) + ")'>Print</button> "
+                            return "<button class='btn btn-success prescriptionedit' data-toggle='modal' data-target='#prescriptionModal' onclick='Editprescription(" + JSON.stringify(z.presid) + ")'>Edit</button>  <button class='btn btn-success' data-toggle='modal'  onclick='deleteprescription(" + JSON.stringify(z.presid) + ")'>Delete</button>    <button class='btn btn-success'    onclick='Print(" + JSON.stringify(z.presid) + ")'>Print</button> "
 
                         }
 
@@ -5226,7 +5235,7 @@
         }
         else {
 
-
+            debugger;
             $.ajax({
 
                 type: 'POST',
@@ -5410,6 +5419,7 @@
 
 
             }).done(function (res) {
+                debugger;
 
                 var nowDate = new Date();
                 var nowDay = ((nowDate.getDate().toString().length) == 1) ? '0' + (nowDate.getDate()) : (nowDate.getDate());
