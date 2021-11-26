@@ -66,5 +66,14 @@ namespace ClinicAPI.Models.Request
         public string Name_Of_interviewer { get; set; }
 
         public string CreatedDate { get; set; }
-    }
+
+		public string Relationship_History { get; set; }
+		public string Menstrual { get; set; }
+		public string Forensic { get; set; }
+
+		public string ThoughtContent { get; set; }
+		public string MaritalHistory { get; set; }
+		public string FamilyDynamics { get; set; }
+
+	}
 }

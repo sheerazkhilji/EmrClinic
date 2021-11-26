@@ -275,15 +275,18 @@ namespace ClinicAPI.Controllers
 			NameValue.Add("@differential_diagnosis", WebUtility.HtmlEncode(model.differential_diagnosis));
 			NameValue.Add("@Pid", model.Pid);
 			NameValue.Add("@schooling", WebUtility.HtmlEncode(model.schooling));
-			NameValue.Add("@Maritial_Status", model.Maritial_Status);
-		
-
+			NameValue.Add("@Maritial_Status", model.Maritial_Status);		
 			NameValue.Add("@occupation", WebUtility.HtmlEncode(model.occupation));
-
 			NameValue.Add("@Bir_ae_child", WebUtility.HtmlEncode(model.Bir_ae_child));
 			NameValue.Add("@Name_Of_interviewer", WebUtility.HtmlEncode(model.Name_Of_interviewer));
-
 			NameValue.Add("@CreatedDate",model.CreatedDate.ToString() );
+			NameValue.Add("@Relationship_History", WebUtility.HtmlEncode(model.Relationship_History));
+			NameValue.Add("@Menstrual", WebUtility.HtmlEncode(model.Menstrual));
+			NameValue.Add("@Forensic", WebUtility.HtmlEncode(model.Forensic));
+			NameValue.Add("@ThoughtContent", WebUtility.HtmlEncode(model.ThoughtContent));
+			NameValue.Add("@MaritalHistory", WebUtility.HtmlEncode(model.MaritalHistory));
+			NameValue.Add("@FamilyDynamics", WebUtility.HtmlEncode(model.FamilyDynamics));
+
 
 
 			NameValue.Add("@Action", "insert");
@@ -337,6 +340,18 @@ namespace ClinicAPI.Controllers
 			NameValue.Add("@CreatedDate", model.CreatedDate.ToString());
 
 			NameValue.Add("@Bir_ae_child", WebUtility.HtmlEncode(model.Bir_ae_child));
+			NameValue.Add("@Relationship_History", WebUtility.HtmlEncode(model.Relationship_History));
+			NameValue.Add("@Menstrual", WebUtility.HtmlEncode(model.Menstrual));
+			NameValue.Add("@Forensic", WebUtility.HtmlEncode(model.Forensic));
+			NameValue.Add("@ThoughtContent", WebUtility.HtmlEncode(model.ThoughtContent));
+			NameValue.Add("@MaritalHistory", WebUtility.HtmlEncode(model.MaritalHistory));
+			NameValue.Add("@FamilyDynamics", WebUtility.HtmlEncode(model.FamilyDynamics));
+
+
+
+
+
+
 			NameValue.Add("@Action", "update");
 			OperationLayer = new DataOperationLayer(ConnectionString);
 			string json = OperationLayer.callStoredProcedure("sp_Initial_Analysiz", NameValue);
@@ -470,6 +485,16 @@ namespace ClinicAPI.Controllers
 			NameValue.Add("@Name_Of_interviewer","");
 
 			NameValue.Add("@CreatedDate", "");
+
+			NameValue.Add("@Relationship_History", "");
+			NameValue.Add("@Menstrual", "");
+			NameValue.Add("@Forensic", "");
+			NameValue.Add("@ThoughtContent", "");
+			NameValue.Add("@MaritalHistory", "");
+			NameValue.Add("@FamilyDynamics", "");
+
+
+
 
 			NameValue.Add("@Action", "getInitialAssessmentbyID");
 			OperationLayer = new DataOperationLayer(ConnectionString);

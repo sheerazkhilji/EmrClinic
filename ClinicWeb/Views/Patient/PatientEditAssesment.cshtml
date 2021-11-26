@@ -55,56 +55,88 @@
     <input type="hidden" name="Pid" value="`+ data[0].Pid +`" />
 
     <div class="form-group">
-        <label>Present Complaint</label>
+        <label>Presenting Complaint</label>
         <input type="text" class="form-control" name="Present_Complaint" value="`+ data[0].Present_Complaint +`"  placeholder="Present Complaint" id="Present_Complaint">
     </div>
     <div class="form-group">
-        <label>History of Presenting Complaint</label>
+        <label>History of Presenting Complaints</label>
         <input type="text" class="form-control" name="History_of_Presenting_Complaint"  value="`+ data[0].History_of_Presenting_Complaint +`"  placeholder="History of Presenting Complaint" id="History_of_Presenting_Complaint">
     </div>
 
+
+ <div class="form-group">
+        <label>Current Medication</label>
+        <input type="text" class="form-control" name="Current_Medication" value="`+ data[0].Current_Medication +`" placeholder="Current Medication" id="Current_Medication">
+    </div>
 
 
     <div class="form-group">
         <label>Past Psychiatric History</label>
         <input type="text" class="form-control" name="Past_psychiatric_history" value="`+ data[0].Past_psychiatric_history +`" placeholder="Past Psychiatric History" id="Past_Psychiatric_History">
     </div>
-
-
-
-
-
-
+   
 
     <div class="form-group">
-        <label>Current Medication</label>
-        <input type="text" class="form-control" name="Current_Medication" value="`+ data[0].Current_Medication +`" placeholder="Current Medication" id="Current_Medication">
-    </div>
-
-
-
-    <div class="form-group">
-        <label>Physical History</label>
+        <label>Medical & Surgical History</label>
 
         <textarea class="form-control" name="Physical_History" id="Physical_History"   rows="3">` + data[0].Physical_History+` </textarea>
-
-
     </div>
 
 
+
     <div class="form-group">
-        <label>Family History</label>
+        <label>Family History & Family Structure</label>
 
         <textarea class="form-control" name="Family_History" id="Family_History"    rows="3">`+ data[0].Family_History +`</textarea>
 
+    </div>
 
+
+<div class="form-group">
+        <label>Family Dynamics</label>
+
+        <textarea class="form-control" name="FamilyDynamics" id="FamilyDynamics"    rows="3">`+ data[0].FamilyDynamics +`</textarea>
+    </div>
+
+
+
+<div class="form-group">
+        <label>Personal History Birth & Early Childhood</label>
+
+        <textarea class="form-control" name="Personal_History" id="Personal_History"    rows="3">`+ data[0].Personal_History +`</textarea>
     </div>
 
 
 
     <div class="form-group">
-        <label>Schooling</label>
+        <label>Education History</label>
         <input type="text" class="form-control" name="schooling" placeholder="schooling" value="`+ data[0].schooling +`"  id="schooling">
+    </div>
+
+
+
+
+    <div class="form-group">
+        <label>Adolesence</label>
+        <input type="text" class="form-control" value="`+ data[0].Adolesence +` "name="Adolesence" placeholder="Adolesence" id="Adolesence">
+    </div>
+
+
+ <div class="form-group">
+        <label>Occupation History</label>
+        <input type="text" class="form-control" value="`+ data[0].occupation +` "name="occupation" placeholder="occupation" id="occupation">
+    </div>
+
+
+ <div class="form-group">
+        <label>RelationShip History</label>
+        <input type="text" class="form-control" value="`+ data[0].relationship +` "name="relationship" placeholder="relationship" id="relationship">
+    </div>
+
+
+ <div class="form-group">
+        <label>If Female, Menstrual History</label>
+        <input type="text" class="form-control" value="`+ data[0].menstrual +` "name="menstrual" placeholder="menstrual" id="menstrual">
     </div>
 
 
@@ -123,21 +155,16 @@
     </div>
 
 
-
-    <div class="form-group">
-        <label>Adolesence</label>
-        <input type="text" class="form-control" value="`+ data[0].Adolesence +` "name="Adolesence" placeholder="Adolesence" id="Adolesence">
+<div class="form-group">
+        <label>Merital History</label>
+        <input type="text" class="form-control" value="`+ data[0].meritalhistory +` "name="meritalhistory" placeholder="meritalhistory" id="meritalhistory">
     </div>
 
 
-
-
-
-    <div class="form-group">
-        <label>Alcohal / Substance abuse</label>
-        <input type="text" class="form-control" name="AlcohalSubstance_abuse"  value="`+ data[0].Alcohal_Substance_abuse +`" placeholder="Alcohal / Substance abuse" id="Alcohal">
+<div class="form-group">
+        <label>Forensic History</label>
+        <input type="text" class="form-control" value="`+ data[0].forensic +` "name="forensic" placeholder="forensic" id="forensic">
     </div>
-
 
 
 
@@ -150,13 +177,20 @@
 
 
     <div class="form-group">
+        <label>Alcohal/Substance Use History</label>
+        <input type="text" class="form-control" name="AlcohalSubstance_abuse"  value="`+ data[0].Alcohal_Substance_abuse +`" placeholder="Alcohal / Substance abuse" id="Alcohal">
+    </div>
+
+
+
+    <div class="form-group">
         <label>Mental State Examination</label>
         <input type="text" class="form-control" name="Mental_State_Examination"  value="`+ data[0].Mental_State_Examination +`" placeholder="Mental State Examination" id="Mental_State_Examination">
     </div>
 
 
     <div class="form-group">
-        <label>Appearance and Behavior</label>
+        <label>Appearance & Behavior</label>
         <input type="text" class="form-control" name="Appearance_and_Behavior"  value="`+ data[0].Appearance_and_Behavior +`" placeholder="Appearance and Behavior" id="Appearance_and_Behavior">
     </div>
 
@@ -169,14 +203,14 @@
 
 
     <div class="form-group">
-        <label>Mood and Affect</label>
+        <label>Mood & Affect</label>
         <input type="text" class="form-control" name="Mood_and_Affect" value="`+ data[0].Mood_and_Affect +`" placeholder="Mood and Affect" id="Mood_and_Affect">
     </div>
 
 
 
     <div class="form-group">
-        <label>Sucidial ideations</label>
+        <label>Suicidal Ideas</label>
         <input type="text" class="form-control" name="Sucidial_ideations"  value="`+ data[0].Sucidial_ideations +`" placeholder="Sucidial ideations" id="Sucidial_ideations">
     </div>
 
@@ -184,27 +218,24 @@
 
 
     <div class="form-group">
-        <label>Thoughts</label>
+        <label>Thought Form</label>
         <input type="text" class="form-control" name="Thoughts"  value="`+ data[0].Thoughts +`" placeholder="Thoughts" id="Thoughts">
     </div>
 
 
-
+<div class="form-group">
+        <label>Thought Content</label>
+        <input type="text" class="form-control" name="ThoughtContent"  value="`+ data[0].ThoughtContent +`" placeholder="ThoughtContent" id="ThoughtContent">
+    </div>
 
 
 
 
     <div class="form-group">
-        <label>Delusions</label>
+        <label>Perception Disorder</label>
         <input type="text" class="form-control" name="Delusions" value="`+ data[0].Delusions +`" placeholder="Delusions" id="Delusions">
     </div>
-
-
-
-    <div class="form-group">
-        <label>Hallucinations</label>
-        <input type="text" class="form-control" name="hallucinations"  value="`+ data[0].hallucinations +`" placeholder="Hallucinations" id="hallucinations">
-    </div>
+   
 
     <div class="form-group">
         <label>Insight</label>
@@ -214,7 +245,7 @@
 
 
     <div class="form-group">
-        <label>Cognitions</label>
+        <label>Cognitive Function</label>
         <input type="text" class="form-control" name="Cognitions" value="`+ data[0].Cognitions +`" placeholder="Cognitions" id="Cognitions">
     </div>
 
@@ -227,6 +258,12 @@
         <label>Differential Diagnosis</label>
         <input type="text" class="form-control" name="differential_diagnosis"   value="`+ data[0].differential_diagnosis +`" placeholder="differential diagnosis" id="differential_diagnosis">
     </div>
+
+ <div class="form-group">
+        <label>Management Plan</label>
+        <input type="text" class="form-control" name="hallucinations"  value="`+ data[0].hallucinations +`" placeholder="Hallucinations" id="hallucinations">
+    </div>
+
 
     <button type="button" id="submitbtn" class="btn btn-primary">Submit</button>
 </form>
@@ -327,6 +364,21 @@
 
         var differential_diagnosis = $("#differential_diagnosis").val();
 
+
+
+        var FamilyDynamics = $("#FamilyDynamics").val();
+        var Personal_History = $("#Personal_History").val();
+        var occupation = $("#occupation").val();
+        var relationship = $("#relationship").val();
+        var menstrual = $("#menstrual").val();
+        var meritalhistory = $("#meritalhistory");
+        var forensic = $("#forensic");
+        var ThoughtContent = $("#ThoughtContent");
+
+
+
+
+
         $.ajax({
 
           type: "POST",
@@ -366,6 +418,20 @@
 
                 Provisional_Diagnosis: Provisional_Diagnosis,
                 differential_diagnosis: differential_diagnosis,
+
+
+                FamilyDynamics: FamilyDynamics,
+                Personal_History: Personal_History,
+                occupation: occupation,
+                relationship: relationship,
+                menstrual: menstrual,
+                meritalhistory: meritalhistory,
+                forensic: forensic,
+                ThoughtContent: ThoughtContent
+
+
+
+
             }),
             headers: {
                     'Content-Type': 'application/json',
